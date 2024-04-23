@@ -16,14 +16,14 @@ const { headerLinks } = Astro.props;
 ---
 
 <header
-  class="w-full sticky top-0 grid grid-cols-8 gap-4 items-center backdrop-blur-md"
+  class="w-full sticky top-0 flex flex-wrap justify-center md:grid md:grid-cols-8 items-center backdrop-blur-md"
 >
-  <aside class="col-span-1 text-center p-4 flex items-center justify-center">
+  <aside class="col-span-2 text-center p-4 flex items-center justify-start">
     {/*  <a href="/PAME" class="hover:animate-pulse"><PameLogo /></a>*/}
     <a href="/PAME" class="hover:animate-pulse"><h1 class="text-2xl font-semibold">P A M E</h1></a>
   </aside>
-  <nav class="col-span-6 text-center p-4">
-    <ul class="flex items-center justify-center gap-4 flex-wrap">
+  <nav class="col-span-4 text-center p-4">
+    <ul class="flex items-center justify-around md:justify-center gap-2 flex-wrap">
       {
         headerLinks && headerLinks.length > 0 ? (
           headerLinks.map((link) => (
@@ -35,7 +35,7 @@ const { headerLinks } = Astro.props;
       }
     </ul>
   </nav>
-  <aside class="col-span-1 text-center p-4 flex items-center justify-center">
+  <aside class="col-span-2 text-center p-4 flex items-center justify-end">
     <BtnLink href="/" content="Log In" />
   </aside>
 </header>
