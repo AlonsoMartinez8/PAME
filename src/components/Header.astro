@@ -1,4 +1,7 @@
 ---
+import NavLink from "./NavLink.astro";
+
+
 ---
 
 <header class="w-full fixed grid grid-cols-8 gap-4 items-center backdrop-blur-md">
@@ -7,10 +10,10 @@
     </aside>
     <nav class="col-span-4 text-center px-4 py-4">
         <ul class="flex items-center justify-around gap-2 flex-wrap">
-            <li><a href="/">Item</a></li>
-            <li><a href="/">Item</a></li>
-            <li><a href="/">Item</a></li>
-            <li><a href="/">Item</a></li>
+            <NavLink href="/" content="NavLink"/>
+            <NavLink href="/" content="NavLink"/>
+            <NavLink href="/" content="NavLink"/>
+            <NavLink href="/" content="NavLink"/>
         </ul>
     </nav>
     <aside class="col-span-2 text-center px-4 py-4 flex items-center justify-end">User log</aside>
