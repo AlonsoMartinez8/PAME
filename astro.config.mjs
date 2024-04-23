@@ -6,5 +6,7 @@ export default defineConfig({
   devToolbar: {
     enabled: false
   },
-  integrations: [tailwind()]
+  integrations: [tailwind()],
+  site: 'https://pameproj.github.io',
+  base: '/PAME'
 });
