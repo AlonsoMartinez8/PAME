@@ -1,20 +1,25 @@
 ---
 import NavLink from "./NavLink.astro";
-
-
+import PameLogo from "./PameLogo.astro";
 ---
 
-<header class="w-full fixed grid grid-cols-8 gap-4 items-center backdrop-blur-md">
-    <aside class="col-span-2 text-center px-8 py-4 flex items-center justify-start">
-        <a href="/">Logo</a>
-    </aside>
-    <nav class="col-span-4 text-center px-4 py-4">
-        <ul class="flex items-center justify-around gap-2 flex-wrap">
-            <NavLink href="/" content="NavLink"/>
-            <NavLink href="/" content="NavLink"/>
-            <NavLink href="/" content="NavLink"/>
-            <NavLink href="/" content="NavLink"/>
-        </ul>
-    </nav>
-    <aside class="col-span-2 text-center px-4 py-4 flex items-center justify-end">User log</aside>
+<header
+  class="w-full fixed grid grid-cols-8 gap-4 items-center backdrop-blur-md"
+>
+  <aside
+    class="col-span-2 text-center p-4 flex items-center justify-start"
+  >
+    <a href="/PAME"><PameLogo /></a>
+  </aside>
+  <nav class="col-span-4 text-center p-4">
+    <ul class="flex items-center justify-around gap-2 flex-wrap">
+      <NavLink href="/" content="NavLink" />
+      <NavLink href="/" content="NavLink" />
+      <NavLink href="/" content="NavLink" />
+      <NavLink href="/" content="NavLink" />
+    </ul>
+  </nav>
+  <aside class="col-span-2 text-center p-4 flex items-center justify-end">
+    User log
+  </aside>
 </header>
