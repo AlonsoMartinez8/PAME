@@ -1,4 +1,5 @@
 ---
+import BtnLink from "./BtnLink.astro";
 import NavLink from "./NavLink.astro";
 import PameLogo from "./PameLogo.astro";
 ---
@@ -7,19 +8,19 @@ import PameLogo from "./PameLogo.astro";
   class="w-full fixed grid grid-cols-8 gap-4 items-center backdrop-blur-md"
 >
   <aside
-    class="col-span-2 text-center p-4 flex items-center justify-start"
+    class="col-span-1 text-center p-4 flex items-center justify-center"
   >
     <a href="/PAME" class="hover:animate-pulse"><PameLogo /></a>
   </aside>
-  <nav class="col-span-4 text-center p-4">
-    <ul class="flex items-center justify-around gap-2 flex-wrap">
+  <nav class="col-span-6 text-center p-4">
+    <ul class="flex items-center justify-center gap-4 flex-wrap">
       <NavLink href="/" content="NavLink" />
       <NavLink href="/" content="NavLink" />
       <NavLink href="/" content="NavLink" />
       <NavLink href="/" content="NavLink" />
     </ul>
   </nav>
-  <aside class="col-span-2 text-center p-4 flex items-center justify-end">
-    User log
+  <aside class="col-span-1 text-center p-4 flex items-center justify-center">
+    <BtnLink href="/" content="Log In"/>
   </aside>
 </header>
