@@ -18,7 +18,7 @@ const { title, desc } = Astro.props;
     <meta name="description" content={desc} />
     <title>{title}</title>
   </head>
-  <body>
+  <body class="min-h-[300vh]">
     <slot />
   </body>
 </html>
@@ -29,6 +29,7 @@ const { title, desc } = Astro.props;
   }
   html {
     font-family: "Quicksand", system-ui, sans-serif;
-    background: #f5bbf5;
+    background: #ac44ac;
+    color-scheme: dark;
   }
 </style>
