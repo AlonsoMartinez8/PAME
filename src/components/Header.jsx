@@ -31,7 +31,7 @@ export default function Header({ headerLinks }) {
         id="sidebar"
         className={`${
           sidebarOpen ? "flex" : "hidden"
-        } absolute top-0 right-0 h-screen flex-col justify-between w-[80%] md:relative md:h-auto md:w-auto col-span-6 md:grid grid-cols-6 md:items-center bg-slate-600 md:bg-transparent`}
+        } absolute top-0 right-0 h-screen flex-col justify-between w-[80%] md:relative md:h-auto md:w-auto col-span-6 md:grid grid-cols-6 md:items-center bg-slate-700 md:bg-transparent`}
       >
         <header className="p-4 flex items-center justify-end md:hidden">
           <aside>
