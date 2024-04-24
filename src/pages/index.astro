@@ -1,5 +1,5 @@
 ---
-import Header from "@c/Header.astro";
+import Header from "@/components/Header.jsx";
 import Layout from "../layouts/Layout.astro";
 
 const headerLinks = [
@@ -14,5 +14,5 @@ const headerLinks = [
   title="PAME - Your Wardrobe Online"
   desc="PAME is a Wardrobe Online where you will be able to Manage your Outfits and Share them with your Friends."
 >
-  <Header headerLinks={headerLinks} />
+  <Header client:load headerLinks={headerLinks} />
 </Layout>
