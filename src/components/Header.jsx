@@ -6,16 +6,12 @@ import { useEffect, useState } from "react";
 // <NavLink href={link.href} content={link.content} />
 // <BtnLink href="/" content="Log In" />
 
-export default function Header(headerLinks) {
+export default function Header({headerLinks}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleClick = () => {
     setSidebarOpen((open) => !open);
   };
-
-  useEffect(()=>{
-    console.log(headerLinks)
-  },[])
 
   return (
     <header className="w-full sticky top-0 grid grid-cols-8 backdrop-blur-md items-center">
@@ -48,8 +44,8 @@ export default function Header(headerLinks) {
         <nav className="col-span-4 text-center p-4 h-full">
           <ul className="flex flex-col items-end md:flex-row md:items-center md:justify-around py-1 gap-2">
             {headerLinks && headerLinks.length > 0 ? (
-              headerLinks.map((link) => <li>
-                <a href={link.href}>{link.content}</a>
+              headerLinks.map((link, i) => <li key={i}>
+                <a  href={link.href}>{link.content}</a>
               </li>)
             ) : (
               <li>Your Wardrobe Online</li>
