@@ -1,12 +1,12 @@
-import BtnLink from "@c/BtnLink.astro";
-import NavLink from "@c/NavLink.astro";
+import BtnLink from "@c/BtnLink.jsx";
+import NavLink from "@c/NavLink.jsx";
 import { useEffect, useState } from "react";
 // import PameLogo from "./PameLogo.astro";
 // <a href="/PAME" class="hover:animate-pulse"><PameLogo /></a>
 // <NavLink href={link.href} content={link.content} />
 // <BtnLink href="/" content="Log In" />
 
-export default function Header({headerLinks}) {
+export default function Header({ headerLinks }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleClick = () => {
@@ -44,16 +44,18 @@ export default function Header({headerLinks}) {
         <nav className="col-span-4 text-center p-4 h-full">
           <ul className="flex flex-col items-end md:flex-row md:items-center md:justify-around py-1 gap-2">
             {headerLinks && headerLinks.length > 0 ? (
-              headerLinks.map((link, i) => <li key={i}>
-                <a  href={link.href}>{link.content}</a>
-              </li>)
+              headerLinks.map((link, i) => (
+                <NavLink key={i} href={link.href} content={link.content} />
+              ))
             ) : (
               <li>Your Wardrobe Online</li>
             )}
           </ul>
         </nav>
 
-        <aside className="col-span-2 text-center p-4 flex items-center justify-center md:justify-end"></aside>
+        <aside className="col-span-2 text-center p-4 flex items-center justify-center md:justify-end">
+          <BtnLink href="/" content="Log In" />
+        </aside>
       </section>
     </header>
   );
