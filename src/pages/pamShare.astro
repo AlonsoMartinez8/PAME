@@ -1,0 +1,17 @@
+---
+import Header from "@/components/Header.jsx";
+import Layout from "@l/Layout.astro";
+
+const headerLinks = [
+  { href: "/PAME/myWardrobe", content: "My Wardrobe" },
+  { href: "/PAME#about", content: "About Us" },
+];
+---
+
+<Layout
+  title="PAME - Pam Share"
+  desc="Let's share your clothes in PAME!! PAME is a Wardrobe Online where you will be able to Manage your Outfits and Share them with your Friends."
+>
+  <Header client:load headerLinks={headerLinks} />
+  Pam Share
+</Layout>
