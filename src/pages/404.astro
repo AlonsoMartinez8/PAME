@@ -1,0 +1,20 @@
+---
+import Layout from "@l/Layout.astro";
+import img from '../../public/img/planeWardrobeIllustration.png'
+---
+
+<Layout
+  title="PAME - 404 Not Found"
+  desc="PAME is a Wardrobe Online where you will be able to Manage your Outfits and Share them with your Friends."
+>
+  <header class="p-4">
+    <a href="/PAME" class="hover:animate-pulse">
+      <h1 class="text-2xl font-semibold">P A M E</h1>
+    </a>
+  </header>
+  <main class="p-4 flex flex-col items-center gap-4">
+    <h1 class="text-4xl text-center font-semibold">404: Page Not Found</h1>
+    <a class="text-center border-b-[1px]" href="/PAME">Go back to Home</a>
+    <img src={img.src} alt="Wardrobe">
+  </main>
+</Layout>
