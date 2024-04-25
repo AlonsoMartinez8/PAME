@@ -2,6 +2,7 @@
 import Header from "@/components/Header.jsx";
 import Layout from "@l/Layout.astro";
 import BtnLink from "@/components/BtnLink";
+import Hero from "@/components/Hero.astro";
 
 const headerLinks = [
   { href: "/", content: "Pam Share" },
@@ -15,4 +16,5 @@ const headerLinks = [
   desc="PAME is a Wardrobe Online where you will be able to Manage your Outfits and Share them with your Friends."
 >
   <Header client:load headerLinks={headerLinks} />
+  <Hero />
 </Layout>
