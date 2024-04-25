@@ -7,21 +7,21 @@ import img4 from "../../public/img/womanMobileIllustration.png"
 
 <main class="py-10 flex flex-col gap-10">
   <section
-    class="flex flex-row-reverse justify-between items-center min-h-96 py-10"
+    class="flex flex-row-reverse justify-between items-center min-h-96"
   >
     <aside
-      class="reverse absolute -z-20 md:relative md:z-0 w-full bg-gradient-to-tr from-slate-600/50 to-lime-300/30 p-20 md:w-1/2 flex items-center justify-center"
+      class="clippath reverse absolute md:before:-z-20 -z-20 md:relative md:z-0 w-full bg-gradient-to-tr from-slate-600/50 to-lime-300/30 p-20 md:w-1/2 flex items-center justify-center"
     >
       <img
-        class="max-h-[300px]"
+        class="min-w-80 max-h-[300px]"
         src={img1.src}
       />
     </aside>
-    <article class="p-10 flex flex-col items-end md:items-start gap-8">
-      <h2 class="text-4xl max-w-96 text-end md:text-start">
+    <article class="p-10 flex flex-col items-start gap-8">
+      <h2 class="text-4xl max-w-96">
         <em>O</em>rganize and <em>M</em>anage your <em>W</em>ardrobe
       </h2>
-      <p class="max-w-[500px] text-pretty text-end md:text-start">
+      <p class="max-w-[500px] text-pretty">
         <b>Register</b> your clothes, <b>organize</b> them by <b>categories</b>,
         write down details of each one and <b>much more</b>
       </p>
@@ -29,10 +29,10 @@ import img4 from "../../public/img/womanMobileIllustration.png"
   </section>
 
   <section
-    class="flex flex-row justify-between items-center min-h-96 md:bg-gradient-to-b from-indigo-100/10 to-transparent py-10"
+    class="flex flex-row justify-between items-center min-h-96"
   >
     <aside
-      class="absolute w-full -z-20 opacity-80 md:relative md:z-0 md:opacity-100  bg-gradient-to-tr to-white/80 from-lime-600 p-20 md:w-1/2 flex items-center justify-center"
+      class="clippath absolute w-full md:before:-z-20 -z-20 opacity-80 md:relative md:z-0 md:opacity-100  bg-gradient-to-tr to-white/80 from-lime-600 p-20 md:w-1/2 flex items-center justify-center"
     >
       <img
         class="max-h-[300px]"
@@ -50,43 +50,25 @@ import img4 from "../../public/img/womanMobileIllustration.png"
       </p>
     </article>
   </section>
-
-  <section
-    class="hidden md:flex flex-row-reverse justify-between items-center min-h-96 py-10"
-  >
-    <aside
-      class="reverse bg-gradient-to-r to-transparent to-60% from-lime-300/20 p-20 w-1/2 h-[350px] flex flex-row-reverse items-center justify-center"
-    >
-      <h2 class="text-4xl text-center mb-4 max-w-64 text-indigo-100">
-        <em>C</em>reate your own <em>O</em>utfits
-      </h2>
-      <img
-        class="h-[200px]"
-        src={img3.src}
-      />
-    </aside>
-    <aside
-      class="bg-gradient-to-r from-transparent from-60% to-lime-300/20 h-[350px] p-20 w-1/2 flex items-center justify-center"
-    >
-      <h2 class="text-4xl text-center mb-4 max-w-64 text-indigo-100">
-        Your <em>C</em>lothes are <em>C</em>loser
-      </h2>
-      <img
-        class="h-[200px]"
-        src={img4.src}
-      />
-    </aside>
-  </section>
 </main>
 
 <style>
   em {
     margin-right: 0.1em;
   }
-  aside {
+  .clippath {
     clip-path: polygon(0 0, 100% 10%, 100% 90%, 0 100%);
     &.reverse {
       clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 90%);
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(12, 34, 15, 0.5), rgba(65, 83, 68, 0.5));
     }
   }
 </style>

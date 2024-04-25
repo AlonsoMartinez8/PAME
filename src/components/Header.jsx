@@ -27,7 +27,7 @@ export default function Header({ headerLinks }) {
         id="sidebar"
         className={`${
           sidebarOpen ? "flex" : "hidden"
-        } absolute top-0 right-0 h-screen flex-col justify-start w-[80%] md:relative md:h-auto md:w-auto col-span-6 md:grid grid-cols-6 md:items-center bg-slate-800 md:bg-transparent`}
+        } absolute top-0 right-0 h-screen flex-col justify-start w-[60%] md:relative md:h-auto md:w-auto col-span-6 md:grid grid-cols-6 md:items-center bg-slate-800 md:bg-transparent`}
       >
         <header className="p-4 flex items-center justify-between md:hidden">
           <h2>Menu</h2>
