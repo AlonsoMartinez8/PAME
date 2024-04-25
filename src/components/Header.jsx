@@ -1,10 +1,6 @@
 import BtnLink from "@c/BtnLink.jsx";
 import NavLink from "@c/NavLink.jsx";
-import { useEffect, useState } from "react";
-// import PameLogo from "./PameLogo.astro";
-// <a href="/PAME" class="hover:animate-pulse"><PameLogo /></a>
-// <NavLink href={link.href} content={link.content} />
-// <BtnLink href="/" content="Log In" />
+import { useState } from "react";
 
 export default function Header({ headerLinks }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -31,9 +27,10 @@ export default function Header({ headerLinks }) {
         id="sidebar"
         className={`${
           sidebarOpen ? "flex" : "hidden"
-        } absolute top-0 right-0 h-screen flex-col justify-between w-[80%] md:relative md:h-auto md:w-auto col-span-6 md:grid grid-cols-6 md:items-center bg-slate-800 md:bg-transparent`}
+        } absolute top-0 right-0 h-screen flex-col justify-start w-[80%] md:relative md:h-auto md:w-auto col-span-6 md:grid grid-cols-6 md:items-center bg-slate-800 md:bg-transparent`}
       >
-        <header className="p-4 flex items-center justify-end md:hidden">
+        <header className="p-4 flex items-center justify-between md:hidden">
+          <h2>Menu</h2>
           <aside>
             <button onClick={handleClick}>
               <i className="text-2xl ri-xrp-line"></i>
@@ -41,8 +38,8 @@ export default function Header({ headerLinks }) {
           </aside>
         </header>
 
-        <nav className="col-span-4 text-center p-4 h-full">
-          <ul className="flex flex-col items-end md:flex-row md:items-center md:justify-around py-1 gap-2">
+        <nav className="col-span-4 text-center p-4">
+          <ul className="flex flex-col md:flex-row items-center md:justify-around py-1 gap-2">
             {headerLinks && headerLinks.length > 0 ? (
               headerLinks.map((link, i) => (
                 <NavLink key={i} href={link.href} content={link.content} />
@@ -53,7 +50,7 @@ export default function Header({ headerLinks }) {
           </ul>
         </nav>
 
-        <aside className="col-span-2 text-center p-4 flex items-center justify-center md:justify-end">
+        <aside className="col-span-2 gap-2 text-center p-4 flex items-center justify-center md:justify-end">
           <BtnLink href="/" content="Log In" />
         </aside>
       </section>
