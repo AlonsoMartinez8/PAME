@@ -8,6 +8,9 @@
       ],
       "@c/*": [
         "src/components/*"
+      ],
+      "@l/*": [
+        "src/layouts/*"
       ]
     },
     "jsx": "react-jsx",
