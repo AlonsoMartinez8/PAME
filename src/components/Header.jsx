@@ -51,7 +51,7 @@ export default function Header({ headerLinks }) {
         </nav>
 
         <aside className="col-span-2 gap-2 text-center p-4 flex items-center justify-center md:justify-end">
-          <BtnLink href="/" content="Log In" />
+          <BtnLink href="/PAME/logIn" content="Log In" />
         </aside>
       </section>
     </header>
