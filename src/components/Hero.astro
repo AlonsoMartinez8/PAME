@@ -2,16 +2,92 @@
 
 ---
 
-<main class="max-w-[1000px] m-auto px-8 py-4">
-  <section>
-    <aside>
-        
+<main class="py-10 flex flex-col gap-10">
+  <section
+    class="flex flex-row-reverse justify-between items-center min-h-96 py-10"
+  >
+    <aside
+      class="reverse absolute -z-20 md:relative md:z-0 w-full bg-gradient-to-tr from-slate-600/50 to-lime-300/30 p-20 md:w-1/2 flex items-center justify-center"
+    >
+      <img
+        class="max-h-[300px]"
+        src="/src/assets/img/menLaptopIllustration.png"
+        alt="Wardrobe image"
+      />
     </aside>
-    <article>
-      <h3></h3>
-      <ul>
-        <li></li>
-      </ul>
+    <article class="p-10 flex flex-col items-end md:items-start gap-8">
+      <h2 class="text-4xl max-w-96 text-end md:text-start">
+        <em>O</em>rganize and <em>M</em>anage your <em>W</em>ardrobe
+      </h2>
+      <p class="max-w-[500px] text-pretty text-end md:text-start">
+        <b>Register</b> your clothes, <b>organize</b> them by <b>categories</b>,
+        write down details of each one and <b>much more</b>
+      </p>
     </article>
   </section>
+
+  <section
+    class="flex flex-row justify-between items-center min-h-96 md:bg-gradient-to-b from-indigo-100/10 to-transparent py-10"
+  >
+    <aside
+      class="absolute w-full -z-20 opacity-80 md:relative md:z-0 md:opacity-100  bg-gradient-to-tr to-white/80 from-lime-600 p-20 md:w-1/2 flex items-center justify-center"
+    >
+      <img
+        class="max-h-[300px]"
+        src="/src/assets/img/friendsIllustration.png"
+        alt="Wardrobe image"
+      />
+    </aside>
+    <article class="p-10 flex flex-col items-end gap-8">
+      <h2 class="text-4xl max-w-96 text-end">
+        <em>C</em>onnect and <em>S</em>hare with your <em>F</em>riends
+      </h2>
+      <p class="max-w-[500px] text-pretty text-end">
+        You can immerse yourself in <b>Pam Share</b>, discovering <b>Outfits</b
+        >, making
+        <b>friends</b> and <b>connecting</b> with your acquaintances
+      </p>
+    </article>
+  </section>
+
+  <section
+    class="hidden md:flex flex-row-reverse justify-between items-center min-h-96 py-10"
+  >
+    <aside
+      class="reverse bg-gradient-to-r to-transparent to-60% from-lime-300/20 p-20 w-1/2 h-[350px] flex flex-row-reverse items-center justify-center"
+    >
+      <h2 class="text-4xl text-center mb-4 max-w-64 text-indigo-100">
+        <em>C</em>reate your own <em>O</em>utfits
+      </h2>
+      <img
+        class="h-[200px]"
+        src="/src/assets/img/outfitIllustration.png"
+        alt="Wardrobe image"
+      />
+    </aside>
+    <aside
+      class="bg-gradient-to-r from-transparent from-60% to-lime-300/20 h-[350px] p-20 w-1/2 flex items-center justify-center"
+    >
+      <h2 class="text-4xl text-center mb-4 max-w-64 text-indigo-100">
+        Your <em>C</em>lothes are <em>C</em>loser
+      </h2>
+      <img
+        class="h-[200px]"
+        src="/src/assets/img/womanMobileIllustration.png"
+        alt="Wardrobe image"
+      />
+    </aside>
+  </section>
 </main>
+
+<style>
+  em {
+    margin-right: 0.1em;
+  }
+  aside {
+    clip-path: polygon(0 0, 100% 10%, 100% 90%, 0 100%);
+    &.reverse {
+      clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 90%);
+    }
+  }
+</style>

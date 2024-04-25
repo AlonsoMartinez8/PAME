@@ -6,7 +6,7 @@ import Hero from "@/components/Hero.astro";
 const headerLinks = [
   { href: "/", content: "Pam Share" },
   { href: "/", content: "My Wardrobe" },
-  { href: "/", content: "About Us" },
+  { href: "/PAME#about", content: "About Us" },
 ];
 ---
 
@@ -16,4 +16,7 @@ const headerLinks = [
 >
   <Header client:load headerLinks={headerLinks} />
   <Hero />
+  <section id="about">
+    <h1>About</h1>
+  </section>
 </Layout>

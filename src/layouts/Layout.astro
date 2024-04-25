@@ -20,7 +20,7 @@ const { title, desc } = Astro.props;
     <meta name="description" content={desc} />
     <title>{title}</title>
   </head>
-  <body class="min-h-[300vh] bg-gradient-to-b from-indigo-950 to-lime-800">
+  <body class="bg-gradient-to-b from-indigo-950 to-lime-800">
     <slot />
   </body>
 </html>
@@ -29,5 +29,6 @@ const { title, desc } = Astro.props;
   html {
     font-family: "Quicksand", system-ui, sans-serif;
     color-scheme: dark;
+    scroll-behavior: smooth;
   }
 </style>
