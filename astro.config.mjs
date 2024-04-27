@@ -14,10 +14,5 @@ export default defineConfig({
   site: 'https://pameproj.github.io',
   base: '/PAME',
   output: "server",
-  adapter: vercel({
-    webAnalytics: {
-      enabled: true,
-    },
-    maxDuration: 8,
-  }),
+  adapter: vercel(),
 });
