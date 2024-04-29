@@ -12,7 +12,7 @@ export default function Header({ headerLinks }) {
   return (
     <header className="w-full sticky top-0 grid grid-cols-8 backdrop-blur-md items-center z-50">
       <aside className="col-span-4 sm:col-span-2 text-center p-4 flex items-center justify-start">
-        <a href="/PAME" className="hover:animate-pulse">
+        <a href="/" className="hover:animate-pulse">
           <h1 className="text-2xl font-semibold">P A M E</h1>
         </a>
       </aside>
@@ -51,7 +51,7 @@ export default function Header({ headerLinks }) {
         </nav>
 
         <aside className="col-span-2 gap-2 text-center p-4 flex items-center justify-center md:justify-end">
-          <BtnLink href="/PAME/logIn" content="Log In" />
+          <BtnLink href="/logIn" content="Log In" />
         </aside>
       </section>
     </header>

@@ -9,6 +9,4 @@ export default defineConfig({
     enabled: false
   },
   integrations: [tailwind(), react()],
-  site: 'https://pameproj.github.io',
-  base: '/PAME'
 });
