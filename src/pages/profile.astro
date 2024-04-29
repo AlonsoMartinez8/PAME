@@ -1,18 +1,34 @@
 ---
 import Header from "@/components/Header.jsx";
 import Layout from "@l/Layout.astro";
+import { User, db, eq } from "astro:db";
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
   { href: "/myWardrobe", content: "My Wardrobe" },
   { href: "/#about", content: "About Us" },
 ];
+
+const user = Astro.locals.user;
+let dbUser=null
+if(user){
+  dbUser = (
+  await db.select().from(User).where(eq(User.id, user.id))
+).at(0);
+}
+
 ---
 
 <Layout
   title="PAME - My Profile"
   desc="Design you PAME profile and Share it with yoour Friends!!"
 >
-  <Header client:load headerLinks={headerLinks} />
-  My Profile
+  <Header client:load headerLinks={headerLinks} user={user} show={true} />
+  
+    {dbUser?(
+      <h1 class="text-center text-2xl mt-10">{dbUser.username}</h1>
+    ):(
+    <h1 class="text-center text-2xl mt-10">No User Found</h1>
+    )}
+  
 </Layout>

@@ -8,13 +8,15 @@ const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
   { href: "/#about", content: "About Us" },
 ];
+
+const user = Astro.locals.user
 ---
 
 <Layout
   title="PAME - Your Wardrobe Online"
   desc="PAME is a Wardrobe Online where you will be able to Manage your Outfits and Share them with your Friends."
 >
-  <Header client:load headerLinks={headerLinks} />
+  <Header client:load headerLinks={headerLinks} user={user} show={true}/>
   <Hero />
   <section id="about" class="px-4 py-20 min-h-[100vh]">
     <h1 class="text-2xl">About</h1>

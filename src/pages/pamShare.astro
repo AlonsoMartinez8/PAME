@@ -4,6 +4,7 @@ import Layout from "@l/Layout.astro";
 
 const headerLinks = [
   { href: "/myWardrobe", content: "My Wardrobe" },
+  { href: "/profile", content: "My Profile" },
   { href: "/#about", content: "About Us" },
 ];
 ---
@@ -12,6 +13,6 @@ const headerLinks = [
   title="PAME - Pam Share"
   desc="Let's share your clothes in PAME!! PAME is a Wardrobe Online where you will be able to Manage your Outfits and Share them with your Friends."
 >
-  <Header client:load headerLinks={headerLinks} />
+  <Header client:load headerLinks={headerLinks} user={false} show={false}/>
   Pam Share
 </Layout>

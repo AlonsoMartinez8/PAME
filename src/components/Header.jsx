@@ -2,7 +2,7 @@ import BtnLink from "@c/BtnLink.jsx";
 import NavLink from "@c/NavLink.jsx";
 import { useState } from "react";
 
-export default function Header({ headerLinks }) {
+export default function Header({ headerLinks, user, show }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleClick = () => {
@@ -49,10 +49,11 @@ export default function Header({ headerLinks }) {
             )}
           </ul>
         </nav>
-
-        <aside className="col-span-2 gap-2 text-center p-4 flex items-center justify-center md:justify-end">
-          <BtnLink href="/logIn" content="Log In" />
-        </aside>
+        {show && (
+          <aside className="col-span-2 gap-2 text-center p-4 flex items-center justify-center md:justify-end">
+            <BtnLink href="/logIn" content="Log In" log={user ? false : true} />
+          </aside>
+        )}
       </section>
     </header>
   );
