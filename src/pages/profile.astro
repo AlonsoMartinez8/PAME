@@ -3,7 +3,7 @@ import Header from "@/components/Header.jsx";
 import Layout from "@l/Layout.astro";
 import { User, db, eq } from "astro:db";
 import noUserImage from "../../public/img/noUserImage.png";
-import UserInfo from "@c/UserInfo.jsx"
+import UserProfile from "@/components/UserProfileInfo.jsx"
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
@@ -55,7 +55,7 @@ if (user) {
       <section
         class="col-span-4 flex flex-col gap-4 items-center md:items-end py-4"
       >
-        <UserInfo client:visible dbUser={dbUser}/>
+        <UserProfile client:visible dbUser={dbUser}/>
       </section>
     </div>
   </main>
