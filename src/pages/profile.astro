@@ -25,19 +25,29 @@ if (user) {
 >
   <Header client:load headerLinks={headerLinks} user={user} show={true} />
   <main class="max-w-[900px] mx-auto py-5 px-10">
-    <header class="flex flex-col md:grid md:grid-cols-6">
-      <aside class="col-span-2">
+    <header class="flex flex-col md:grid md:grid-cols-6 gap-4">
+      <aside class="col-span-2 flex flex-col items-center justify-center gap-2">
         {
           dbUser && dbUser.imageUrl ? (
-            <img
-              class="w-56 mx-auto bg-slate-100/50 aspect-square rounded-full m-5"
-              src={dbUser.imageUrl}
-            />
+            <>
+              <img
+                class="w-44 mx-auto bg-slate-100/50 aspect-square rounded-full m-5"
+                src={dbUser.imageUrl}
+              />
+              <button class="flex items-center gap-2">
+                Edit image <i class="text-2xl ri-pencil-line" />
+              </button>
+            </>
           ) : (
-            <img
-              class="w-56 mx-auto bg-slate-100/50 aspect-square rounded-full m-5"
-              src={noUserImage.src}
-            />
+            <>
+              <img
+                class="w-44 mx-auto bg-slate-100/50 aspect-square rounded-full m-5"
+                src={noUserImage.src}
+              />
+              <button class="flex items-center gap-2">
+                Add image <i class="text-2xl ri-add-line" />
+              </button>
+            </>
           )
         }
       </aside>
@@ -52,47 +62,63 @@ if (user) {
           </h1>
         </article>
         <article class="w-full">
-          <p class="text-end">
+          <div class="w-full">
             {
               dbUser && dbUser.description ? (
-                dbUser.description
+                <div class="flex items-center justify-between gap-2">
+                  <p>{dbUser.description}</p>
+                  <button>
+                    <i class="text-2xl ri-pencil-line" />
+                  </button>
+                </div>
               ) : (
-                <form 
+                <form
                   action=""
                   method="post"
-                  class="w-full flex justify-end items-start gap-2">
-                    <textarea id="description" name="description" rows="3" class="px-2 py-1 w-full rounded-xl border-2 bg-transparent" placeholder="Describe yourself and your style"></textarea>
-                    <button 
-                      type='submit' 
-                      class="w-52 border-2 rounded-xl px-2 py-1 text-center hover:animate-pulse">
-                        Add Descripton
-                    </button>
+                  class="w-full flex items-center gap-2"
+                >
+                  <textarea
+                    name="description"
+                    class="px-2 py-1 w-full bg-transparent"
+                    placeholder="Describe yourself and your style"
+                  />
+                  <button type="submit" class="w-16 text-center">
+                    <i class="text-2xl ri-add-line" />
+                  </button>
                 </form>
               )
             }
-          </p>
+          </div>
         </article>
-        <article>
+        <article class="w-full">
           {
             dbUser && dbUser.link ? (
-              <a
-                href={dbUser.link}
-                class="text-blue-300 hover:text-green-500 text-center"
-              >
-                {dbUser.link}
-              </a>
-            ) : (
-            <form 
-              action=""
-              method="post"
-              class="w-full flex justify-end items-start gap-2">
-                <input id="link" type="text" name="link" class="w-full px-2 py-1  rounded-xl border-2 bg-transparent" placeholder="Add a link of your site"/>
-                <button 
-                  type='submit' 
-                  class="w-52 border-2 rounded-xl px-2 py-1 text-center hover:animate-pulse">
-                    Add Link
+              <div class="flex items-center justify-between gap-2">
+                <a
+                  href={dbUser.link}
+                  class="text-blue-300 hover:text-green-500"
+                >
+                  {dbUser.link}
+                </a>
+                <button>
+                  <i class="text-2xl ri-pencil-line" />
                 </button>
-            </form>
+              </div>
+            ) : (
+              <form
+                action=""
+                method="post"
+                class="w-full flex items-center gap-2"
+              >
+                <input
+                  name="link"
+                  class="px-2 py-1 w-full bg-transparent"
+                  placeholder="Add the link of your site"
+                />
+                <button type="submit" class="w-16 text-center">
+                  <i class="text-2xl ri-add-line" />
+                </button>
+              </form>
             )
           }
         </article>
