@@ -2,8 +2,8 @@
 import Header from "@/components/Header.jsx";
 import Layout from "@l/Layout.astro";
 import { User, db, eq } from "astro:db";
-import noUserImage from "../../public/img/noUserImage.png";
-import UserProfile from "@/components/UserProfileInfo.jsx"
+import UserProfileInfo from "@/components/UserProfileInfo.jsx"
+import UserProfileImage from "@/components/UserProfileImage.jsx"
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
@@ -28,34 +28,12 @@ if (user) {
   <main class="max-w-[900px] mx-auto py-5 px-10">
     <div class="flex flex-col md:grid md:grid-cols-6 gap-4">
       <aside class="col-span-2 flex flex-col items-center justify-center gap-2">
-        {
-          dbUser && dbUser.imageUrl ? (
-            <>
-              <img
-                class="w-44 mx-auto bg-slate-100/50 aspect-square rounded-full m-5"
-                src={dbUser.imageUrl}
-              />
-              <button class="flex items-center gap-2">
-                <i class="text-2xl ri-pencil-line" />
-              </button>
-            </>
-          ) : (
-            <>
-              <img
-                class="w-44 mx-auto bg-slate-100/50 aspect-square rounded-full m-5"
-                src={noUserImage.src}
-              />
-              <button class="flex items-center gap-2">
-                <i class="text-2xl ri-add-line" />
-              </button>
-            </>
-          )
-        }
+        <UserProfileImage client:visible dbUser={dbUser}/>
       </aside>
       <section
         class="col-span-4 flex flex-col gap-4 items-center md:items-end py-4"
       >
-        <UserProfile client:visible dbUser={dbUser}/>
+        <UserProfileInfo client:visible dbUser={dbUser}/>
       </section>
     </div>
   </main>
