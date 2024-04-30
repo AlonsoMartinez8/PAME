@@ -6,76 +6,76 @@ export default function UserProfileInfo({ dbUser }) {
 
   return (
     <>
-      <article class="w-full py-2 border-b-2 flex items-end justify-end gap-4">
-        <h1 class="text-5xl text-end text-transparent font-semibold bg-gradient-to-r from-indigo-300 via-green-300 to-slate-300 w-fit bg-clip-text">
+      <article className="w-full py-2 border-b-2 flex items-end justify-end gap-4">
+        <h1 className="text-5xl text-end text-transparent font-semibold bg-gradient-to-r from-indigo-300 via-green-300 to-slate-300 w-fit bg-clip-text">
           {dbUser ? dbUser.username : "No User Found"}
         </h1>
       </article>
 
-      <article class="w-full">
-        <div class="w-full">
+      <article className="w-full">
+        <div className="w-full">
           {dbUser && dbUser.description && !isEditingDesc ? (
-            <div class="flex items-center justify-between gap-2">
+            <div className="flex items-center justify-between gap-2">
               <p>{dbUser.description}</p>
               <button onClick={() => setIsEditingDesc(!isEditingDesc)}>
-                <i class="text-2xl ri-pencil-fill" />
+                <i className="text-2xl ri-pencil-fill" />
               </button>
             </div>
           ) : (
             <form
               action="api/updateDescription"
               method="post"
-              class="w-full flex items-center gap-2"
+              className="w-full flex items-center gap-2"
             >
               <input type="hidden" name="userId" value={dbUser?.id} />
               <textarea
                 rows="1"
                 name="description"
-                class="w-full bg-transparent"
+                className="w-full bg-transparent"
                 placeholder="Describe yourself and your style"
               />
-              <button type="submit" class="text-center">
-                <i class="text-2xl ri-add-line" />
+              <button type="submit" className="text-center">
+                <i className="text-2xl ri-add-line" />
               </button>
               <button onClick={() => setIsEditingDesc(!isEditingDesc)}>
-                <i class="text-2xl ri-close-line" />
+                <i className="text-2xl ri-close-line" />
               </button>
             </form>
           )}
         </div>
       </article>
 
-      <article class="w-full">
+      <article className="w-full">
         {dbUser && dbUser.link && !isEditingLink ? (
-          <div class="flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-2">
             <a
               href={dbUser.link}
-              class="text-blue-300 hover:text-green-500"
+              className="text-blue-300 hover:text-green-500"
               target="_blank"
             >
               {dbUser.link}
             </a>
             <button onClick={() => setIsEditingLink(!isEditingLink)}>
-              <i class="text-2xl ri-pencil-fill" />
+              <i className="text-2xl ri-pencil-fill" />
             </button>
           </div>
         ) : (
           <form
             action="api/updateLink"
             method="post"
-            class="w-full flex items-center gap-2"
+            className="w-full flex items-center gap-2"
           >
             <input type="hidden" name="userId" value={dbUser?.id} />
             <input
               name="link"
-              class="w-full bg-transparent"
+              className="w-full bg-transparent"
               placeholder="Add the link of your site"
             />
-            <button type="submit" class="text-center">
-              <i class="text-2xl ri-add-line" />
+            <button type="submit" className="text-center">
+              <i className="text-2xl ri-add-line" />
             </button>
             <button onClick={() => setIsEditingLink(!isEditingLink)}>
-              <i class="text-2xl ri-close-line" />
+              <i className="text-2xl ri-close-line" />
             </button>
           </form>
         )}
