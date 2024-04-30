@@ -2,7 +2,7 @@
 import Header from "@/components/Header.jsx";
 import Layout from "@l/Layout.astro";
 import { User, db, eq } from "astro:db";
-import noUserImage from "../../public/img/noUserImage.png"
+import noUserImage from "../../public/img/noUserImage.png";
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
@@ -24,20 +24,79 @@ if (user) {
   desc="Design you PAME profile and Share it with yoour Friends!!"
 >
   <Header client:load headerLinks={headerLinks} user={user} show={true} />
-  {
-    dbUser ? (
-      <h1 class="text-center text-2xl mt-10">{dbUser.username}</h1>      
-      <p class="text-center">{dbUser.description}</p>
-      <a class="text-blue-300 hover:text-green-500 text-center" href={dbUser.link}>{dbUser.link}</a>
-    ) : (
-      <h1 class="text-center text-2xl mt-10">No User Found</h1>
-    )
-  }
-  {
-    (dbUser&&dbUser.imageUrl) ? (
-      <img class="w-56 mx-auto bg-slate-100/50 aspect-square rounded-full m-5"src={dbUser.imageUrl}/>
-    ):(
-      <img class="w-56 mx-auto bg-slate-100/50 aspect-square rounded-full m-5"src={noUserImage.src} />
-    )
-  }
+  <main class="max-w-[900px] mx-auto py-5 px-10">
+    <header class="flex flex-col md:grid md:grid-cols-6">
+      <aside class="col-span-2">
+        {
+          dbUser && dbUser.imageUrl ? (
+            <img
+              class="w-56 mx-auto bg-slate-100/50 aspect-square rounded-full m-5"
+              src={dbUser.imageUrl}
+            />
+          ) : (
+            <img
+              class="w-56 mx-auto bg-slate-100/50 aspect-square rounded-full m-5"
+              src={noUserImage.src}
+            />
+          )
+        }
+      </aside>
+      <section
+        class="col-span-4 flex flex-col gap-4 items-center md:items-end py-4"
+      >
+        <article class="w-full py-2 border-b-2">
+          <h1
+            class="text-5xl text-transparent mx-auto font-semibold bg-gradient-to-r from-indigo-300 via-green-300 to-slate-300 w-fit bg-clip-text"
+          >
+            {dbUser ? dbUser.username : "No User Found"}
+          </h1>
+        </article>
+        <article class="w-full">
+          <p class="text-end">
+            {
+              dbUser && dbUser.description ? (
+                dbUser.description
+              ) : (
+                <form 
+                  action=""
+                  method="post"
+                  class="w-full flex justify-end items-start gap-2">
+                    <textarea id="description" name="description" rows="3" class="px-2 py-1 w-full rounded-xl border-2 bg-transparent" placeholder="Describe yourself and your style"></textarea>
+                    <button 
+                      type='submit' 
+                      class="w-52 border-2 rounded-xl px-2 py-1 text-center hover:animate-pulse">
+                        Add Descripton
+                    </button>
+                </form>
+              )
+            }
+          </p>
+        </article>
+        <article>
+          {
+            dbUser && dbUser.link ? (
+              <a
+                href={dbUser.link}
+                class="text-blue-300 hover:text-green-500 text-center"
+              >
+                {dbUser.link}
+              </a>
+            ) : (
+            <form 
+              action=""
+              method="post"
+              class="w-full flex justify-end items-start gap-2">
+                <input id="link" type="text" name="link" class="w-full px-2 py-1  rounded-xl border-2 bg-transparent" placeholder="Add a link of your site"/>
+                <button 
+                  type='submit' 
+                  class="w-52 border-2 rounded-xl px-2 py-1 text-center hover:animate-pulse">
+                    Add Link
+                </button>
+            </form>
+            )
+          }
+        </article>
+      </section>
+    </header>
+  </main>
 </Layout>
