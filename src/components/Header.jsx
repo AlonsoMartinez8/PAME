@@ -1,4 +1,4 @@
-import BtnLink from "@c/BtnLink.jsx";
+import BtnLink from "@/components/BtnLog.jsx";
 import NavLink from "@c/NavLink.jsx";
 import { useState } from "react";
 
