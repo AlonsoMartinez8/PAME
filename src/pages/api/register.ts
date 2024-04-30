@@ -27,10 +27,12 @@ export async function POST(context: APIContext): Promise<Response> {
   if (
     typeof password !== "string" ||
     password.length < 5 ||
-    password.length > 15
+    password.length > 20 ||
+    !containSymbols(password) ||
+    !containNumbers(password)
   ) {
     return new Response(
-      "Non valid password. Must be between 5 and 15 characters long",
+      "Non valid password. Must be between 5 and 20 characters long, contain symbols and numbers",
       { status: 400 }
     );
   }
@@ -58,4 +60,14 @@ export async function POST(context: APIContext): Promise<Response> {
   );
   // Redirect user
   return context.redirect("/profile");
+}
+
+function containSymbols(pass: string): boolean {
+  const symbolRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+  return symbolRegex.test(pass);
+}
+
+function containNumbers(pass: string): boolean {
+  const numberRegex = /[0-9]/;
+  return numberRegex.test(pass);
 }
