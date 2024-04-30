@@ -26,6 +26,9 @@ if (user) {
   {
     dbUser ? (
       <h1 class="text-center text-2xl mt-10">{dbUser.username}</h1>
+      <img src={dbUser.imageUrl} width="80" class="bg-slate-50/50 aspect-square rounded-full mx-auto m-5"/>
+      <p>{dbUser.description}</p>
+      <a class="text-blue-300 hover:text-green-500" href={dbUser.link}>{dbUser.link}</a>
     ) : (
       <h1 class="text-center text-2xl mt-10">No User Found</h1>
     )
