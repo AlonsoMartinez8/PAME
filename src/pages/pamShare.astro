@@ -1,12 +1,23 @@
 ---
 import Header from "@/components/Header.jsx";
 import Layout from "@l/Layout.astro";
+import { eq } from "astro:db";
+import { User } from "astro:db";
+import { db } from "astro:db";
 
 const headerLinks = [
   { href: "/myWardrobe", content: "My Wardrobe" },
   { href: "/profile", content: "My Profile" },
   { href: "/#about", content: "About Us" },
 ];
+
+const user = Astro.locals.user;
+let dbUser = null;
+if (user) {
+  dbUser = (await db.select().from(User).where(eq(User.id, user.id))).at(0);
+} else {
+  return Astro.redirect("/logIn");
+}
 ---
 
 <Layout

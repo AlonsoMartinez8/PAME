@@ -10,13 +10,12 @@ const headerLinks = [
 ];
 
 const user = Astro.locals.user;
-let dbUser=null
-if(user){
-  dbUser = (
-  await db.select().from(User).where(eq(User.id, user.id))
-).at(0);
+let dbUser = null;
+if (user) {
+  dbUser = (await db.select().from(User).where(eq(User.id, user.id))).at(0);
+} else {
+  return Astro.redirect("/logIn");
 }
-
 ---
 
 <Layout
@@ -24,11 +23,11 @@ if(user){
   desc="Design you PAME profile and Share it with yoour Friends!!"
 >
   <Header client:load headerLinks={headerLinks} user={user} show={true} />
-  
-    {dbUser?(
+  {
+    dbUser ? (
       <h1 class="text-center text-2xl mt-10">{dbUser.username}</h1>
-    ):(
-    <h1 class="text-center text-2xl mt-10">No User Found</h1>
-    )}
-  
+    ) : (
+      <h1 class="text-center text-2xl mt-10">No User Found</h1>
+    )
+  }
 </Layout>
