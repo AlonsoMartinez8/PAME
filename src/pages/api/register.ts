@@ -1,5 +1,5 @@
 import type { APIContext } from "astro";
-import { User, db } from "astro:db";
+import { User, db, eq } from "astro:db";
 import { generateId } from "lucia";
 import { Argon2id } from "oslo/password";
 import { lucia } from "@/auth";
@@ -21,6 +21,13 @@ export async function POST(context: APIContext): Promise<Response> {
   ) {
     return new Response(
       "Non valid username. Must be between 5 and 15 characters long",
+      { status: 400 }
+    );
+  }
+  const usernameAlreadyExists = await (await db.select().from(User).where(eq(User.username, username))).at(0)
+  if(usernameAlreadyExists){
+    return new Response(
+      "Non valid username. That username already exists",
       { status: 400 }
     );
   }
