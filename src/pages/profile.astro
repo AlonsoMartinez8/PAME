@@ -2,6 +2,7 @@
 import Header from "@/components/Header.jsx";
 import Layout from "@l/Layout.astro";
 import { User, db, eq } from "astro:db";
+import noUserImage from "../../public/img/noUserImage.png"
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
@@ -25,12 +26,18 @@ if (user) {
   <Header client:load headerLinks={headerLinks} user={user} show={true} />
   {
     dbUser ? (
-      <h1 class="text-center text-2xl mt-10">{dbUser.username}</h1>
-      <img src={dbUser.imageUrl} width="80" class="bg-slate-50/50 aspect-square rounded-full mx-auto m-5"/>
-      <p>{dbUser.description}</p>
-      <a class="text-blue-300 hover:text-green-500" href={dbUser.link}>{dbUser.link}</a>
+      <h1 class="text-center text-2xl mt-10">{dbUser.username}</h1>      
+      <p class="text-center">{dbUser.description}</p>
+      <a class="text-blue-300 hover:text-green-500 text-center" href={dbUser.link}>{dbUser.link}</a>
     ) : (
       <h1 class="text-center text-2xl mt-10">No User Found</h1>
+    )
+  }
+  {
+    (dbUser&&dbUser.imageUrl) ? (
+      <img class="w-56 mx-auto bg-slate-100/50 aspect-square rounded-full m-5"src={dbUser.imageUrl}/>
+    ):(
+      <img class="w-56 mx-auto bg-slate-100/50 aspect-square rounded-full m-5"src={noUserImage.src} />
     )
   }
 </Layout>
