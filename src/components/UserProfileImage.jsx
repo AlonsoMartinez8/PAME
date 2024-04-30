@@ -1,9 +1,7 @@
-import { useRef } from "react";
 import noUserImage from "../../public/img/noUserImage.png";
+import { uploadFile, getURL } from "@/firebase/config";
 
 export default function UserProfileImage({ dbUser, width }) {
-  const formRef = useRef(null);
-
   const handleImageClick = () => {
     document.getElementById("fileInput").click();
   };
@@ -11,10 +9,8 @@ export default function UserProfileImage({ dbUser, width }) {
   const handleFileInputChange = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
-      document.getElementById("fileForm").submit();
-    }
-    if (formRef.current) {
-      formRef.current.submit();
+      uploadFile(selectedFile, "profile", dbUser.id);
+      getURL("profile", dbUser.id)
     }
   };
 
@@ -39,21 +35,13 @@ export default function UserProfileImage({ dbUser, width }) {
           />
         </>
       )}
-      <form
-        ref={formRef}
-        className="hidden"
-        id="fileForm"
-        action="api/updateImage"
-        method="post"
-      >
-        <input type="hidden" name="userId" value={dbUser.id} />
-        <input
-          type="file"
-          name="file"
-          id="fileInput"
-          onChange={handleFileInputChange}
-        />
-      </form>
+      <input
+      className="hidden"
+        type="file"
+        name="file"
+        id="fileInput"
+        onChange={handleFileInputChange}
+      />
     </>
   );
 }
