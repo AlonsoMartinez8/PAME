@@ -7,7 +7,7 @@ export default function UserProfileInfo({ dbUser }) {
   return (
     <>
       <article className="w-full py-2 border-b-2 flex items-end justify-end gap-4">
-        <h1 className="text-5xl text-end text-transparent font-semibold bg-gradient-to-r from-indigo-300 via-green-300 to-slate-300 w-fit bg-clip-text">
+        <h1 className="text-5xl text-end text-transparent py-1 font-semibold bg-gradient-to-r from-indigo-300 via-green-300 to-slate-300 w-fit bg-clip-text">
           {dbUser ? dbUser.username : "No User Found"}
         </h1>
       </article>
@@ -32,14 +32,16 @@ export default function UserProfileInfo({ dbUser }) {
                 rows="1"
                 name="description"
                 className="w-full bg-transparent"
-                placeholder="Describe yourself and your style"
+                placeholder={dbUser.description?dbUser.description:"Describe yourself and your style"}
               />
               <button type="submit" className="text-center">
                 <i className="text-2xl ri-add-line" />
               </button>
-              <button onClick={() => setIsEditingDesc(!isEditingDesc)}>
-                <i className="text-2xl ri-close-line" />
-              </button>
+              {isEditingDesc && (
+                <button onClick={() => setIsEditingDesc(!isEditingDesc)}>
+                  <i className="text-2xl ri-close-line" />
+                </button>
+              )}
             </form>
           )}
         </div>
@@ -69,14 +71,16 @@ export default function UserProfileInfo({ dbUser }) {
             <input
               name="link"
               className="w-full bg-transparent"
-              placeholder="Add the link of your site"
+              placeholder={dbUser.link?dbUser.link:"Add the link of your site"}
             />
             <button type="submit" className="text-center">
               <i className="text-2xl ri-add-line" />
             </button>
-            <button onClick={() => setIsEditingLink(!isEditingLink)}>
-              <i className="text-2xl ri-close-line" />
-            </button>
+            {isEditingLink && (
+              <button onClick={() => setIsEditingLink(!isEditingLink)}>
+                <i className="text-2xl ri-close-line" />
+              </button>
+            )}
           </form>
         )}
       </article>

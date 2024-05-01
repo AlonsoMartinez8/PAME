@@ -3,10 +3,10 @@ import img1 from "../../public/img/menLaptopIllustration.png";
 import img2 from "../../public/img/friendsIllustration.png";
 ---
 
-<main class="py-10 flex flex-col gap-10">
+<main class="mt-8 md:mt-0 py-2 flex flex-col gap-8">
   <section class="flex flex-row-reverse justify-between items-center min-h-96">
     <aside
-      class="clippath reverse absolute md:before:-z-20 -z-20 md:relative md:z-0 w-full bg-gradient-to-tr from-slate-600/50 to-lime-300/30 p-20 md:w-1/2 flex items-center justify-center"
+      class="clippath reverse absolute md:before:-z-20 -z-20 md:relative md:z-0 w-full bg-gradient-to-tr from-blue-600/50 to-lime-300/30 p-20 md:w-1/2 flex items-center justify-center"
     >
       <img
         class="min-w-80 max-h-[300px]"
@@ -15,7 +15,7 @@ import img2 from "../../public/img/friendsIllustration.png";
       />
     </aside>
     <article class="p-10 flex flex-col items-start gap-8">
-      <h2 class="text-4xl max-w-96">
+      <h2 class="text-4xl max-w-96 text-blue-200">
         <em>O</em>rganize and <em>M</em>anage your <em>W</em>ardrobe
       </h2>
       <p class="max-w-[500px] text-pretty">
@@ -32,7 +32,7 @@ import img2 from "../../public/img/friendsIllustration.png";
 
   <section class="flex flex-row justify-between items-center min-h-96">
     <aside
-      class="clippath absolute w-full md:before:-z-20 -z-20 opacity-80 md:relative md:z-0 md:opacity-100 bg-gradient-to-tr to-white/80 from-lime-600 p-20 md:w-1/2 flex items-center justify-center"
+      class="clippath absolute w-full md:before:-z-20 -z-20 opacity-80 md:relative md:z-0 md:opacity-100 bg-gradient-to-tr to-pink-600/80 from-purple-200 p-20 md:w-1/2 flex items-center justify-center"
     >
       <img
         class="max-h-[300px]"
@@ -41,7 +41,7 @@ import img2 from "../../public/img/friendsIllustration.png";
       />
     </aside>
     <article class="p-10 flex flex-col items-end gap-8">
-      <h2 class="text-4xl max-w-96 text-end">
+      <h2 class="text-4xl max-w-96 text-end text-blue-200">
         <em>C</em>onnect and <em>S</em>hare with your <em>F</em>riends
       </h2>
       <p class="max-w-[500px] text-pretty text-end">
@@ -61,6 +61,7 @@ import img2 from "../../public/img/friendsIllustration.png";
 <style>
   em {
     margin-right: 0.1em;
+    color: white;
   }
   .clippath {
     clip-path: polygon(0 0, 100% 10%, 100% 90%, 0 100%);
@@ -76,8 +77,8 @@ import img2 from "../../public/img/friendsIllustration.png";
       height: 100%;
       background: linear-gradient(
         to bottom,
-        rgba(12, 34, 15, 0.5),
-        rgba(65, 83, 68, 0.5)
+        rgba(0, 0, 0, 0.8),
+        rgba(65, 83, 68, 0.1)
       );
     }
   }

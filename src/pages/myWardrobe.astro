@@ -15,8 +15,8 @@ const user = Astro.locals.user;
 let dbUser = null;
 if (user) {
   dbUser = (await db.select().from(User).where(eq(User.id, user.id))).at(0);
-} else{
-  return Astro.redirect('/logIn')
+} else {
+  return Astro.redirect("/logIn");
 }
 ---
 
@@ -25,5 +25,13 @@ if (user) {
   desc="Let's make outfits!! PAME is a Wardrobe Online where you will be able to Manage your Outfits and Share them with your Friends."
 >
   <Header client:load headerLinks={headerLinks} user={false} show={false} />
-  My Wardrobe
+  {
+    dbUser && (
+      <main class="py-1 px-4">
+        <header class="w-full flex items-center">
+          <h1 class="text-2xl">M Y * W A R D R O B E</h1>
+        </header>
+      </main>
+    )
+  }
 </Layout>

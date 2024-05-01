@@ -28,12 +28,10 @@ export default function UserProfileImage({ dbUser, width }) {
   }, [formSubmitted]);
 
   return (
-    <div className={`mx-auto bg-slate-100/50 aspect-square rounded-full m-5 cursor-pointer overflow-hidden flex items-center justify-center`}>
-      <img
-        width={width}
-        src={dbUser.imageUrl}
-        onClick={handleImageClick}
-      />
+    <div
+      className={`mx-auto bg-slate-100/20 aspect-square rounded-full m-5 cursor-pointer overflow-hidden flex items-center justify-center`}
+    >
+      <img width={width} src={dbUser.imageUrl} onClick={handleImageClick} />
       <form
         className="hidden"
         action="api/updateProfileImage"
