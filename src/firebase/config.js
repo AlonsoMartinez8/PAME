@@ -13,12 +13,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app)
 
-export const uploadFile = (file, folder, userId) => {
+export async function uploadFile(file, folder, userId) {
     const storageRef = ref(storage, `${folder}/${userId}`)
-    uploadBytes(storageRef, file).then(snapshot => console.log(snapshot))
+    const snapshot = await uploadBytes(storageRef, file)
+    return snapshot
 }
 
-export const getURL = (folder, userId) => {
+export async function getURL(folder, userId) {
     const storageRef = ref(storage, `${folder}/${userId}`)
-    getDownloadURL(storageRef).then((url) => console.log(url))
+    const url = await getDownloadURL(storageRef)
+    return url
 }

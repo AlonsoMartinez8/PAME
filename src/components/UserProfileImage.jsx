@@ -1,16 +1,21 @@
 import noUserImage from "../../public/img/noUserImage.png";
 import { uploadFile, getURL } from "@/firebase/config";
+import { User, db, eq } from "astro:db";
 
 export default function UserProfileImage({ dbUser, width }) {
   const handleImageClick = () => {
     document.getElementById("fileInput").click();
   };
 
-  const handleFileInputChange = (event) => {
+  const handleFileInputChange = async (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
-      uploadFile(selectedFile, "profile", dbUser.id);
-      getURL("profile", dbUser.id)
+      await uploadFile(selectedFile, "profile", dbUser.id);
+      const url = await getURL("profile", dbUser.id);
+      await db
+        .update(User)
+        .set({ imageUrl: url })
+        .where(eq(User.id, dbUser.id));
     }
   };
 
@@ -36,7 +41,7 @@ export default function UserProfileImage({ dbUser, width }) {
         </>
       )}
       <input
-      className="hidden"
+        className="hidden"
         type="file"
         name="file"
         id="fileInput"
