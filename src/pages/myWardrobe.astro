@@ -1,9 +1,8 @@
 ---
 import Header from "@/components/Header.jsx";
 import Layout from "@l/Layout.astro";
-import { eq } from "astro:db";
-import { User } from "astro:db";
-import { db } from "astro:db";
+import Wardrobe from "@c/Wardrobe.jsx"
+import { db, User, eq } from "astro:db";
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
@@ -24,13 +23,14 @@ if (user) {
   title="PAME - My Wardrobe"
   desc="Let's make outfits!! PAME is a Wardrobe Online where you will be able to Manage your Outfits and Share them with your Friends."
 >
-  <Header client:load headerLinks={headerLinks} user={false} show={false} />
+  <Header client:load headerLinks={headerLinks} user={true} show={false} />
   {
     dbUser && (
       <main class="py-1 px-4">
         <header class="w-full flex items-center">
           <h1 class="text-2xl">M Y * W A R D R O B E</h1>
         </header>
+        <Wardrobe client:load />
       </main>
     )
   }
