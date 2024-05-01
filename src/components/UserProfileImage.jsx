@@ -28,9 +28,8 @@ export default function UserProfileImage({ dbUser, width }) {
   }, [formSubmitted]);
 
   return (
-    <>
+    <div className={`mx-auto bg-slate-100/50 aspect-square rounded-full m-5 cursor-pointer overflow-hidden flex items-center justify-center`}>
       <img
-        className="mx-auto bg-slate-100/50 aspect-square rounded-full m-5 cursor-pointer"
         width={width}
         src={dbUser.imageUrl}
         onClick={handleImageClick}
@@ -51,6 +50,6 @@ export default function UserProfileImage({ dbUser, width }) {
           onChange={handleFileInputChange}
         />
       </form>
-    </>
+    </div>
   );
 }
