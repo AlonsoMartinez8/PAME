@@ -24,12 +24,13 @@ export async function POST(context: APIContext): Promise<Response> {
       { status: 400 }
     );
   }
-  const usernameAlreadyExists = await (await db.select().from(User).where(eq(User.username, username))).at(0)
-  if(usernameAlreadyExists){
-    return new Response(
-      "Non valid username. That username already exists",
-      { status: 400 }
-    );
+  const usernameAlreadyExists = await (
+    await db.select().from(User).where(eq(User.username, username))
+  ).at(0);
+  if (usernameAlreadyExists) {
+    return new Response("Non valid username. That username already exists", {
+      status: 400,
+    });
   }
   if (
     typeof password !== "string" ||
@@ -55,6 +56,8 @@ export async function POST(context: APIContext): Promise<Response> {
       id: userId,
       username,
       password: hashedPassword,
+      imageUrl:
+        "https://firebasestorage.googleapis.com/v0/b/pame-f2cf9.appspot.com/o/profile%2FnoUserImage.png?alt=media&token=e29f041f-5cd5-4045-b44f-67ec80120e42",
     },
   ]);
   // Generate Session

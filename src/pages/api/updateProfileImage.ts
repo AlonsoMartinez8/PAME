@@ -4,15 +4,15 @@ import { User, db, eq } from "astro:db";
 export async function POST(context: APIContext): Promise<Response> {
   const formData = await context.request.formData();
   const userId = formData.get("userId");
-  const link = formData.get("link");
+  const imageUrl = formData.get("imageUrl");
   if (
-    !link ||
+    !imageUrl ||
     !userId ||
     typeof userId !== "string" ||
-    typeof link !== "string"
+    typeof imageUrl !== "string"
   ) {
-    return new Response("Non valid link", {status:400});
+    return new Response("Non valid url", { status: 400 });
   }
-  await db.update(User).set({ link: link }).where(eq(User.id, userId));
+  await db.update(User).set({ imageUrl: imageUrl }).where(eq(User.id, userId));
   return context.redirect("/profile");
 }

@@ -1,8 +1,12 @@
+import { useEffect, useRef, useState } from "react";
 import noUserImage from "../../public/img/noUserImage.png";
 import { uploadFile, getURL } from "@/firebase/config";
-import { User, db, eq } from "astro:db";
 
 export default function UserProfileImage({ dbUser, width }) {
+  const [imageUrl, setImageUrl] = useState(dbUser.imageUrl);
+  const formRef = useRef(null);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
   const handleImageClick = () => {
     document.getElementById("fileInput").click();
   };
@@ -12,41 +16,41 @@ export default function UserProfileImage({ dbUser, width }) {
     if (selectedFile) {
       await uploadFile(selectedFile, "profile", dbUser.id);
       const url = await getURL("profile", dbUser.id);
-      await db
-        .update(User)
-        .set({ imageUrl: url })
-        .where(eq(User.id, dbUser.id));
+      setImageUrl(url);
+      setFormSubmitted(true);
     }
   };
 
+  useEffect(() => {
+    if (formSubmitted && formRef.current) {
+      formRef.current.submit();
+    }
+  }, [formSubmitted]);
+
   return (
     <>
-      {dbUser.imageUrl && dbUser.imageUrl !== "" ? (
-        <>
-          <img
-            className="mx-auto bg-slate-100/50 aspect-square rounded-full m-5 cursor-pointer"
-            width={width}
-            src={dbUser.imageUrl}
-            onClick={handleImageClick}
-          />
-        </>
-      ) : (
-        <>
-          <img
-            className="mx-auto bg-slate-100/50 aspect-square rounded-full m-5 cursor-pointer"
-            width={width}
-            src={noUserImage.src}
-            onClick={handleImageClick}
-          />
-        </>
-      )}
-      <input
-        className="hidden"
-        type="file"
-        name="file"
-        id="fileInput"
-        onChange={handleFileInputChange}
+      <img
+        className="mx-auto bg-slate-100/50 aspect-square rounded-full m-5 cursor-pointer"
+        width={width}
+        src={dbUser.imageUrl}
+        onClick={handleImageClick}
       />
+      <form
+        className="hidden"
+        action="api/updateProfileImage"
+        method="POST"
+        ref={formRef}
+      >
+        <input type="hidden" name="imageUrl" value={imageUrl} />
+        <input type="hidden" name="userId" value={dbUser.id} />
+        <input
+          className="hidden"
+          type="file"
+          name="file"
+          id="fileInput"
+          onChange={handleFileInputChange}
+        />
+      </form>
     </>
   );
 }
