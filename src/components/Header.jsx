@@ -51,7 +51,7 @@ export default function Header({ headerLinks, user, show }) {
         </nav>
         {show && (
           <aside className="col-span-2 gap-2 text-center p-4 flex items-center justify-center md:justify-end">
-            <BtnLink href="/logIn" content="Log In" log={user ? false : true} />
+            <BtnLink href="/logIn" content="Log In" log={!user} />
           </aside>
         )}
       </section>
