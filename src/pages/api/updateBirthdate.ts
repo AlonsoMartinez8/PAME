@@ -11,7 +11,7 @@ export async function POST(context: APIContext): Promise<Response> {
     typeof userId !== "string" ||
     typeof birthdate !== "string"
   ) {
-    return new Response("Non valid location", {status:400});
+    return new Response("Non valid birthdate", {status:400});
   }
   await db.update(User).set({ birthdate: birthdate }).where(eq(User.id, userId));
   return context.redirect("/profile");
