@@ -11,10 +11,10 @@ const headerLinks = [
   { href: "/#about", content: "About Us" },
 ];
 
-const user = Astro.locals.user;
+const sessionUser = Astro.locals.user;
 let dbUser = null;
-if (user) {
-  dbUser = (await db.select().from(User).where(eq(User.id, user.id))).at(0);
+if (sessionUser) {
+  dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(0);
 } else {
   return Astro.redirect("/logIn");
 }
@@ -24,7 +24,7 @@ if (user) {
   title="PAME - Pam Share"
   desc="Let's share your clothes in PAME!! PAME is a Wardrobe Online where you will be able to Manage your Outfits and Share them with your Friends."
 >
-  <Header client:load headerLinks={headerLinks} user={false} show={false}/>
+  <Header client:load headerLinks={headerLinks} user={sessionUser} show={false}/>
   {
     dbUser && (
       <main class="py-1 px-4">

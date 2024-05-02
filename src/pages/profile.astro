@@ -11,10 +11,10 @@ const headerLinks = [
   { href: "/#about", content: "About Us" },
 ];
 
-const user = Astro.locals.user;
+const sessionUser = Astro.locals.user;
 let dbUser = null;
-if (user) {
-  dbUser = (await db.select().from(User).where(eq(User.id, user.id))).at(0);
+if (sessionUser) {
+  dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(0);
 } else {
   return Astro.redirect("/logIn");
 }
@@ -24,7 +24,7 @@ if (user) {
   title="PAME - My Profile"
   desc="Design you PAME profile and Share it with yoour Friends!!"
 >
-  <Header client:load headerLinks={headerLinks} user={user} show={true} />
+  <Header client:load headerLinks={headerLinks} user={sessionUser} show={true} />
   <main class="max-w-[900px] mx-auto py-5 px-10">
     <div class="flex flex-col md:grid md:grid-cols-6 gap-4">
       <aside class="col-span-2 flex flex-col items-center justify-center gap-2">
