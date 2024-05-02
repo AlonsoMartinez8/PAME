@@ -1,4 +1,4 @@
-import BtnLink from "@/components/BtnLog.jsx";
+import BtnLog from "@/components/BtnLog.jsx";
 import NavLink from "@c/NavLink.jsx";
 import { useState } from "react";
 
@@ -51,7 +51,7 @@ export default function Header({ headerLinks, user, show }) {
         </nav>
         {show && (
           <aside className="col-span-2 gap-2 text-center p-4 flex items-center justify-center md:justify-end">
-            <BtnLink href="/logIn" content="Log In" log={!user} />
+            <BtnLog href="/logIn" content="Log In" log={!user} />
           </aside>
         )}
       </section>
