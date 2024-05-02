@@ -8,7 +8,7 @@ const Session = defineTable({
   },
 });
 
-const User = defineTable({
+const User: any = defineTable({
   columns: {
     id: column.text({ primaryKey: true, optional: false, unique: true }),
     wardrobeId: column.text({
