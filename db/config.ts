@@ -107,7 +107,6 @@ const Like = defineTable({
   },
 });
 
-// https://astro.build/db/config
 export default defineDb({
   tables: { Session, User, Wardrobe, Clothe, Outfit, Category, Follow, Like },
 });
