@@ -3,6 +3,7 @@ import Header from "@/components/Header.jsx";
 import Layout from "@l/Layout.astro";
 import WardrobeComp from "@c/Wardrobe.jsx";
 import { db, User, Wardrobe, eq } from "astro:db";
+import { getCategoriesByWardrobe } from "./api/getCategoriesByWardrobe";
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
@@ -13,6 +14,7 @@ const headerLinks = [
 const sessionUser = Astro.locals.user;
 let dbUser = null;
 let dbWardrobe = null;
+let categoriesByWardrobe = null;
 if (sessionUser) {
   dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(
     0
@@ -21,6 +23,9 @@ if (sessionUser) {
     dbWardrobe = (
       await db.select().from(Wardrobe).where(eq(Wardrobe.id, dbUser.wardrobeId))
     ).at(0);
+  if (dbWardrobe) {
+    categoriesByWardrobe = await getCategoriesByWardrobe(dbWardrobe.id);
+  }
 } else {
   return Astro.redirect("/logIn");
 }
@@ -42,7 +47,7 @@ if (sessionUser) {
         <header class="w-full flex items-center">
           <h1 class="text-2xl">M Y * W A R D R O B E</h1>
         </header>
-        <WardrobeComp client:visible wardrobe={dbWardrobe} />
+        <WardrobeComp client:load wardrobeId={dbWardrobe.id} categories={categoriesByWardrobe}/>
       </main>
     )
   }
