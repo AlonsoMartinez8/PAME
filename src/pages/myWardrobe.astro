@@ -1,8 +1,8 @@
 ---
 import Header from "@/components/Header.jsx";
 import Layout from "@l/Layout.astro";
-import Wardrobe from "@c/Wardrobe.jsx"
-import { db, User, eq } from "astro:db";
+import WardrobeComp from "@c/Wardrobe.jsx";
+import { db, User, Wardrobe, eq } from "astro:db";
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
@@ -12,8 +12,15 @@ const headerLinks = [
 
 const sessionUser = Astro.locals.user;
 let dbUser = null;
+let dbWardrobe = null;
 if (sessionUser) {
-  dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(0);
+  dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(
+    0
+  );
+  if (dbUser)
+    dbWardrobe = (
+      await db.select().from(Wardrobe).where(eq(Wardrobe.id, dbUser.wardrobeId))
+    ).at(0);
 } else {
   return Astro.redirect("/logIn");
 }
@@ -23,14 +30,19 @@ if (sessionUser) {
   title="PAME - My Wardrobe"
   desc="Let's make outfits!! PAME is a Wardrobe Online where you will be able to Manage your Outfits and Share them with your Friends."
 >
-  <Header client:load headerLinks={headerLinks} user={sessionUser} show={false} />
+  <Header
+    client:load
+    headerLinks={headerLinks}
+    user={sessionUser}
+    show={false}
+  />
   {
-    dbUser && (
+    dbUser && dbWardrobe && (
       <main class="py-1 px-4">
         <header class="w-full flex items-center">
           <h1 class="text-2xl">M Y * W A R D R O B E</h1>
         </header>
-        <Wardrobe client:visible />
+        <WardrobeComp client:visible wardrobe={dbWardrobe} />
       </main>
     )
   }

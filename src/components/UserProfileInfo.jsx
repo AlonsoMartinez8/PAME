@@ -91,85 +91,82 @@ export default function UserProfileInfo({ dbUser }) {
           </form>
         )}
       </article>
-      <div className="w-full flex-col items-center justify-center">
-        <article className="w-full">
-          <div className="w-full">
-            {dbUser && location && !isEditingLocation ? (
-              <div className="flex items-center justify-between gap-2">
-                <p className="w-full opacity-65">{location}</p>
+
+      <article className="w-full">
+        <div className="w-full">
+          {dbUser && location && !isEditingLocation ? (
+            <div className="flex items-center justify-between gap-2">
+              <p className="w-full opacity-65">{location}</p>
+              <button onClick={() => setIsEditingLocation(!isEditingLocation)}>
+                <i className="text-2xl ri-pencil-fill" />
+              </button>
+            </div>
+          ) : (
+            <form
+              action="api/updateLocation"
+              method="post"
+              className="w-full flex items-center gap-2"
+            >
+              <input type="hidden" name="userId" value={id} />
+              <input
+                name="location"
+                type="text"
+                className="w-full bg-transparent"
+                placeholder={location ? location : "Add a location"}
+              />
+              <button type="submit" className="text-center">
+                <i className="text-2xl ri-add-line" />
+              </button>
+              {isEditingLocation && (
                 <button
                   onClick={() => setIsEditingLocation(!isEditingLocation)}
                 >
-                  <i className="text-2xl ri-pencil-fill" />
+                  <i className="text-2xl ri-close-line" />
                 </button>
-              </div>
-            ) : (
-              <form
-                action="api/updateLocation"
-                method="post"
-                className="w-full flex items-center gap-2"
-              >
-                <input type="hidden" name="userId" value={id} />
-                <input
-                  name="location"
-                  type="text"
-                  className="w-full bg-transparent"
-                  placeholder={location ? location : "Add a location"}
-                />
-                <button type="submit" className="text-center">
-                  <i className="text-2xl ri-add-line" />
-                </button>
-                {isEditingLocation && (
-                  <button
-                    onClick={() => setIsEditingLocation(!isEditingLocation)}
-                  >
-                    <i className="text-2xl ri-close-line" />
-                  </button>
-                )}
-              </form>
-            )}
-          </div>
-        </article>
+              )}
+            </form>
+          )}
+        </div>
+      </article>
 
-        <article className="w-full">
-          <div className="w-full">
-            {dbUser && birthdate && !isEditingBirthdate ? (
-              <div className="flex items-center justify-between gap-2">
-                <p className="w-full opacity-65">{birthdate}</p>
+      <article className="w-full">
+        <div className="w-full">
+          {dbUser && birthdate && !isEditingBirthdate ? (
+            <div className="flex items-center justify-between gap-2">
+              <p className="w-full opacity-65">{birthdate}</p>
+              <button
+                onClick={() => setIsEditingBirthdate(!isEditingBirthdate)}
+              >
+                <i className="text-2xl ri-pencil-fill" />
+              </button>
+            </div>
+          ) : (
+            <form
+              action="api/updateBirthdate"
+              method="post"
+              className="w-full flex items-center gap-2"
+            >
+              <input type="hidden" name="userId" value={id} />
+              <input
+                name="birthdate"
+                type="date"
+                className="w-full bg-transparent"
+                placeholder={birthdate ? birthdate : "Add your birthdate"}
+              />
+              <button type="submit" className="text-center">
+                <i className="text-2xl ri-add-line" />
+              </button>
+              {isEditingBirthdate && (
                 <button
                   onClick={() => setIsEditingBirthdate(!isEditingBirthdate)}
                 >
-                  <i className="text-2xl ri-pencil-fill" />
+                  <i className="text-2xl ri-close-line" />
                 </button>
-              </div>
-            ) : (
-              <form
-                action="api/updateBirthdate"
-                method="post"
-                className="w-full flex items-center gap-2"
-              >
-                <input type="hidden" name="userId" value={id} />
-                <input
-                  name="birthdate"
-                  type="date"
-                  className="w-full bg-transparent"
-                  placeholder={birthdate ? birthdate : "Add your birthdate"}
-                />
-                <button type="submit" className="text-center">
-                  <i className="text-2xl ri-add-line" />
-                </button>
-                {isEditingBirthdate && (
-                  <button
-                    onClick={() => setIsEditingBirthdate(!isEditingBirthdate)}
-                  >
-                    <i className="text-2xl ri-close-line" />
-                  </button>
-                )}
-              </form>
-            )}
-          </div>
-        </article>
-      </div>
+              )}
+            </form>
+          )}
+        </div>
+      </article>
     </>
   );
 }
