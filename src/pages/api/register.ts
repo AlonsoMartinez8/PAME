@@ -1,5 +1,5 @@
 import type { APIContext } from "astro";
-import { User, db, eq } from "astro:db";
+import { User, Wardrobe, Outfit, db, eq } from "astro:db";
 import { generateId } from "lucia";
 import { Argon2id } from "oslo/password";
 import { lucia } from "@/auth";
@@ -50,10 +50,17 @@ export async function POST(context: APIContext): Promise<Response> {
   // Generate id and hash password
   const userId = generateId(15);
   const hashedPassword = await new Argon2id().hash(password);
+  // Create Wardrobe & Outfit
+  const wardrobeId = generateId(15);
+  const outfitId = generateId(15)
+  await db.insert(Wardrobe).values([{id: wardrobeId}])
+  await db.insert(Outfit).values([{id: outfitId}])
   // Insert Data to DB
   await db.insert(User).values([
     {
       id: userId,
+      wardrobeId,
+      outfitId,
       username,
       password: hashedPassword,
       imageUrl:
