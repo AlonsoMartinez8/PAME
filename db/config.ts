@@ -8,7 +8,7 @@ const Session = defineTable({
   },
 });
 
-const User: any = defineTable({
+const User = defineTable({
   columns: {
     id: column.text({ primaryKey: true, optional: false, unique: true }),
     wardrobeId: column.text({
@@ -32,7 +32,6 @@ const User: any = defineTable({
 const Wardrobe = defineTable({
   columns: {
     id: column.text({ primaryKey: true, optional: false, unique: true }),
-    userId: column.text({ optional: false, references: () => User.columns.id }),
     public: column.boolean({ optional: false, default: false }),
   },
 });
