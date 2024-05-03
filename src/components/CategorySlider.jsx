@@ -3,17 +3,31 @@ import CategoryItem from "@c/CategoryItem.jsx";
 
 export default function CategorySlider({ wardrobeId, categories }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState("All categories");
+
+  const handleItemClick = (categoryId) => {
+    setSelected(categoryId);
+  };
 
   return (
     <nav className="py-2 grid items-center grid-cols-10 gap-2 ">
       <ul className="col-span-8 flex items-center justify-start gap-2 overflow-x-scroll no-scrollbar">
-        <CategoryItem selected={true} name="All categories" />
+        <CategoryItem
+          selected={selected === "All categories"}
+          name="All categories"
+          onClick={() => handleItemClick("All categories")}
+        />
         {categories && categories.length > 0 ? (
           categories.map((c) => (
-            <CategoryItem selected={false} name={c.name} key={c.id} />
+            <CategoryItem
+              key={c.id}
+              selected={selected === c.id}
+              name={c.name}
+              onClick={() => handleItemClick(c.id)}
+            />
           ))
         ) : (
-          <p className="text-nowrap">There is no categories yet</p>
+          <p className="text-nowrap">There are no categories yet</p>
         )}
       </ul>
       <aside className="col-span-2 flex justify-end items-center gap-2">
