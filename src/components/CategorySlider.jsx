@@ -6,7 +6,7 @@ export default function CategorySlider({ wardrobeId, categories }) {
 
   return (
     <nav className="py-2 grid items-center grid-cols-10 gap-2 ">
-      <ul className="col-span-9 flex items-center justify-start gap-2 overflow-x-scroll no-scrollbar">
+      <ul className="col-span-8 flex items-center justify-start gap-2 overflow-x-scroll no-scrollbar">
         <CategoryItem selected={true} name="All categories" />
         {categories && categories.length > 0 ? (
           categories.map((c) => (
@@ -16,7 +16,7 @@ export default function CategorySlider({ wardrobeId, categories }) {
           <p className="text-nowrap">There is no categories yet</p>
         )}
       </ul>
-      <aside className="col-span-1 flex justify-end items-center gap-2">
+      <aside className="col-span-2 flex justify-end items-center gap-2">
         <button className="rounded-md" onClick={() => setIsOpen(true)}>
           <i className="text-2xl ri-add-line"></i>
         </button>
