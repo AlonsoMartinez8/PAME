@@ -4,24 +4,18 @@ import { getURL, uploadFile } from "@/firebase/config";
 import CategorySlider from "@c/CategorySlider.jsx";
 import { generateId } from "lucia";
 
-export default function ClotheSlider({
-  wardrobeId,
-  selectedCategory,
-  categories,
-  clothes,
-}) {
+export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPublic, setIsPublic] = useState(false);
   const [selectedNewClotheImage, setSelectedNewClotheImage] = useState(
     mockup.src
   );
   const [newClotheId, setNewClotheId] = useState(null);
+  const [newClotheCategory, setNewClotheCategory] = useState("All categories");
 
   const newIdForClothe = () => {
     setNewClotheId(generateId(15));
   };
-
-  const [newClotheCategory, setNewClotheCategory] = useState("All categories");
 
   const handleNewClotheImageClick = () => {
     document.getElementById("fileInput").click();
@@ -38,11 +32,12 @@ export default function ClotheSlider({
   };
 
   const handleNewClotheCategory = (categoryId) => {
+    if (!categoryId) setNewClotheCategory("All categories");
     setNewClotheCategory(categoryId);
   };
 
   return (
-    <nav className="py-2 items-start flex flex-col justify-start gap-2 ">
+    <nav className="py-2 items-start flex flex-col justify-start gap-4 ">
       <aside className="flex justify-end items-center gap-2">
         <button className="rounded-md">
           <i className="text-2xl ri-dashboard-horizontal-fill"></i>
@@ -54,11 +49,18 @@ export default function ClotheSlider({
           <i className="text-2xl ri-add-line"></i>
         </button>
       </aside>
-      <ul className="flex items-center justify-center gap-2 w-full h-[200px]">
+      {/** flex-wrap for carousel or mosaico */}
+      <ul className="flex items-center justify-start gap-2 w-full overflow-scroll no-scrollbar">
         {clothes && clothes.length > 0 ? (
-          clothes.map((c) => <p>Clothe</p>)
+          clothes.map((c) => (
+            <img
+            key={c.id}
+              src={c.imageUrl}
+              className="rounded-xl border-2 mx-auto h-64 w-64 cursor-pointer object-contain"
+            />
+          ))
         ) : (
-          <p className="text-nowrap">There is no clothes yet</p>
+          <p className="text-nowrap w-full text-center">There is no clothes yet</p>
         )}
       </ul>
 
@@ -128,9 +130,19 @@ export default function ClotheSlider({
                   onChange={() => setIsPublic(!isPublic)}
                 />
                 {isPublic ? (
-                  <span className="text-blue-400 font-semibold" onClick={()=>setIsPublic(false)}>Public</span>
+                  <span
+                    className="text-blue-400 font-semibold"
+                    onClick={() => setIsPublic(false)}
+                  >
+                    Public
+                  </span>
                 ) : (
-                  <span className="text-pink-400 font-semibold" onClick={()=>setIsPublic(true)}>Private</span>
+                  <span
+                    className="text-pink-400 font-semibold"
+                    onClick={() => setIsPublic(true)}
+                  >
+                    Private
+                  </span>
                 )}
               </fieldset>
 

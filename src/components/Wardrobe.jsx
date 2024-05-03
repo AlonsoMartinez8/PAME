@@ -9,6 +9,15 @@ export default function Wardrobe({ wardrobeId, categories, clothes }) {
 
   const handleCategorySelect = (categoryId) => {
     setSelectedCategory(categoryId);
+    
+    if(selectedCategory==="All categories"){
+      setClothesByCategorySelected(clothes)
+    }else{
+      const clothesByCategory = clothes.filter(c=>c.categoryId==categoryId)
+      setClothesByCategorySelected(clothesByCategory)
+    }
+
+    
   };
 
   return (
