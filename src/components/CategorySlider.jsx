@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CategoryItem from "@c/CategoryItem.jsx";
 
-export default function CategorySlider({ wardrobeId, categories }) {
+export default function CategorySlider({ wardrobeId, categories, showConfig }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("All categories");
 
@@ -10,8 +10,12 @@ export default function CategorySlider({ wardrobeId, categories }) {
   };
 
   return (
-    <nav className="py-2 grid items-center grid-cols-10 gap-2 ">
-      <ul className="col-span-8 flex items-center justify-start gap-2 overflow-x-scroll no-scrollbar">
+    <nav className="w-full py-2 grid items-center grid-cols-10 gap-2 ">
+      <ul
+        className={`${
+          showConfig ? "col-span-8" : "col-span-full"
+        } flex items-center justify-start gap-2 overflow-x-scroll no-scrollbar`}
+      >
         <CategoryItem
           selected={selected === "All categories"}
           name="All categories"
@@ -30,14 +34,17 @@ export default function CategorySlider({ wardrobeId, categories }) {
           <p className="text-nowrap">There are no categories yet</p>
         )}
       </ul>
-      <aside className="col-span-2 flex justify-end items-center gap-2">
-        <button className="rounded-md" onClick={() => setIsOpen(true)}>
-          <i className="text-2xl ri-add-line"></i>
-        </button>
-        <button className="rounded-md">
-          <i className="text-2xl ri-settings-2-line"></i>
-        </button>
-      </aside>
+      {showConfig && (
+        <aside className="col-span-2 flex justify-between md:justify-end items-center gap-2">
+          <button className="rounded-md" onClick={() => setIsOpen(true)}>
+            <i className="text-2xl ri-add-line"></i>
+          </button>
+          <button className="rounded-md">
+            <i className="text-2xl ri-settings-2-line"></i>
+          </button>
+        </aside>
+      )}
+
       <dialog
         className={`w-screen h-screen top-0 left-0 ${
           isOpen ? "flex" : "hidden"

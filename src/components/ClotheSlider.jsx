@@ -1,7 +1,22 @@
 import { useState } from "react";
+import mockup from "@/../public/img/mockup.png";
+import CategorySlider from "./CategorySlider";
 
-export default function ClotheSlider({ wardrobeId, categoryId, clothes }) {
+export default function ClotheSlider({
+  wardrobeId,
+  selectedCategory,
+  categories,
+  clothes,
+}) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isPublic, setIsPublic] = useState(false);
+  const [selectedNewClotheImage, setSelectedNewClotheImage] = useState(
+    mockup.src
+  );
+
+  const handleNewClotheImageClick = () => {
+    document.getElementById("fileInput").click();
+  };
 
   return (
     <nav className="py-2 items-start flex flex-col justify-start gap-2 ">
@@ -10,7 +25,7 @@ export default function ClotheSlider({ wardrobeId, categoryId, clothes }) {
           <i className="text-2xl ri-dashboard-horizontal-fill"></i>
         </button>
         <button className="rounded-md">
-          <i class="text-2xl ri-carousel-view"></i>
+          <i className="text-2xl ri-carousel-view"></i>
         </button>
         <button className="rounded-md" onClick={() => setIsOpen(true)}>
           <i className="text-2xl ri-add-line"></i>
@@ -42,13 +57,17 @@ export default function ClotheSlider({ wardrobeId, categoryId, clothes }) {
               method="POST"
             >
               <input type="hidden" name="wardrobeId" value={wardrobeId} />
-              <p>image</p>
+              <img
+                src={selectedNewClotheImage}
+                className="mx-auto rounded-xl border-2 max-h-64 cursor-pointer"
+                onClick={handleNewClotheImageClick}
+              />
+              <input type="file" name="file" className="hidden" id="fileInput" />
               <input
                 className="bg-transparent py-1 px-4 w-full border-2 rounded-xl"
                 type="text"
                 name="name"
                 placeholder="Name"
-                required
               />
               <input
                 className="bg-transparent py-1 px-4 w-full border-2 rounded-xl"
@@ -56,15 +75,33 @@ export default function ClotheSlider({ wardrobeId, categoryId, clothes }) {
                 name="description"
                 placeholder="Description"
               />
-              <p>category</p>
+              <CategorySlider
+                wardrobeId={wardrobeId}
+                categories={categories}
+                showConfig={false}
+              />
               <input
                 className="bg-transparent py-1 px-4 w-full border-2 rounded-xl"
                 type="url"
                 name="link"
                 placeholder="Link"
               />
-              <p>public</p>
-              <button className="px-4 py-2 rounded-xl border-2 mx-auto">
+              <fieldset className="flex items-center justify-start gap-2">
+                <input
+                  type="checkbox"
+                  className="w-5 aspect-square border-2"
+                  checked={isPublic}
+                  name="public"
+                  placeholder="public"
+                  value={isPublic}
+                  onChange={() => setIsPublic(!isPublic)}
+                />
+                {isPublic?(<span className="text-blue-400 font-semibold">Public</span>):(<span className="text-pink-400 font-semibold">Private</span>)}
+              </fieldset>
+              <button
+                type="submit"
+                className="px-4 py-2 rounded-xl border-2 mx-auto"
+              >
                 Add clothe
               </button>
             </form>
