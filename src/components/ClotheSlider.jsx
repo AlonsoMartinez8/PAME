@@ -1,6 +1,8 @@
 import { useState } from "react";
 import mockup from "@/../public/img/mockup.png";
-import CategorySlider from "./CategorySlider";
+import { getURL, uploadFile } from "@/firebase/config";
+import CategorySlider from "@c/CategorySlider.jsx";
+import { generateId } from "lucia";
 
 export default function ClotheSlider({
   wardrobeId,
@@ -13,9 +15,30 @@ export default function ClotheSlider({
   const [selectedNewClotheImage, setSelectedNewClotheImage] = useState(
     mockup.src
   );
+  const [newClotheId, setNewClotheId] = useState(null);
+
+  const newIdForClothe = () => {
+    setNewClotheId(generateId(15));
+  };
+
+  const [newClotheCategory, setNewClotheCategory] = useState("All categories");
 
   const handleNewClotheImageClick = () => {
     document.getElementById("fileInput").click();
+  };
+
+  const handleFileInputChange = async (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      newIdForClothe();
+      await uploadFile(selectedFile, `clothes/${wardrobeId}`, newClotheId);
+      const url = await getURL(`clothes/${wardrobeId}`, newClotheId);
+      setSelectedNewClotheImage(url);
+    }
+  };
+
+  const handleNewClotheCategory = (categoryId) => {
+    setNewClotheCategory(categoryId);
   };
 
   return (
@@ -38,6 +61,8 @@ export default function ClotheSlider({
           <p className="text-nowrap">There is no clothes yet</p>
         )}
       </ul>
+
+      {/** NEW CLOTHE FORM */}
       <dialog
         className={`w-screen h-screen top-0 left-0 ${
           isOpen ? "flex" : "hidden"
@@ -56,36 +81,42 @@ export default function ClotheSlider({
               action="api/newClothe"
               method="POST"
             >
+              {/** CLOTHE ID */}
+              <input type="hidden" name="id" value={newClotheId} />
+
+              {/** WARDROBE */}
               <input type="hidden" name="wardrobeId" value={wardrobeId} />
-              <img
-                src={selectedNewClotheImage}
-                className="mx-auto rounded-xl border-2 max-h-64 cursor-pointer"
-                onClick={handleNewClotheImageClick}
+
+              {/** CATEGORY */}
+              <input
+                type="hidden"
+                name="categoryId"
+                value={newClotheCategory}
               />
-              <input type="file" name="file" className="hidden" id="fileInput" />
+              <CategorySlider
+                wardrobeId={wardrobeId}
+                categories={categories}
+                showConfig={false}
+                onCategorySelect={handleNewClotheCategory}
+              />
+
+              {/** NAME */}
               <input
                 className="bg-transparent py-1 px-4 w-full border-2 rounded-xl"
                 type="text"
                 name="name"
                 placeholder="Name"
               />
+
+              {/** DESCRIPTION */}
               <input
                 className="bg-transparent py-1 px-4 w-full border-2 rounded-xl"
                 type="text"
                 name="description"
                 placeholder="Description"
               />
-              <CategorySlider
-                wardrobeId={wardrobeId}
-                categories={categories}
-                showConfig={false}
-              />
-              <input
-                className="bg-transparent py-1 px-4 w-full border-2 rounded-xl"
-                type="url"
-                name="link"
-                placeholder="Link"
-              />
+
+              {/** PUBLIC */}
               <fieldset className="flex items-center justify-start gap-2">
                 <input
                   type="checkbox"
@@ -96,8 +127,41 @@ export default function ClotheSlider({
                   value={isPublic}
                   onChange={() => setIsPublic(!isPublic)}
                 />
-                {isPublic?(<span className="text-blue-400 font-semibold">Public</span>):(<span className="text-pink-400 font-semibold">Private</span>)}
+                {isPublic ? (
+                  <span className="text-blue-400 font-semibold" onClick={()=>setIsPublic(false)}>Public</span>
+                ) : (
+                  <span className="text-pink-400 font-semibold" onClick={()=>setIsPublic(true)}>Private</span>
+                )}
               </fieldset>
+
+              {/** IMAGE */}
+              <input
+                type="file"
+                name="file"
+                className="hidden"
+                id="fileInput"
+                onChange={handleFileInputChange}
+              />
+              <input
+                type="hidden"
+                name="imageUrl"
+                value={selectedNewClotheImage}
+              />
+              <img
+                src={selectedNewClotheImage}
+                className="mx-auto rounded-xl border-2 h-64 w-full cursor-pointer object-contain"
+                onClick={handleNewClotheImageClick}
+              />
+
+              {/** LINK */}
+              <input
+                className="bg-transparent py-1 px-4 w-full border-2 rounded-xl"
+                type="url"
+                name="link"
+                placeholder="Link"
+              />
+
+              {/** SUBMIT */}
               <button
                 type="submit"
                 className="px-4 py-2 rounded-xl border-2 mx-auto"

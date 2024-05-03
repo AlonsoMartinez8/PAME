@@ -1,12 +1,13 @@
 import { useState } from "react";
 import CategoryItem from "@c/CategoryItem.jsx";
 
-export default function CategorySlider({ wardrobeId, categories, showConfig }) {
+export default function CategorySlider({ wardrobeId, categories, showConfig, onCategorySelect }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("All categories");
 
   const handleItemClick = (categoryId) => {
     setSelected(categoryId);
+    onCategorySelect(categoryId);
   };
 
   return (

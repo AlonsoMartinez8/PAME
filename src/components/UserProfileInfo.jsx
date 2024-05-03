@@ -11,7 +11,7 @@ export default function UserProfileInfo({ dbUser }) {
   return (
     <>
       <article className="w-full py-2 border-b-2 flex items-end justify-end gap-4">
-        <h1 className="text-5xl text-end text-transparent py-1 font-semibold bg-gradient-to-r from-indigo-300 via-green-300 to-slate-300 w-fit bg-clip-text">
+        <h1 className="text-3xl text-end text-transparent py-1 font-semibold bg-gradient-to-r from-indigo-300 via-green-300 to-slate-300 w-fit bg-clip-text">
           {dbUser ? username : "No User Found"}
         </h1>
       </article>
