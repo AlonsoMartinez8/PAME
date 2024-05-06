@@ -2,11 +2,16 @@ import { useState } from "react";
 import CategoryItem from "@c/CategoryItem.jsx";
 
 export default function CategorySlider({ wardrobeId, categories, showConfig, onCategorySelect }) {
+  // State of the 'New Category' modal visibility
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("All categories");
+  // Category selected
+  const [selected, setSelected] = useState("all");
 
+  // Function that handles the click event on a category item
   const handleItemClick = (categoryId) => {
+    // sets the selected category hook value
     setSelected(categoryId);
+    // Sends the category selected to father component
     onCategorySelect(categoryId);
   };
 
@@ -18,9 +23,9 @@ export default function CategorySlider({ wardrobeId, categories, showConfig, onC
         } flex items-center justify-start gap-2 overflow-x-scroll no-scrollbar`}
       >
         <CategoryItem
-          selected={selected === "All categories"}
+          selected={selected === "all"}
           name="All categories"
-          onClick={() => handleItemClick("All categories")}
+          onClick={() => handleItemClick("all")}
         />
         {categories && categories.length > 0 ? (
           categories.map((c) => (

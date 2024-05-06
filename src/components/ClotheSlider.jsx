@@ -5,35 +5,58 @@ import CategorySlider from "@c/CategorySlider.jsx";
 import { generateId } from "lucia";
 
 export default function ClotheSlider({ wardrobeId, categories, clothes }) {
+  // State of the 'New Clothe' modal visibility
   const [isOpen, setIsOpen] = useState(false);
+  // State of the privacity of the new clothe
   const [isPublic, setIsPublic] = useState(false);
+  // Image url of the new clothe
   const [selectedNewClotheImage, setSelectedNewClotheImage] = useState(
     mockup.src
   );
+  // ID of the new clothe
   const [newClotheId, setNewClotheId] = useState(null);
+  // Category selected for the new clothe
   const [newClotheCategory, setNewClotheCategory] = useState("All categories");
 
+  // Function that generates a new ID
   const newIdForClothe = () => {
     setNewClotheId(generateId(15));
   };
 
+  // Function that handles the click event on file input
   const handleNewClotheImageClick = () => {
     document.getElementById("fileInput").click();
   };
 
+  // Functions that handles the file input change
+  /**m
+   * #ISSUES #UPGRADE #OPTIMIZE
+   * It uploads every file user selects.
+   * These files will be taking up storage unnecessarily
+   *
+   */
   const handleFileInputChange = async (event) => {
+    // Variable that contains the file
     const selectedFile = event.target.files[0];
+
+    // Verify if there's a file selected
     if (selectedFile) {
+      // Generate a new ID for clothe
       newIdForClothe();
+      // Upload file to Firebase and get URL
       await uploadFile(selectedFile, `clothes/${wardrobeId}`, newClotheId);
       const url = await getURL(`clothes/${wardrobeId}`, newClotheId);
       setSelectedNewClotheImage(url);
     }
   };
 
+  // Function that handles the selection of the new clothe category
   const handleNewClotheCategory = (categoryId) => {
-    if (!categoryId) setNewClotheCategory("All categories");
-    setNewClotheCategory(categoryId);
+    if (!categoryId) {
+      setNewClotheCategory("all");
+    } else {
+      setNewClotheCategory(categoryId);
+    }
   };
 
   return (
@@ -49,22 +72,24 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
           <i className="text-2xl ri-add-line"></i>
         </button>
       </aside>
-      {/** flex-wrap for carousel or mosaico */}
+      {/** flex-wrap for carousel / flex-nowrap mosaico */}
       <ul className="flex items-center justify-start gap-2 w-full overflow-scroll no-scrollbar">
         {clothes && clothes.length > 0 ? (
           clothes.map((c) => (
             <img
-            key={c.id}
+              key={c.id}
               src={c.imageUrl}
               className="rounded-xl border-2 mx-auto h-64 w-64 cursor-pointer object-contain"
             />
           ))
         ) : (
-          <p className="text-nowrap w-full text-center">There is no clothes yet</p>
+          <p className="text-nowrap w-full text-center">
+            There is no clothes yet
+          </p>
         )}
       </ul>
 
-      {/** NEW CLOTHE FORM */}
+      {/** NEW CLOTHE MODAL */}
       <dialog
         className={`w-screen h-screen top-0 left-0 ${
           isOpen ? "flex" : "hidden"

@@ -3,21 +3,26 @@ import CategorySlider from "./CategorySlider";
 import ClotheSlider from "./ClotheSlider";
 
 export default function Wardrobe({ wardrobeId, categories, clothes }) {
-  const [selectedCategory, setSelectedCategory] = useState("All categories");
+  // Category selected on category slider hook
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
+  // Clothes by category selected hook
   const [clothesByCategorySelected, setClothesByCategorySelected] =
     useState(null);
 
+  // Function to handle the category selection on category slider
   const handleCategorySelect = (categoryId) => {
+    // Change value of the category selected hook
     setSelectedCategory(categoryId);
-    
-    if(selectedCategory==="All categories"){
+    // Check if category selected is 'all categories'
+    // If 'all categories' is selected set all wardrobe clothes on the state hook
+    // If it isn't, filter all clothes by category and set'em on the state hook
+    if(selectedCategory==="all"){
       setClothesByCategorySelected(clothes)
     }else{
       const clothesByCategory = clothes.filter(c=>c.categoryId==categoryId)
       setClothesByCategorySelected(clothesByCategory)
-    }
-
-    
+    }   
   };
 
   return (
