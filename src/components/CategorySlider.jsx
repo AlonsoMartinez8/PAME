@@ -26,7 +26,7 @@ export default function CategorySlider({
   return (
     <nav className="w-full py-2 grid items-center grid-cols-10 gap-2 ">
       <div
-        id="sider"
+        id="categorySlider"
         className={`${
           showConfig ? "col-span-8 md:col-span-9" : "col-span-full"
         } overflow-hidden`}

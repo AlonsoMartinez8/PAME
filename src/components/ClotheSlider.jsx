@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import mockup from "@/../public/img/mockup.png";
 import { getURL, uploadFile } from "@/firebase/config";
 import CategorySlider from "@c/CategorySlider.jsx";
 import { generateId } from "lucia";
+import { motion } from "framer-motion";
 
 export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   // State of the 'New Clothe' modal visibility
@@ -17,6 +18,8 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   const [newClotheId, setNewClotheId] = useState(null);
   // Category selected for the new clothe
   const [newClotheCategory, setNewClotheCategory] = useState("All categories");
+  // Slider ref hook
+  const sliderRef = useRef(null);
 
   // Function that generates a new ID
   const newIdForClothe = () => {
@@ -72,22 +75,29 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
           <i className="text-2xl ri-add-line"></i>
         </button>
       </aside>
-      {/** flex-wrap for carousel / flex-nowrap mosaico */}
-      <ul className="flex items-center justify-start gap-2 w-full overflow-scroll no-scrollbar">
-        {clothes && clothes.length > 0 ? (
-          clothes.map((c) => (
-            <img
-              key={c.id}
-              src={c.imageUrl}
-              className="rounded-xl border-2 mx-auto h-64 w-64 cursor-pointer object-contain"
-            />
-          ))
-        ) : (
-          <p className="text-nowrap w-full text-center">
-            There is no clothes yet
-          </p>
-        )}
-      </ul>
+
+      <div id="clotheSlider" className="w-full overflow-hidden" ref={sliderRef}>
+        {/** flex-wrap for carousel / flex-nowrap mosaico */}
+        <motion.ul
+          drag="x"
+          dragConstraints={sliderRef}
+          className="flex items-center justify-start gap-2 w-fit mx-auto px-20"
+        >
+          {clothes && clothes.length > 0 ? (
+            clothes.map((c) => (
+              <img
+                key={c.id}
+                src={c.imageUrl}
+                className="rounded-xl border-2 mx-auto h-64 w-64 cursor-pointer object-contain"
+              />
+            ))
+          ) : (
+            <p className="text-nowrap w-full text-center">
+              There is no clothes yet
+            </p>
+          )}
+        </motion.ul>
+      </div>
 
       {/** NEW CLOTHE MODAL */}
       <dialog
