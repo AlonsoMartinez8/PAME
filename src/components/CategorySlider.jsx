@@ -19,7 +19,7 @@ export default function CategorySlider({ wardrobeId, categories, showConfig, onC
     <nav className="w-full py-2 grid items-center grid-cols-10 gap-2 ">
       <ul
         className={`${
-          showConfig ? "col-span-8" : "col-span-full"
+          showConfig ? "col-span-8 md:col-span-9" : "col-span-full"
         } flex items-center justify-start gap-2 overflow-x-scroll no-scrollbar`}
       >
         <CategoryItem
@@ -41,7 +41,7 @@ export default function CategorySlider({ wardrobeId, categories, showConfig, onC
         )}
       </ul>
       {showConfig && (
-        <aside className="col-span-2 flex justify-between md:justify-end items-center gap-2">
+        <aside className="col-span-2 md:col-span-1 flex justify-between md:justify-end items-center gap-2">
           <button className="rounded-md" onClick={() => setIsOpen(true)}>
             <i className="text-2xl ri-add-line"></i>
           </button>
