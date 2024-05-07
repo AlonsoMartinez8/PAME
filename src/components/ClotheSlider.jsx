@@ -8,9 +8,16 @@ import { motion } from "framer-motion";
 export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   // Slider ref hook
   const sliderRef = useRef(null);
-  // New Clothe Modal Visibility
+  // New Clothe Modal Visibility state hook
   const [newClotheModalVisibility, setNewClotheModalVisibility] =
     useState(false);
+  // New Clothe Category Selected state hook
+  const [newClotheCategorySelected, setNewClotheCategorySelected] = useState("")
+
+  // Function that handles the selection of a category for the new clothe
+  const handleNewClotheCategorySelect = (categoryId)=>{
+    setNewClotheCategorySelected(categoryId)
+  }
 
   return (
     <>
@@ -84,25 +91,25 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
               <i className="text-2xl ri-close-line"></i>
             </button>
           </header>
+
           {/** FORM */}
           <main>
+          {/** action="api/newClothe" */}
             <form
               className="flex flex-col items-start justify-start gap-4"
-              action="api/newClothe"
               method="POST"
             >
-              {/** CLOTHE ID */}
-              <input type="hidden" name="id" />
-
               {/** WARDROBE */}
               <input type="hidden" name="wardrobeId" value={wardrobeId} />
 
               {/** CATEGORY */}
-              <input type="hidden" name="categoryId" />
+              <input type="hidden" name="categoryId" value={newClotheCategorySelected} required/>
               <CategorySlider
                 wardrobeId={wardrobeId}
                 categories={categories}
                 showConfig={false}
+                showAll={false}
+                onCategorySelect={handleNewClotheCategorySelect}
               />
 
               {/** NAME */}

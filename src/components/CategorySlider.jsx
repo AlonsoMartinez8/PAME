@@ -6,6 +6,7 @@ export default function CategorySlider({
   wardrobeId,
   categories,
   showConfig,
+  showAll,
   onCategorySelect,
 }) {
   // State of the 'New Category' modal visibility
@@ -38,11 +39,13 @@ export default function CategorySlider({
             dragConstraints={sliderRef}
             className="flex items-center justify-start gap-2 w-fit pr-[20%]"
           >
-            <CategoryItem
-              selected={selected === "all"}
-              name="All categories"
-              onClick={() => handleItemClick("all")}
-            />
+            {showAll && (
+              <CategoryItem
+                selected={selected === "all"}
+                name="All categories"
+                onClick={() => handleItemClick("all")}
+              />
+            )}
             {categories && categories.length > 0 ? (
               categories.map((c) => (
                 <CategoryItem
@@ -69,7 +72,7 @@ export default function CategorySlider({
           </aside>
         )}
       </nav>
-      
+
       {showConfig && (
         <dialog
           className={`w-screen h-screen top-0 left-0 ${

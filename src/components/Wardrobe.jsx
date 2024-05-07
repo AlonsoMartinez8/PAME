@@ -31,6 +31,7 @@ export default function Wardrobe({ wardrobeId, categories, clothes }) {
         wardrobeId={wardrobeId}
         categories={categories}
         showConfig={true}
+        showAll={true}
         onCategorySelect={handleCategorySelect}
       />
       <ClotheSlider
