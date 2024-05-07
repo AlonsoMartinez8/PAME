@@ -6,77 +6,36 @@ import { generateId } from "lucia";
 import { motion } from "framer-motion";
 
 export default function ClotheSlider({ wardrobeId, categories, clothes }) {
-  // State of the 'New Clothe' modal visibility
-  const [isOpen, setIsOpen] = useState(false);
-  // State of the privacity of the new clothe
-  const [isPublic, setIsPublic] = useState(false);
-  // Image url of the new clothe
-  const [selectedNewClotheImage, setSelectedNewClotheImage] = useState(
-    mockup.src
-  );
-  // ID of the new clothe
-  const [newClotheId, setNewClotheId] = useState(null);
-  // Category selected for the new clothe
-  const [newClotheCategory, setNewClotheCategory] = useState("All categories");
   // Slider ref hook
   const sliderRef = useRef(null);
-
-  // Function that generates a new ID
-  const newIdForClothe = () => {
-    setNewClotheId(generateId(15));
-  };
-
-  // Function that handles the click event on file input
-  const handleNewClotheImageClick = () => {
-    document.getElementById("fileInput").click();
-  };
-
-  // Functions that handles the file input change
-  /**m
-   * #ISSUES #UPGRADE #OPTIMIZE
-   * It uploads every file user selects.
-   * These files will be taking up storage unnecessarily
-   *
-   */
-  const handleFileInputChange = async (event) => {
-    // Variable that contains the file
-    const selectedFile = event.target.files[0];
-
-    // Verify if there's a file selected
-    if (selectedFile) {
-      // Generate a new ID for clothe
-      newIdForClothe();
-      // Upload file to Firebase and get URL
-      await uploadFile(selectedFile, `clothes/${wardrobeId}`, newClotheId);
-      const url = await getURL(`clothes/${wardrobeId}`, newClotheId);
-      setSelectedNewClotheImage(url);
-    }
-  };
-
-  // Function that handles the selection of the new clothe category
-  const handleNewClotheCategory = (categoryId) => {
-    if (!categoryId) {
-      setNewClotheCategory("all");
-    } else {
-      setNewClotheCategory(categoryId);
-    }
-  };
+  // New Clothe Modal Visibility
+  const [newClotheModalVisibility, setNewClotheModalVisibility] =
+    useState(false);
 
   return (
     <nav className="py-2 items-start flex flex-col justify-start gap-4 ">
+      {/** CONFIGURATION */}
       <aside className="flex justify-end items-center gap-2">
+        {/** MOSSAICO VIEW */}
         <button className="rounded-md">
           <i className="text-2xl ri-dashboard-horizontal-fill"></i>
         </button>
+        {/** CAROUSEL VIEW */}
         <button className="rounded-md">
           <i className="text-2xl ri-carousel-view"></i>
         </button>
-        <button className="rounded-md" onClick={() => setIsOpen(true)}>
+        {/** ADD CLOTHE */}
+        <button
+          className="rounded-md"
+          onClick={() => setNewClotheModalVisibility(!newClotheModalVisibility)}
+        >
           <i className="text-2xl ri-add-line"></i>
         </button>
       </aside>
 
+      {/** SLIDER */}
       <div id="clotheSlider" className="w-full overflow-hidden" ref={sliderRef}>
+        {/** CLOTHE LIST */}
         {/** flex-wrap for carousel / flex-nowrap mosaico */}
         <motion.ul
           drag="x"
@@ -93,25 +52,28 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
             ))
           ) : (
             <p className="text-nowrap w-full text-center">
-              There is no clothes yet
+              There are no clothes yet
             </p>
           )}
         </motion.ul>
       </div>
 
       {/** NEW CLOTHE MODAL */}
+
       <dialog
-        className={`w-screen h-screen top-0 left-0 ${
-          isOpen ? "flex" : "hidden"
-        } items-center z-50 backdrop-blur-md bg-slate-800/50`}
+        className={`${
+          newClotheModalVisibility ? "flex" : "hidden"
+        } w-screen h-screen top-0 left-0 items-center z-50 backdrop-blur-md bg-slate-800/50`}
       >
         <div className="m-auto w-[90%] md:max-w-[500px] bg-gradient-to-r from-slate-900 to-indigo-900 back p-4 rounded-xl">
+          {/** HEADER */}
           <header className="flex items-center justify-between gap-4 pb-4">
             <h1 className="text-2xl">New Clothe</h1>
-            <button onClick={() => setIsOpen(false)}>
+            <button onClick={() => setNewClotheModalVisibility(!newClotheModalVisibility)}>
               <i className="text-2xl ri-close-line"></i>
             </button>
           </header>
+          {/** FORM */}
           <main>
             <form
               className="flex flex-col items-start justify-start gap-4"
@@ -119,22 +81,17 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
               method="POST"
             >
               {/** CLOTHE ID */}
-              <input type="hidden" name="id" value={newClotheId} />
+              <input type="hidden" name="id" />
 
               {/** WARDROBE */}
               <input type="hidden" name="wardrobeId" value={wardrobeId} />
 
               {/** CATEGORY */}
-              <input
-                type="hidden"
-                name="categoryId"
-                value={newClotheCategory}
-              />
+              <input type="hidden" name="categoryId" />
               <CategorySlider
                 wardrobeId={wardrobeId}
                 categories={categories}
                 showConfig={false}
-                onCategorySelect={handleNewClotheCategory}
               />
 
               {/** NAME */}
@@ -153,17 +110,17 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
                 placeholder="Description"
               />
 
-              {/** PUBLIC */}
+              {/** CLOTHE PRIVACITY */}
               <fieldset className="flex items-center justify-start gap-2">
+                {/** CHECK BOX */}
                 <input
                   type="checkbox"
                   className="w-5 aspect-square border-2"
-                  checked={isPublic}
-                  name="public"
-                  placeholder="public"
-                  value={isPublic}
-                  onChange={() => setIsPublic(!isPublic)}
+                  name="clothePrivacity"
                 />
+                {/** TEXT*/}
+                <span className="text-blue-400 font-semibold">Public</span>
+                {/**
                 {isPublic ? (
                   <span
                     className="text-blue-400 font-semibold"
@@ -178,7 +135,8 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
                   >
                     Private
                   </span>
-                )}
+                )} 
+                */}
               </fieldset>
 
               {/** IMAGE */}
@@ -187,17 +145,11 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
                 name="file"
                 className="hidden"
                 id="fileInput"
-                onChange={handleFileInputChange}
               />
-              <input
-                type="hidden"
-                name="imageUrl"
-                value={selectedNewClotheImage}
-              />
+              <input type="hidden" name="imageUrl" />
               <img
-                src={selectedNewClotheImage}
+                src={mockup.src}
                 className="mx-auto rounded-xl border-2 h-64 w-full cursor-pointer object-contain"
-                onClick={handleNewClotheImageClick}
               />
 
               {/** LINK */}
