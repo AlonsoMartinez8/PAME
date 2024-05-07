@@ -13,53 +13,60 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
     useState(false);
 
   return (
-    <nav className="py-2 items-start flex flex-col justify-start gap-4 ">
-      {/** CONFIGURATION */}
-      <aside className="flex justify-end items-center gap-2">
-        {/** MOSSAICO VIEW */}
-        <button className="rounded-md">
-          <i className="text-2xl ri-dashboard-horizontal-fill"></i>
-        </button>
-        {/** CAROUSEL VIEW */}
-        <button className="rounded-md">
-          <i className="text-2xl ri-carousel-view"></i>
-        </button>
-        {/** ADD CLOTHE */}
-        <button
-          className="rounded-md"
-          onClick={() => setNewClotheModalVisibility(!newClotheModalVisibility)}
-        >
-          <i className="text-2xl ri-add-line"></i>
-        </button>
-      </aside>
+    <>
+      <nav className="py-2 items-start flex flex-col justify-start gap-4 ">
+        {/** CONFIGURATION */}
+        <aside className="flex justify-end items-center gap-2">
+          {/** MOSSAICO VIEW */}
+          <button className="rounded-md">
+            <i className="text-2xl ri-dashboard-horizontal-fill"></i>
+          </button>
+          {/** CAROUSEL VIEW */}
+          <button className="rounded-md">
+            <i className="text-2xl ri-carousel-view"></i>
+          </button>
+          {/** ADD CLOTHE */}
+          <button
+            className="rounded-md"
+            onClick={() =>
+              setNewClotheModalVisibility(!newClotheModalVisibility)
+            }
+          >
+            <i className="text-2xl ri-add-line"></i>
+          </button>
+        </aside>
 
-      {/** SLIDER */}
-      <div id="clotheSlider" className="w-full overflow-hidden" ref={sliderRef}>
-        {/** CLOTHE LIST */}
-        {/** flex-wrap for carousel / flex-nowrap mosaico */}
-        <motion.ul
-          drag="x"
-          dragConstraints={sliderRef}
-          className="flex items-center justify-start gap-2 w-fit mx-auto px-20"
+        {/** SLIDER */}
+        <div
+          id="clotheSlider"
+          className="w-full overflow-hidden"
+          ref={sliderRef}
         >
-          {clothes && clothes.length > 0 ? (
-            clothes.map((c) => (
-              <img
-                key={c.id}
-                src={c.imageUrl}
-                className="rounded-xl border-2 mx-auto h-64 w-64 cursor-pointer object-contain"
-              />
-            ))
-          ) : (
-            <p className="text-nowrap w-full text-center">
-              There are no clothes yet
-            </p>
-          )}
-        </motion.ul>
-      </div>
+          {/** CLOTHE LIST */}
+          {/** flex-wrap for carousel / flex-nowrap mosaico */}
+          <motion.ul
+            drag="x"
+            dragConstraints={sliderRef}
+            className="flex items-center justify-start gap-2 w-fit mx-auto px-20"
+          >
+            {clothes && clothes.length > 0 ? (
+              clothes.map((c) => (
+                <img
+                  key={c.id}
+                  src={c.imageUrl}
+                  className="rounded-xl border-2 mx-auto h-64 w-64 cursor-pointer object-contain"
+                />
+              ))
+            ) : (
+              <p className="text-nowrap w-full text-center">
+                There are no clothes yet
+              </p>
+            )}
+          </motion.ul>
+        </div>
+      </nav>
 
       {/** NEW CLOTHE MODAL */}
-
       <dialog
         className={`${
           newClotheModalVisibility ? "flex" : "hidden"
@@ -69,7 +76,11 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
           {/** HEADER */}
           <header className="flex items-center justify-between gap-4 pb-4">
             <h1 className="text-2xl">New Clothe</h1>
-            <button onClick={() => setNewClotheModalVisibility(!newClotheModalVisibility)}>
+            <button
+              onClick={() =>
+                setNewClotheModalVisibility(!newClotheModalVisibility)
+              }
+            >
               <i className="text-2xl ri-close-line"></i>
             </button>
           </header>
@@ -171,6 +182,6 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
           </main>
         </div>
       </dialog>
-    </nav>
+    </>
   );
 }
