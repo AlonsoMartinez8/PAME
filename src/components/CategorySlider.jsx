@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import CategoryItem from "@c/CategoryItem.jsx";
+import { motion } from "framer-motion";
 
-export default function CategorySlider({ wardrobeId, categories, showConfig, onCategorySelect }) {
+export default function CategorySlider({
+  wardrobeId,
+  categories,
+  showConfig,
+  onCategorySelect,
+}) {
   // State of the 'New Category' modal visibility
   const [isOpen, setIsOpen] = useState(false);
   // Category selected
   const [selected, setSelected] = useState("all");
+  // Ref hook for slider
+  const sliderRef = useRef(null);
 
   // Function that handles the click event on a category item
   const handleItemClick = (categoryId) => {
@@ -17,29 +25,38 @@ export default function CategorySlider({ wardrobeId, categories, showConfig, onC
 
   return (
     <nav className="w-full py-2 grid items-center grid-cols-10 gap-2 ">
-      <ul
+      <div
+        id="sider"
         className={`${
           showConfig ? "col-span-8 md:col-span-9" : "col-span-full"
-        } flex items-center justify-start gap-2 overflow-x-scroll no-scrollbar`}
+        } overflow-hidden`}
+        ref={sliderRef}
       >
-        <CategoryItem
-          selected={selected === "all"}
-          name="All categories"
-          onClick={() => handleItemClick("all")}
-        />
-        {categories && categories.length > 0 ? (
-          categories.map((c) => (
-            <CategoryItem
-              key={c.id}
-              selected={selected === c.id}
-              name={c.name}
-              onClick={() => handleItemClick(c.id)}
-            />
-          ))
-        ) : (
-          <p className="text-nowrap">There are no categories yet</p>
-        )}
-      </ul>
+        <motion.ul
+          drag="x"
+          dragConstraints={sliderRef}
+          className="flex items-center justify-start gap-2 w-fit pr-[20%]"
+        >
+          <CategoryItem
+            selected={selected === "all"}
+            name="All categories"
+            onClick={() => handleItemClick("all")}
+          />
+          {categories && categories.length > 0 ? (
+            categories.map((c) => (
+              <CategoryItem
+                key={c.id}
+                selected={selected === c.id}
+                name={c.name}
+                onClick={() => handleItemClick(c.id)}
+              />
+            ))
+          ) : (
+            <p className="text-nowrap">There are no categories yet</p>
+          )}
+        </motion.ul>
+      </div>
+
       {showConfig && (
         <aside className="col-span-2 md:col-span-1 flex justify-between md:justify-end items-center gap-2">
           <button className="rounded-md" onClick={() => setIsOpen(true)}>
