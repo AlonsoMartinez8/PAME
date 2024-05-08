@@ -2,18 +2,28 @@ import { useEffect, useRef, useState } from "react";
 import mockup from "@/../public/img/mockup.png";
 import CategorySlider from "@c/CategorySlider.jsx";
 import { motion } from "framer-motion";
+import { getURL, uploadFile } from "@/firebase/config";
+import { generateId } from "lucia";
 
 export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   // Slider ref hook
   const sliderRef = useRef(null);
+  // Form ref hook
+  const formRef = useRef(null);
+  // New clothe id
+  const [newClotheId, setNewClotheId] = useState("");
   // New Clothe Modal Visibility state hook
   const [newClotheModalVisibility, setNewClotheModalVisibility] =
     useState(false);
   // New Clothe Category Selected state hook
   const [newClotheCategorySelected, setNewClotheCategorySelected] =
     useState("");
-  // File selected on fileInput URL form image source state hook
+  // File selected on fileInput URL for image source state hook
   const [fileURL, setFileURL] = useState("");
+  // File to upload
+  const [file, setFile] = useState(null);
+  // Uploaded file URL
+  const [imageURL, setImageURL] = useState("");
   // Display mode for slider
   const [carouselMode, setCarouselMode] = useState(true);
 
@@ -30,13 +40,51 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   // Function that handles the change of the fileInput
   const handleFileInputChange = (event) => {
     const newFile = event.target.files[0];
+
     const reader = new FileReader();
     reader.onload = (event) => {
       const dataURL = event.target.result;
       setFileURL(dataURL);
     };
     reader.readAsDataURL(newFile);
+
+    setFile(newFile);
   };
+
+  // Function that handles the form submit
+  // It creates the ID for the new clothe making the
+  // useEffect hook act in consecuence
+  const handleFormSubmit = async () => {
+    const id = generateId(15);
+    setNewClotheId(id);
+  };
+
+  // useEffect hook that uploads to Firebase, gets image URL and set action to the form
+  useEffect(() => {
+    const uploadData = async () => {
+      if (newClotheId !== "") {
+        await uploadFile(file, "clothes/" + wardrobeId, newClotheId);
+        const url = await getURL("clothes/" + wardrobeId, newClotheId);
+        setImageURL(url);
+        formRef.current.action = "api/newClothe";
+      }
+    };
+
+    const waitForNewClotheId = () => {
+      return new Promise((resolve) => {
+        const checkNewClotheId = () => {
+          if (newClotheId !== "") {
+            resolve();
+          } else {
+            setTimeout(checkNewClotheId, 100); // Check again in 100 milliseconds
+          }
+        };
+        checkNewClotheId();
+      });
+    };
+
+    waitForNewClotheId().then(() => uploadData());
+  }, [newClotheId]);
 
   return (
     <>
@@ -146,8 +194,11 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
             <form
               className="flex flex-col items-start justify-start gap-4"
               method="POST"
-              action="api/newClothe"
+              ref={formRef}
+              onSubmit={handleFormSubmit}
             >
+              {/** CLOTHE ID */}
+              <input type="hidden" name="id" value={newClotheId} />
               {/** WARDROBE */}
               <input type="hidden" name="wardrobeId" value={wardrobeId} />
               {/** CATEGORY */}
@@ -190,7 +241,7 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
                 id="fileInput"
                 onChange={handleFileInputChange}
               />
-              <input type="hidden" name="dataURL" value={fileURL} />
+              <input type="hidden" name="url" value={imageURL} />
               <img
                 src={fileURL || mockup.src}
                 className="mx-auto h-64 w-full cursor-pointer object-contain"

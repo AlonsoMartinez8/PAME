@@ -11,7 +11,6 @@ export default function UserProfileImage({ dbUser, width }) {
     document.getElementById("fileInput").click();
   };
 
-  // ISSUES -> Old images no need to be storaged
   const handleFileInputChange = async (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
