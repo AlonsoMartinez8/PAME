@@ -81,10 +81,10 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
           >
             {clothes && clothes.length > 0 ? (
               clothes.map((c) => (
-                <div className={`w-36 md:w-64 rounded-xl overflow-hidden cursor-pointer bg-slate-50/50`}>
+                <div className={`w-36 md:w-44 rounded-xl overflow-hidden cursor-pointer bg-slate-50/50`}>
                   <img
                     src={c.imageUrl}
-                    className="h-64 pointer-events-none object-cover mx-auto"
+                    className="h-64 md:h-72 pointer-events-none object-cover mx-auto"
                   />
                 </div>
               ))
