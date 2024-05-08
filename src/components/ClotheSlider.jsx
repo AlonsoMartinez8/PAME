@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import mockup from "@/../public/img/mockup.png";
 import CategorySlider from "@c/CategorySlider.jsx";
 import { motion } from "framer-motion";
@@ -13,7 +13,7 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   const [newClotheCategorySelected, setNewClotheCategorySelected] =
     useState("");
   // File selected on fileInput URL form image source state hook
-  const [fileURL, setFileURL] = useState(null);
+  const [fileURL, setFileURL] = useState("");
   // Display mode for slider
   const [carouselMode, setCarouselMode] = useState(true);
 
@@ -48,7 +48,12 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
             <i className="text-2xl ri-dashboard-horizontal-fill"></i>
           </button>
           {/** CAROUSEL VIEW */}
-          <button className="rounded-md" onClick={() => setCarouselMode(true)}>
+          <button
+            className="rounded-md"
+            onClick={() => {
+              setCarouselMode(true);
+            }}
+          >
             <i className="text-2xl ri-carousel-view"></i>
           </button>
           {/** ADD CLOTHE */}
@@ -65,7 +70,7 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
         {/** SLIDER */}
         <div
           id="clotheSlider"
-          className="overflow-hidden col-span-full w-fit max-w-full px-0"
+          className="overflow-hidden col-span-full w-fit max-w-full px-0 relative"
           ref={sliderRef}
         >
           {/** CLOTHE LIST */}
@@ -74,14 +79,15 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
             drag="x"
             dragConstraints={carouselMode ? sliderRef : { left: 0, right: 0 }}
             className={`flex items-start justify-center gap-2 ${
-              carouselMode
-                ? "w-fit  flex-nowrap"
-                : "w-full flex-wrap"
+              carouselMode ? "w-fit  flex-nowrap" : "w-full flex-wrap"
             } `}
           >
             {clothes && clothes.length > 0 ? (
               clothes.map((c) => (
-                <div className={`w-36 md:w-44 rounded-xl overflow-hidden cursor-pointer bg-slate-50/50`}>
+                <div
+                  key={c.id}
+                  className={`w-36 md:w-44 rounded-xl overflow-hidden cursor-pointer bg-slate-50/50`}
+                >
                   <img
                     src={c.imageUrl}
                     className="h-64 md:h-72 pointer-events-none object-cover mx-auto"
