@@ -1,3 +1,5 @@
+'use server'
+
 import { useRef, useState } from "react";
 import mockup from "@/../public/img/mockup.png";
 import CategorySlider from "@c/CategorySlider.jsx";
