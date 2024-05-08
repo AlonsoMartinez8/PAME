@@ -46,7 +46,7 @@ export default function CategorySlider({
                 onClick={() => handleItemClick("all")}
               />
             )}
-            {categories && categories.length > 0 ? (
+            {categories && categories.length >= 1 ? (
               categories.map((c) => (
                 <CategoryItem
                   key={c.id}

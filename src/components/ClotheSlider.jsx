@@ -1,8 +1,6 @@
 import { useRef, useState } from "react";
 import mockup from "@/../public/img/mockup.png";
-import { getURL, uploadFile } from "@/firebase/config";
 import CategorySlider from "@c/CategorySlider.jsx";
-import { generateId } from "lucia";
 import { motion } from "framer-motion";
 
 export default function ClotheSlider({ wardrobeId, categories, clothes }) {
@@ -12,12 +10,31 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   const [newClotheModalVisibility, setNewClotheModalVisibility] =
     useState(false);
   // New Clothe Category Selected state hook
-  const [newClotheCategorySelected, setNewClotheCategorySelected] = useState("")
+  const [newClotheCategorySelected, setNewClotheCategorySelected] =
+    useState("");
+  // File selected on fileInput URL form image source state hook
+  const [fileURL, setFileURL] = useState(null);
 
   // Function that handles the selection of a category for the new clothe
-  const handleNewClotheCategorySelect = (categoryId)=>{
-    setNewClotheCategorySelected(categoryId)
-  }
+  const handleNewClotheCategorySelect = (categoryId) => {
+    setNewClotheCategorySelected(categoryId);
+  };
+
+  // Function that handles the click on the form image
+  const handleImageClick = () => {
+    document.getElementById("fileInput").click();
+  };
+
+  // Function that handles the change of the fileInput
+  const handleFileInputChange = (event) => {
+    const newFile = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataURL = event.target.result;
+      setFileURL(dataURL);
+    };
+    reader.readAsDataURL(newFile);
+  };
 
   return (
     <>
@@ -61,7 +78,7 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
                 <img
                   key={c.id}
                   src={c.imageUrl}
-                  className="rounded-xl border-2 mx-auto h-64 w-64 cursor-pointer object-contain"
+                  className="rounded-xl border-2 mx-auto h-64 w-64 cursor-pointer object-contain pointer-events-none"
                 />
               ))
             ) : (
@@ -94,16 +111,20 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
 
           {/** FORM */}
           <main>
-          {/** action="api/newClothe" */}
             <form
               className="flex flex-col items-start justify-start gap-4"
               method="POST"
+              action="api/newClothe"
             >
               {/** WARDROBE */}
               <input type="hidden" name="wardrobeId" value={wardrobeId} />
-
               {/** CATEGORY */}
-              <input type="hidden" name="categoryId" value={newClotheCategorySelected} required/>
+              <input
+                type="hidden"
+                name="categoryId"
+                value={newClotheCategorySelected}
+                required
+              />
               <CategorySlider
                 wardrobeId={wardrobeId}
                 categories={categories}
@@ -118,6 +139,7 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
                 type="text"
                 name="name"
                 placeholder="Name"
+                required
               />
 
               {/** DESCRIPTION */}
@@ -128,46 +150,19 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
                 placeholder="Description"
               />
 
-              {/** CLOTHE PRIVACITY */}
-              <fieldset className="flex items-center justify-start gap-2">
-                {/** CHECK BOX */}
-                <input
-                  type="checkbox"
-                  className="w-5 aspect-square border-2"
-                  name="clothePrivacity"
-                />
-                {/** TEXT*/}
-                <span className="text-blue-400 font-semibold">Public</span>
-                {/**
-                {isPublic ? (
-                  <span
-                    className="text-blue-400 font-semibold"
-                    onClick={() => setIsPublic(false)}
-                  >
-                    Public
-                  </span>
-                ) : (
-                  <span
-                    className="text-pink-400 font-semibold"
-                    onClick={() => setIsPublic(true)}
-                  >
-                    Private
-                  </span>
-                )} 
-                */}
-              </fieldset>
-
               {/** IMAGE */}
               <input
                 type="file"
-                name="file"
+                name="fileInput"
                 className="hidden"
                 id="fileInput"
+                onChange={handleFileInputChange}
               />
-              <input type="hidden" name="imageUrl" />
+              <input type="hidden" name="dataURL" value={fileURL} />
               <img
-                src={mockup.src}
-                className="mx-auto rounded-xl border-2 h-64 w-full cursor-pointer object-contain"
+                src={fileURL || mockup.src}
+                className="mx-auto h-64 w-full cursor-pointer object-contain"
+                onClick={handleImageClick}
               />
 
               {/** LINK */}
@@ -180,8 +175,8 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
 
               {/** SUBMIT */}
               <button
-                type="submit"
                 className="px-4 py-2 rounded-xl border-2 mx-auto"
+                type="submit"
               >
                 Add clothe
               </button>
