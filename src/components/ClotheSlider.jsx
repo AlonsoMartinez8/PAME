@@ -68,20 +68,39 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
         </aside>
 
         {/** SLIDER */}
-        <div
-          id="clotheSlider"
-          className="overflow-hidden col-span-full w-fit max-w-full px-0 relative"
-          ref={sliderRef}
-        >
-          {/** CLOTHE LIST */}
-          {/** flex-wrap for carousel / flex-nowrap mosaico */}
-          <motion.ul
-            drag="x"
-            dragConstraints={carouselMode ? sliderRef : { left: 0, right: 0 }}
-            className={`flex items-start justify-center gap-2 ${
-              carouselMode ? "w-fit  flex-nowrap" : "w-full flex-wrap"
-            } `}
+        {/** CLOTHE LIST */}
+        {carouselMode ? (
+          <div
+            id="clotheSlider"
+            className="overflow-hidden col-span-full w-fit max-w-full px-0 relative"
+            ref={sliderRef}
           >
+            <motion.ul
+              drag="x"
+              dragConstraints={sliderRef}
+              className="flex items-start justify-center gap-2 w-fit  flex-nowrap"
+            >
+              {clothes && clothes.length > 0 ? (
+                clothes.map((c) => (
+                  <div
+                    key={c.id}
+                    className={`w-36 md:w-44 rounded-xl overflow-hidden cursor-pointer bg-slate-50/50`}
+                  >
+                    <img
+                      src={c.imageUrl}
+                      className="h-64 md:h-72 w-full pointer-events-none object-cover mx-auto"
+                    />
+                  </div>
+                ))
+              ) : (
+                <p className="text-nowrap text-center">
+                  There are no clothes yet
+                </p>
+              )}
+            </motion.ul>
+          </div>
+        ) : (
+          <ul className="flex items-center justify-center flex-wrap gap-2 col-span-full">
             {clothes && clothes.length > 0 ? (
               clothes.map((c) => (
                 <div
@@ -90,7 +109,7 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
                 >
                   <img
                     src={c.imageUrl}
-                    className="h-64 md:h-72 pointer-events-none object-cover mx-auto"
+                    className="h-64 md:h-72 w-full pointer-events-none object-cover mx-auto"
                   />
                 </div>
               ))
@@ -99,8 +118,8 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
                 There are no clothes yet
               </p>
             )}
-          </motion.ul>
-        </div>
+          </ul>
+        )}
       </nav>
 
       {/** NEW CLOTHE MODAL */}
