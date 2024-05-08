@@ -31,13 +31,13 @@ export default function CategorySlider({
           id="categorySlider"
           className={`${
             showConfig ? "col-span-8 md:col-span-9" : "col-span-full"
-          } overflow-hidden`}
+          } overflow-hidden w-fit max-w-full`}
           ref={sliderRef}
         >
           <motion.ul
             drag="x"
             dragConstraints={sliderRef}
-            className="flex items-center justify-start gap-2 w-fit pr-[20%]"
+            className="flex items-center justify-start gap-2 w-fit "
           >
             {showAll && (
               <CategoryItem

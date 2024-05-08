@@ -14,6 +14,8 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
     useState("");
   // File selected on fileInput URL form image source state hook
   const [fileURL, setFileURL] = useState(null);
+  // Display mode for slider
+  const [carouselMode, setCarouselMode] = useState(true);
 
   // Function that handles the selection of a category for the new clothe
   const handleNewClotheCategorySelect = (categoryId) => {
@@ -38,15 +40,15 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
 
   return (
     <>
-      <nav className="py-2 items-start flex flex-col justify-start gap-4 ">
+      <nav className="w-full py-2 grid items-center grid-cols-10 gap-2">
         {/** CONFIGURATION */}
-        <aside className="flex justify-end items-center gap-2">
+        <aside className="flex justify-center items-center gap-8 col-span-full">
           {/** MOSSAICO VIEW */}
-          <button className="rounded-md">
+          <button className="rounded-md" onClick={() => setCarouselMode(false)}>
             <i className="text-2xl ri-dashboard-horizontal-fill"></i>
           </button>
           {/** CAROUSEL VIEW */}
-          <button className="rounded-md">
+          <button className="rounded-md" onClick={() => setCarouselMode(true)}>
             <i className="text-2xl ri-carousel-view"></i>
           </button>
           {/** ADD CLOTHE */}
@@ -63,23 +65,28 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
         {/** SLIDER */}
         <div
           id="clotheSlider"
-          className="w-full overflow-hidden"
+          className="overflow-hidden col-span-full w-fit max-w-full px-0"
           ref={sliderRef}
         >
           {/** CLOTHE LIST */}
           {/** flex-wrap for carousel / flex-nowrap mosaico */}
           <motion.ul
             drag="x"
-            dragConstraints={sliderRef}
-            className="flex items-center justify-start gap-2 w-fit mx-auto px-20"
+            dragConstraints={carouselMode ? sliderRef : { left: 0, right: 0 }}
+            className={`flex items-start justify-center gap-2 ${
+              carouselMode
+                ? "w-fit  flex-nowrap"
+                : "w-full flex-wrap"
+            } `}
           >
             {clothes && clothes.length > 0 ? (
               clothes.map((c) => (
-                <img
-                  key={c.id}
-                  src={c.imageUrl}
-                  className="rounded-xl border-2 mx-auto h-64 w-64 cursor-pointer object-contain pointer-events-none"
-                />
+                <div className={`w-36 md:w-64 rounded-xl overflow-hidden cursor-pointer bg-slate-50/50`}>
+                  <img
+                    src={c.imageUrl}
+                    className="h-64 pointer-events-none object-cover mx-auto"
+                  />
+                </div>
               ))
             ) : (
               <p className="text-nowrap w-full text-center">

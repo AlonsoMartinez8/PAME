@@ -14,18 +14,22 @@ export default function Wardrobe({ wardrobeId, categories, clothes }) {
   const handleCategorySelect = (categoryId) => {
     // Change value of the category selected hook
     setSelectedCategory(categoryId);
+  };
+
+  useEffect(() => {
     // Check if category selected is 'all categories'
     // If 'all categories' is selected set all wardrobe clothes on the state hook
     // If it isn't, filter all clothes by category and set'em on the state hook
-    if (selectedCategory === "all") { // selected category name?
+    if (selectedCategory === "all") {
+      // selected category name?
       setClothesByCategorySelected(clothes);
     } else {
       const clothesByCategory = clothes.filter(
-        (c) => c.categoryId == categoryId
+        (c) => c.categoryId == selectedCategory
       );
       setClothesByCategorySelected(clothesByCategory);
     }
-  };
+  }, [selectedCategory]);
 
   return (
     <main className="w-full my-2">
