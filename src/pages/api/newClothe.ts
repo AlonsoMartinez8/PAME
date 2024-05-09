@@ -4,7 +4,7 @@ import { Clothe, db } from "astro:db";
 export async function POST(context: APIContext): Promise<Response> {
   const formData = await context.request.formData();
 
-  const id = formData.get("id")
+  const id = formData.get("id");
   const wardrobeId = formData.get("wardrobeId");
   const categoryId = formData.get("categoryId");
   const name = formData.get("name");
@@ -14,7 +14,19 @@ export async function POST(context: APIContext): Promise<Response> {
   const link = formData.get("link");
 
   if (!id || !wardrobeId || !categoryId || !name || !imageURL) {
-    return new Response("Missing form fields", { status: 400 });
+    return new Response(
+      "Missing form fields: " +
+        `
+id: ${id} 
+wardrobeId: ${wardrobeId} 
+categoryId: ${categoryId} 
+name: ${name} 
+description: ${description} 
+privacity: ${privacity} 
+imageURL: ${imageURL} 
+link: ${link}`,
+      { status: 400 }
+    );
   }
 
   if (

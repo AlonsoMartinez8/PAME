@@ -2,8 +2,23 @@ import { useEffect, useRef, useState } from "react";
 import mockup from "@/../public/img/mockup.png";
 import CategorySlider from "@c/CategorySlider.jsx";
 import { motion } from "framer-motion";
-import { getURL, uploadFile } from "@/firebase/config";
 import { generateId } from "lucia";
+import { uploadFile, getURL } from "@/firebase/config.js";
+
+const execUploadFile = async (file, folder, id) => {
+  await uploadFile(file, folder, id);
+};
+
+const execGetURL = async (folder, id) => {
+  try {
+    const url = await getURL(folder, id);
+    return url;
+  } catch (error) {
+    // Handle error
+    console.error("Error retrieving URL:", error);
+    throw error; // Rethrow the error for the caller to handle if needed
+  }
+};
 
 export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   // Slider ref hook
@@ -26,7 +41,10 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   const [imageURL, setImageURL] = useState("");
   // Display mode for slider
   const [carouselMode, setCarouselMode] = useState(true);
-
+  // Upload File flag state hook
+  const [uploadFile, setUploadFile] = useState(false);
+  // Get Download URL flag state hook
+  const [getURL, setGetURL] = useState(false);
   // Function that handles the selection of a category for the new clothe
   const handleNewClotheCategorySelect = (categoryId) => {
     setNewClotheCategorySelected(categoryId);
@@ -40,50 +58,36 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   // Function that handles the change of the fileInput
   const handleFileInputChange = (event) => {
     const newFile = event.target.files[0];
-
     const reader = new FileReader();
     reader.onload = (event) => {
       const dataURL = event.target.result;
       setFileURL(dataURL);
     };
     reader.readAsDataURL(newFile);
-
     setFile(newFile);
   };
 
-  // Function that handles the form submit
-  // It creates the ID for the new clothe making the
-  // useEffect hook act in consecuence
   const handleFormSubmit = async () => {
     const id = generateId(15);
     setNewClotheId(id);
   };
 
-  // useEffect hook that uploads to Firebase, gets image URL and set action to the form
   useEffect(() => {
     const uploadData = async () => {
-      if (newClotheId !== "") {
-        await uploadFile(file, "clothes/" + wardrobeId, newClotheId);
-        const url = await getURL("clothes/" + wardrobeId, newClotheId);
+      try {
+        await execUploadFile(file, "clothes/" + wardrobeId, newClotheId);
+
+        const url = await execGetURL("clothes/" + wardrobeId, newClotheId);
+
         setImageURL(url);
+
         formRef.current.action = "api/newClothe";
+      } catch (error) {
+        // Handle error
+        console.error("Error handling form submit:", error);
       }
     };
-
-    const waitForNewClotheId = () => {
-      return new Promise((resolve) => {
-        const checkNewClotheId = () => {
-          if (newClotheId !== "") {
-            resolve();
-          } else {
-            setTimeout(checkNewClotheId, 100); // Check again in 100 milliseconds
-          }
-        };
-        checkNewClotheId();
-      });
-    };
-
-    waitForNewClotheId().then(() => uploadData());
+    newClotheId !== "" && uploadData();
   }, [newClotheId]);
 
   return (
