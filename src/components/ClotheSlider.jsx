@@ -52,10 +52,27 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   const handleFormSubmit = async () => {
     const id = generateId(15);
     setNewClotheId(id);
-    await uploadFile(file, "clothes/" + wardrobeId, newClotheId);
-    const url = await getURL("clothes/" + wardrobeId, newClotheId);
-    setImageURL(url);
+    // await uploadFile(file, "clothes/" + wardrobeId, newClotheId);
+    // const url = await getURL("clothes/" + wardrobeId, newClotheId);
+    // setImageURL(url);
+    // formRef.current.action = "api/newClothe";
   };
+
+  useEffect(() => {
+    const uploadData = async () => {
+      await uploadFile(file, "clothes/" + wardrobeId, newClotheId);
+      const url = await getURL("clothes/" + wardrobeId, newClotheId);
+      setImageURL(url);
+    };
+    uploadData();
+  }, [newClotheId]);
+
+  useEffect(() => {
+    const setActionForm = async () => {
+      formRef.current.action = "api/newClothe";
+    };
+    setActionForm();
+  }, [imageURL]);
 
   return (
     <>
@@ -166,9 +183,7 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
               className="flex flex-col items-start justify-start gap-4"
               method="POST"
               ref={formRef}
-              onSubmit={handleFormSubmit().then(
-                (formRef.current.action = "api/newClothe")
-              )}
+              onSubmit={handleFormSubmit}
             >
               {/** CLOTHE ID */}
               <input type="hidden" name="id" value={newClotheId} />
