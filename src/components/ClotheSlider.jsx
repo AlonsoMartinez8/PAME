@@ -5,21 +5,6 @@ import { motion } from "framer-motion";
 import { generateId } from "lucia";
 import { uploadFile, getURL } from "@/firebase/config.js";
 
-const execUploadFile = async (file, folder, id) => {
-  await uploadFile(file, folder, id);
-};
-
-const execGetURL = async (folder, id) => {
-  try {
-    const url = await getURL(folder, id);
-    return url;
-  } catch (error) {
-    // Handle error
-    console.error("Error retrieving URL:", error);
-    throw error; // Rethrow the error for the caller to handle if needed
-  }
-};
-
 export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   // Slider ref hook
   const sliderRef = useRef(null);
@@ -41,10 +26,7 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   const [imageURL, setImageURL] = useState("");
   // Display mode for slider
   const [carouselMode, setCarouselMode] = useState(true);
-  // Upload File flag state hook
-  const [uploadFile, setUploadFile] = useState(false);
-  // Get Download URL flag state hook
-  const [getURL, setGetURL] = useState(false);
+
   // Function that handles the selection of a category for the new clothe
   const handleNewClotheCategorySelect = (categoryId) => {
     setNewClotheCategorySelected(categoryId);
@@ -70,25 +52,10 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   const handleFormSubmit = async () => {
     const id = generateId(15);
     setNewClotheId(id);
+    await uploadFile(file, "clothes/" + wardrobeId, newClotheId);
+    const url = await getURL("clothes/" + wardrobeId, newClotheId);
+    setImageURL(url);
   };
-
-  useEffect(() => {
-    const uploadData = async () => {
-      try {
-        await execUploadFile(file, "clothes/" + wardrobeId, newClotheId);
-
-        const url = await execGetURL("clothes/" + wardrobeId, newClotheId);
-
-        setImageURL(url);
-
-        formRef.current.action = "api/newClothe";
-      } catch (error) {
-        // Handle error
-        console.error("Error handling form submit:", error);
-      }
-    };
-    newClotheId !== "" && uploadData();
-  }, [newClotheId]);
 
   return (
     <>
@@ -199,7 +166,9 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
               className="flex flex-col items-start justify-start gap-4"
               method="POST"
               ref={formRef}
-              onSubmit={handleFormSubmit}
+              onSubmit={handleFormSubmit().then(
+                (formRef.current.action = "api/newClothe")
+              )}
             >
               {/** CLOTHE ID */}
               <input type="hidden" name="id" value={newClotheId} />
