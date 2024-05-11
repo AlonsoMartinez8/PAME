@@ -14,7 +14,9 @@ const headerLinks = [
 const sessionUser = Astro.locals.user;
 let dbUser = null;
 if (sessionUser) {
-  dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(0);
+  dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(
+    0
+  );
 } else {
   return Astro.redirect("/logIn");
 }
@@ -24,14 +26,57 @@ if (sessionUser) {
   title="PAME - Pam Share"
   desc="Let's share your clothes in PAME!! PAME is a Wardrobe Online where you will be able to Manage your Outfits and Share them with your Friends."
 >
-  <Header client:load headerLinks={headerLinks} user={sessionUser} show={false}/>
+  <Header
+    client:load
+    headerLinks={headerLinks}
+    user={sessionUser}
+    show={false}
+  />
   {
     dbUser && (
-      <main class="py-1 px-4">
-        <header class="w-full flex items-center">
+      <>
+        <header class="py-1 px-4 w-full flex items-center">
           <h1 class="text-2xl">P A M * S H A R E</h1>
         </header>
-      </main>
+        <main class="layout grid gap-4 min-h-[500px] py-1 px-4">
+          <aside />
+          <nav />
+          <main />
+          <section />
+        </main>
+      </>
     )
   }
 </Layout>
+
+<style>
+  .layout {
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: 100px 1fr;
+  }
+
+  .layout > * {
+    background-color: #ddf2;
+    border-radius: 1em;
+  }
+
+  .layout aside {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .layout nav {
+    grid-column: 1 / -1; 
+    grid-row: 1;
+  }
+
+  .layout main {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .layout section {
+    grid-column: 3;
+    grid-row: 2;
+  }
+</style>
