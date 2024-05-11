@@ -52,9 +52,9 @@ export async function POST(context: APIContext): Promise<Response> {
   const hashedPassword = await new Argon2id().hash(password);
   // Create Wardrobe & Outfit
   const wardrobeId = generateId(15);
-  const outfitId = generateId(15)
-  await db.insert(Wardrobe).values([{id: wardrobeId}])
-  await db.insert(Outfit).values([{id: outfitId}])
+  const outfitId = generateId(15);
+  await db.insert(Wardrobe).values([{ id: wardrobeId }]);
+  await db.insert(Outfit).values([{ id: outfitId }]);
   // Insert Data to DB
   await db.insert(User).values([
     {
@@ -64,7 +64,7 @@ export async function POST(context: APIContext): Promise<Response> {
       username,
       password: hashedPassword,
       imageUrl:
-        "https://firebasestorage.googleapis.com/v0/b/pame-f2cf9.appspot.com/o/profile%2FnoUserImage.png?alt=media&token=e29f041f-5cd5-4045-b44f-67ec80120e42",
+        "https://firebasestorage.googleapis.com/v0/b/pame-f2cf9.appspot.com/o/profile%2FnoUserImage.png?alt=media&token=418bc910-e6a0-426e-bdcc-6e299be58ed6",
     },
   ]);
   // Generate Session
