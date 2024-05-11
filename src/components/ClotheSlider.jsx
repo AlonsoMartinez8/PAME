@@ -26,6 +26,8 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   const [imageURL, setImageURL] = useState("");
   // Display mode for slider
   const [carouselMode, setCarouselMode] = useState(true);
+  // File uploaded state
+  const [uploaded, setUploaded] = useState(false);
 
   // Function that handles the selection of a category for the new clothe
   const handleNewClotheCategorySelect = (categoryId) => {
@@ -49,29 +51,46 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
     setFile(newFile);
   };
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = () => {
     const id = generateId(15);
     setNewClotheId(id);
-    // await uploadFile(file, "clothes/" + wardrobeId, newClotheId);
-    // const url = await getURL("clothes/" + wardrobeId, newClotheId);
-    // setImageURL(url);
-    // formRef.current.action = "api/newClothe";
   };
 
   useEffect(() => {
-    const uploadData = async () => {
-      await uploadFile(file, "clothes/" + wardrobeId, newClotheId);
-      const url = await getURL("clothes/" + wardrobeId, newClotheId);
-      setImageURL(url);
+    const uploadData = () => {
+      uploadFile(file, "clothes", newClotheId)
+        .then(() => {
+          console.log("File uploaded successfully!");
+          setUploaded(true);
+        })
+        .catch((error) => {
+          console.error("Error uploading file:", error);
+        });
     };
-    uploadData();
+    newClotheId !== "" && uploadData();
   }, [newClotheId]);
 
   useEffect(() => {
-    const setActionForm = async () => {
+    const downloadURL = () => {
+      getURL("clothes", newClotheId)
+        .then((url) => {
+          console.log("Download URL:", url);
+          setImageURL(url);
+        })
+        .catch((error) => {
+          console.error("Error fetching download URL:", error);
+        });
+    };
+    uploaded && downloadURL();
+    setUploaded(false);
+  }, [uploaded]);
+
+  useEffect(() => {
+    const setActionForm = () => {
       formRef.current.action = "api/newClothe";
     };
-    setActionForm();
+    imageURL !== "" && setActionForm();
+    setImageURL("");
   }, [imageURL]);
 
   return (
