@@ -156,6 +156,7 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
             )}
           </ul>
         )}
+        <form action="api/deleteData" method="post"><button>Delete</button></form>
       </nav>
 
       {/** NEW CLOTHE MODAL */}
