@@ -11,7 +11,10 @@ const getImageURL = async (file, folder, id) => {
   return getURL(folder, id).then((url) => url);
 };
 
-export default function ClotheSlider({ wardrobeId, categories, clothes }) {
+export default function ClotheSlider(
+  { wardrobeId, categories, clothes },
+  props
+) {
   // Slider ref hook
   const sliderRef = useRef(null);
   // Form ref hook
@@ -118,7 +121,9 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
               className="flex items-start justify-center gap-2 w-fit  flex-nowrap"
             >
               {clothes && clothes.length > 0 ? (
-                clothes.map((c) => <ClotheCard clothe={c} />)
+                clothes.map((c) => (
+                  <ClotheCard key={c.id} clothe={c} redi={true} />
+                ))
               ) : (
                 <p className="text-nowrap text-center">
                   There are no clothes yet
@@ -129,7 +134,9 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
         ) : (
           <ul className="flex items-center justify-center flex-wrap gap-2 col-span-full">
             {clothes && clothes.length > 0 ? (
-              clothes.map((c) => <ClotheCard clothe={c} />)
+              clothes.map((c) => (
+                <ClotheCard key={c.id} clothe={c} redi={true} />
+              ))
             ) : (
               <p className="text-nowrap w-full text-center">
                 There are no clothes yet

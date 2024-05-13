@@ -1,7 +1,41 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { getClotheById } from "../api/getClotheById";
+import ClotheCard from "@/components/ClotheCard";
+import Header from "@/components/Header";
+import { db } from "astro:db";
+import { User } from "astro:db";
+import { eq } from "astro:db";
+
+const headerLinks = [
+  { href: "/myWardrobe", content: "My Wardrobe" },
+  { href: "/profile", content: "My Profile" },
+  { href: "/#about", content: "About Us" },
+];
+
+const sessionUser = Astro.locals.user;
+
+let dbUser = null;
+
+if (sessionUser) {
+  dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(
+    0
+  );
+} else {
+  return Astro.redirect("/logIn");
+}
+
+const url = Astro.request.url;
+const startIndex = url.indexOf("/clothe/") + "/clothe/".length;
+const endIndex = url.length;
+const id = url.substring(startIndex, endIndex);
+
+const clothe = await getClotheById(id);
 ---
 
 <Layout title="Your clothe" desc="Watch all the details of your clothe">
-
+  <Header client:visible headerLinks={headerLinks} user={dbUser} show={false} />
+  <main class="p-4 flex items-center justify-center">
+    <ClotheCard clothe={clothe} redi={false} />
+  </main>
 </Layout>

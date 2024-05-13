@@ -1,8 +1,9 @@
 import React from "react";
 
-export default function ClotheCard({ clothe }) {
-
-  const handleClick = () => {}; // Redirect to /clothe/[clotheId].astro
+export default function ClotheCard({ clothe, redi }) {
+  const handleClick = () => {
+    redi && (window.location.href = `/clothe/${clothe.id}`);
+  };
 
   return (
     <div
