@@ -12,13 +12,13 @@ import {
 } from "astro:db";
 
 export async function POST(context: APIContext): Promise<Response> {
-
-  await db.delete(Outfit)
-  await db.delete(Outfit);
-  await db.delete(Category);
-  await db.delete(Wardrobe);
-  await db.delete(User);
-  await db.delete(Session);
-
+  db.delete(Outfit).catch((err) => console.error(err));
+  db.delete(Category).catch((err) => console.error(err));
+  db.delete(Wardrobe).catch((err) => console.error(err));
+  db.delete(User).catch((err) => console.error(err));
+  db.delete(Session).catch((err) => console.error(err));
+  db.delete(Clothe).catch((err) => console.error(err));
+  db.delete(Like).catch((err) => console.error(err));
+  db.delete(Follow).catch((err) => console.error(err));
   return context.redirect("/");
 }
