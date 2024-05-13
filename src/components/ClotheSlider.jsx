@@ -5,6 +5,11 @@ import { motion } from "framer-motion";
 import { generateId } from "lucia";
 import { uploadFile, getURL } from "@/firebase/config.js";
 
+const getImageURL = async (file, folder, id) => {
+  await uploadFile(file, folder, id);
+  return getURL(folder, id).then((url) => url);
+};
+
 export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   // Slider ref hook
   const sliderRef = useRef(null);
@@ -26,8 +31,6 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
   const [imageURL, setImageURL] = useState("");
   // Display mode for slider
   const [carouselMode, setCarouselMode] = useState(true);
-  // File uploaded state
-  const [uploaded, setUploaded] = useState(false);
 
   // Function that handles the selection of a category for the new clothe
   const handleNewClotheCategorySelect = (categoryId) => {
@@ -51,47 +54,25 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
     setFile(newFile);
   };
 
-  const handleFormSubmit = () => {
-    const id = generateId(15);
-    setNewClotheId(id);
-  };
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
 
-  useEffect(() => {
-    const uploadData = () => {
-      uploadFile(file, "clothes", newClotheId)
-        .then(() => {
-          console.log("File uploaded successfully!");
-          setUploaded(true);
-        })
-        .catch((error) => {
-          console.error("Error uploading file:", error);
-        });
-    };
-    newClotheId !== "" && uploadData();
-  }, [newClotheId]);
+    const prepareStates = async () => {
+      const id = generateId(15);
+      setNewClotheId(id);
 
-  useEffect(() => {
-    const downloadURL = () => {
-      getURL("clothes", newClotheId)
-        .then((url) => {
-          console.log("Download URL:", url);
-          setImageURL(url);
-        })
-        .catch((error) => {
-          console.error("Error fetching download URL:", error);
-        });
-    };
-    uploaded && downloadURL();
-    setUploaded(false);
-  }, [uploaded]);
+      const imageUrl = await getImageURL(file, "clothes", id);
+      setImageURL(imageUrl);
 
-  useEffect(() => {
-    const setActionForm = () => {
       formRef.current.action = "api/newClothe";
     };
-    imageURL !== "" && setActionForm();
-    setImageURL("");
-  }, [imageURL]);
+
+    await prepareStates();
+
+    setTimeout(() => {
+      formRef.current.submit();
+    }, 1000);
+  };
 
   return (
     <>
