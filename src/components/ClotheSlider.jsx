@@ -4,6 +4,7 @@ import CategorySlider from "@c/CategorySlider.jsx";
 import { motion } from "framer-motion";
 import { generateId } from "lucia";
 import { uploadFile, getURL } from "@/firebase/config.js";
+import ClotheCard from "./ClotheCard";
 
 const getImageURL = async (file, folder, id) => {
   await uploadFile(file, folder, id);
@@ -117,17 +118,7 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
               className="flex items-start justify-center gap-2 w-fit  flex-nowrap"
             >
               {clothes && clothes.length > 0 ? (
-                clothes.map((c) => (
-                  <div
-                    key={c.id}
-                    className={`w-36 md:w-44 rounded-xl overflow-hidden cursor-pointer bg-slate-50/50`}
-                  >
-                    <img
-                      src={c.imageUrl}
-                      className="h-64 md:h-72 w-full pointer-events-none object-cover mx-auto"
-                    />
-                  </div>
-                ))
+                clothes.map((c) => <ClotheCard clothe={c} />)
               ) : (
                 <p className="text-nowrap text-center">
                   There are no clothes yet
@@ -138,17 +129,7 @@ export default function ClotheSlider({ wardrobeId, categories, clothes }) {
         ) : (
           <ul className="flex items-center justify-center flex-wrap gap-2 col-span-full">
             {clothes && clothes.length > 0 ? (
-              clothes.map((c) => (
-                <div
-                  key={c.id}
-                  className={`w-36 md:w-44 rounded-xl overflow-hidden cursor-pointer bg-slate-50/50`}
-                >
-                  <img
-                    src={c.imageUrl}
-                    className="h-64 md:h-72 w-full pointer-events-none object-cover mx-auto"
-                  />
-                </div>
-              ))
+              clothes.map((c) => <ClotheCard clothe={c} />)
             ) : (
               <p className="text-nowrap w-full text-center">
                 There are no clothes yet
