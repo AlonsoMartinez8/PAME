@@ -16,7 +16,6 @@ const sessionUser = Astro.locals.user
   title="PAME - Your Wardrobe Online"
   desc="PAME is a Wardrobe Online where you will be able to Manage your Outfits and Share them with your Friends."
 >
-<form action="api/deleteData" method="post"><button>Delete</button></form>
   <Header client:load headerLinks={headerLinks} user={sessionUser} show={true}/>
   <Hero />
   <section id="about" class="px-4 py-20 min-h-[100vh]">
