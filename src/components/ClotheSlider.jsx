@@ -122,7 +122,7 @@ export default function ClotheSlider(
             >
               {clothes && clothes.length > 0 ? (
                 clothes.map((c) => (
-                  <ClotheCard key={c.id} clothe={c} redi={true} />
+                  <ClotheCard key={c.id} clothe={c} config={false} />
                 ))
               ) : (
                 <p className="text-nowrap text-center">
@@ -135,7 +135,7 @@ export default function ClotheSlider(
           <ul className="flex items-center justify-center flex-wrap gap-2 col-span-full">
             {clothes && clothes.length > 0 ? (
               clothes.map((c) => (
-                <ClotheCard key={c.id} clothe={c} redi={true} />
+                <ClotheCard key={c.id} clothe={c} config={false} />
               ))
             ) : (
               <p className="text-nowrap w-full text-center">
