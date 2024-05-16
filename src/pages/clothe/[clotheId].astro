@@ -7,6 +7,9 @@ import Header from "@/components/Header";
 import { db } from "astro:db";
 import { User } from "astro:db";
 import { eq } from "astro:db";
+import { dbUrl } from "astro:db";
+import { getCategoriesByWardrobe } from "../api/getCategoriesByWardrobe";
+import { getCategoryById } from "../api/getCategoryById";
 
 const headerLinks = [
   { href: "/myWardrobe", content: "My Wardrobe" },
@@ -17,11 +20,17 @@ const headerLinks = [
 const sessionUser = Astro.locals.user;
 
 let dbUser = null;
+let wardrobeCategories = null;
 
 if (sessionUser) {
   dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(
     0
   );
+  if (dbUser) {
+    wardrobeCategories = await getCategoriesByWardrobe(dbUser.wardrobeId);
+  } else {
+    return Astro.redirect("/logIn");
+  }
 } else {
   return Astro.redirect("/logIn");
 }
@@ -47,7 +56,11 @@ const clothe = await getClotheById(id);
       <section
         class="col-span-4 flex flex-col gap-4 items-center md:items-end py-4"
       >
-        <ClotheConfig client:visible clothe={clothe} />
+        <ClotheConfig
+          client:visible
+          clothe={clothe}
+          categories={wardrobeCategories}
+        />
       </section>
     </div>
   </main>
