@@ -14,19 +14,7 @@ export async function POST(context: APIContext): Promise<Response> {
   const link = formData.get("link");
 
   if (!id || !wardrobeId || !categoryId || !name || !imageURL) {
-    return new Response(
-      "Missing form fields: " +
-        `
-id: ${id} 
-wardrobeId: ${wardrobeId} 
-categoryId: ${categoryId} 
-name: ${name} 
-description: ${description} 
-privacity: ${privacity} 
-imageURL: ${imageURL} 
-link: ${link}`,
-      { status: 400 }
-    );
+    return new Response("Missing form fields: ", { status: 400 });
   }
 
   if (
