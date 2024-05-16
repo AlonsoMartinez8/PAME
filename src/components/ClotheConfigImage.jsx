@@ -1,20 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { uploadFile, getURL } from "@/firebase/config";
+import ClotheCard from "./ClotheCard";
 
-export default function UserProfileImage({ dbUser, width }) {
-  const [imageUrl, setImageUrl] = useState(dbUser.imageUrl);
+export default function ClotheConfigImage({ clothe }) {
+  const [imageUrl, setImageUrl] = useState(clothe.imageUrl);
   const formRef = useRef(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleImageClick = () => {
+    console.log("click");
     document.getElementById("fileInput").click();
   };
 
   const handleFileInputChange = async (event) => {
+    console.log("channge");
     const selectedFile = event.target.files[0];
     if (selectedFile) {
-      await uploadFile(selectedFile, "profile", dbUser.id);
-      const url = await getURL("profile", dbUser.id);
+      await uploadFile(selectedFile, "clothe", clothe.id);
+      const url = await getURL("clothe", clothe.id);
       setImageUrl(url);
       setFormSubmitted(true);
     }
@@ -27,18 +30,16 @@ export default function UserProfileImage({ dbUser, width }) {
   }, [formSubmitted]);
 
   return (
-    <div
-      className={`mx-auto bg-slate-100/20 aspect-square rounded-full m-5 cursor-pointer overflow-hidden flex items-center justify-center`}
-    >
-      <img width={width} src={dbUser.imageUrl} onClick={handleImageClick} />
+    <div>
+      <img className="h-[300px] object-cover" src={imageUrl} onClick={handleImageClick} />
       <form
         className="hidden"
-        action="api/updateProfileImage"
+        action="../api/updateClotheImage"
         method="POST"
         ref={formRef}
       >
         <input type="hidden" name="imageUrl" value={imageUrl} />
-        <input type="hidden" name="userId" value={dbUser.id} />
+        <input type="hidden" name="clotheId" value={clothe.id} />
         <input
           className="hidden"
           type="file"

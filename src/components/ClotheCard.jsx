@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function ClotheCard({ clothe, config }) {
-
   return (
     <a
       href={`/clothe/${clothe.id}`}
