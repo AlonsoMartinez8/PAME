@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import CategorySlider from "./CategorySlider";
+import { getCategoriesByWardrobe } from "@/pages/api/getCategoriesByWardrobe";
 
 export default function ClotheConfig({ clothe }) {
   const {
@@ -14,8 +16,11 @@ export default function ClotheConfig({ clothe }) {
 
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingLink, setIsEditingLink] = useState(false);
-  const [isPublic, setIsPublic] = useState(privacity);
   const [deleteAlert, setDeleteAlert] = useState(false);
+
+  const handleNewCategorySelect = ()=>{
+
+  }
 
   return (
     <>
@@ -36,7 +41,7 @@ export default function ClotheConfig({ clothe }) {
             </div>
           ) : (
             <form
-              action="api/updateClotheDescription"
+              action="../api/updateClotheDescription"
               method="post"
               className="w-full flex items-center gap-2"
             >
@@ -80,7 +85,7 @@ export default function ClotheConfig({ clothe }) {
           </div>
         ) : (
           <form
-            action="api/updateClotheLink"
+            action="../api/updateClotheLink"
             method="post"
             className="w-full flex items-center gap-2"
           >
@@ -103,45 +108,39 @@ export default function ClotheConfig({ clothe }) {
         )}
       </article>
 
-      <article>Category</article>
+      <article className="w-full">
+        {/** <CategorySlider categories={[]} onCategorySelect={()=>handleNewCategorySelect} showAll={false} showConfig={false} wardrobeId={wardrobeId} />*/}
+      </article>
 
       <article className="w-full">
-        {clothe && isPublic ? (
+        {clothe ? (
           <form
-            action="api/updateClothePrivacity"
+            action="../api/updateClothePrivacity"
             method="post"
-            className="w-full flex items-center justify-between gap-2"
+            className="w-full flex flex-col md:flex-row items-center justify-between gap-2"
           >
-            <span className=" min-w-44 text-center px-4 py-1 rounded-xl bg-gradient-to-r from-green-500 to-indigo-500">
-              Public
-            </span>
-            <i className="ri-arrow-right-double-line"></i>
-            <input type="hidden" name="privacity" value={"private"} />
-            <button
-              onClick={() => setIsPublic(!isPublic)}
-              className=" min-w-44 text-center px-4 py-1 rounded-xl bg-gradient-to-r from-indigo-300/50 hover:shadow-xl hover:to-red-300 to-red-500"
+            <input type="hidden" name="clotheId" value={id} />
+            <input type="hidden" name="clothePrivacity" value={privacity} />
+            <span
+              className={`w-full text-center px-4 py-1 rounded-xl bg-gradient-to-r from-${
+                privacity ? "red" : "green"
+              }-500 to-indigo-500`}
             >
-              Set private
+              {privacity ? "Public" : "Private"}
+            </span>
+            <i className="hidden md:inline-block text-2xl ri-arrow-left-right-line"></i>
+            <button
+              className={`w-full text-center px-4 py-1 rounded-xl bg-gradient-to-r from-indigo-300/50 hover:shadow-xl ${
+                privacity
+                  ? "hover:to-green-300 to-green-500"
+                  : "hover:to-red-300 to-red-500"
+              }`}
+            >
+              {privacity ? "Set Private" : "Set Public"}
             </button>
           </form>
         ) : (
-          <form
-            action="api/updateClothePrivacity"
-            method="post"
-            className="w-full flex items-center justify-between gap-2"
-          >
-            <span className="w-full text-center px-4 py-1 rounded-xl bg-gradient-to-r from-red-500 to-indigo-500">
-              Private
-            </span>
-            <input type="hidden" name="privacity" value={"public"} />
-            <i className="ri-arrow-right-double-line"></i>
-            <button
-              onClick={() => setIsPublic(!isPublic)}
-              className="w-full text-center px-4 py-1 rounded-xl bg-gradient-to-r from-indigo-300/50 hover:shadow-xl hover:to-green-300 to-green-500"
-            >
-              Set public
-            </button>
-          </form>
+          "Non available clothe"
         )}
       </article>
 
@@ -178,10 +177,11 @@ export default function ClotheConfig({ clothe }) {
           </header>
           <main>
             <form
-              action="api/deleteClothe"
+              action="../api/deleteClothe"
               className="flex flex-col items-center justify-center gap-4"
               method="POST"
             >
+              <input type="hidden" name="clotheId" value={id} />
               <p>Are you sure to remove this clothe?</p>
               <button className="w-1/2 text-center px-4 py-1 rounded-xl bg-red-500 hover:bg-red-900">
                 Delete Clothe
