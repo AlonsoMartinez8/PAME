@@ -2,6 +2,7 @@
 import Header from "@/components/Header.jsx";
 import Layout from "@l/Layout.astro";
 import WardrobeComp from "@c/Wardrobe.jsx";
+import Assistant from "@/components/Assistant.jsx";
 import { db, User, Wardrobe, eq } from "astro:db";
 import { getCategoriesByWardrobe } from "./api/getCategoriesByWardrobe";
 import { getClothesByWardrobe } from "./api/getClothesByWardrobe";
@@ -58,6 +59,7 @@ if (sessionUser) {
           categories={categoriesByWardrobe}
           clothes={clothesByWardrobe}
         />
+        <Assistant client:visible />
       </main>
     )
   }
