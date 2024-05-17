@@ -12,8 +12,7 @@ const getImageURL = async (file, folder, id) => {
 };
 
 export default function ClotheSlider(
-  { wardrobeId, categories, clothes },
-  props
+  { wardrobeId, categories, clothes }
 ) {
   // Slider ref hook
   const sliderRef = useRef(null);

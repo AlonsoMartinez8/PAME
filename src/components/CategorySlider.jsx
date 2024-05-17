@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import CategoryItem from "@c/CategoryItem.jsx";
 import { motion } from "framer-motion";
+import CategoryConfig from "./CategoryConfig";
 
 export default function CategorySlider({
   wardrobeId,
@@ -66,9 +67,7 @@ export default function CategorySlider({
             <button className="rounded-md" onClick={() => setIsOpen(true)}>
               <i className="text-2xl ri-add-line"></i>
             </button>
-            <button className="rounded-md">
-              <i className="text-2xl ri-settings-2-line"></i>
-            </button>
+            <CategoryConfig categories={categories}/>
           </aside>
         )}
       </nav>
