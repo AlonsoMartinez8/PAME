@@ -30,7 +30,7 @@ export default function ClotheConfigImage({ clothe }) {
   }, [formSubmitted]);
 
   return (
-    <div>
+    <div className="cursor-pointer">
       <img className="h-[300px] object-cover" src={imageUrl} onClick={handleImageClick} />
       <form
         className="hidden"
