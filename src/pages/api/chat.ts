@@ -1,6 +1,8 @@
-export async function post({ request }: { request: Request }) {
+import type { APIContext } from "astro";
+
+export async function POST(context: APIContext) {
   // Extrae el contenido del cuerpo de la solicitud
-  const { prompt } = await request.json();
+  const { prompt } = await context.request.json();
 
   // Verifica si el prompt está presente en el cuerpo de la solicitud
   if (!prompt) {

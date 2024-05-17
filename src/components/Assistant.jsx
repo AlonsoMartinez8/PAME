@@ -10,7 +10,7 @@ export default function Assistant() {
     e.preventDefault();
     setError(null);
     try {
-      const res = await fetch("/api/chat", {
+      const res = await fetch("api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export default function Assistant() {
       }
 
       const data = await res.json();
-      setResponse(data.choices[0]?.text || "No response from the assistant");
+      setResponse(data.choices[0].message.content || "No response from the assistant");
     } catch (err) {
       setError("Failed to fetch the response. Please try again.");
     }
