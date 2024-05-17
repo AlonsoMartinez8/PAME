@@ -6,6 +6,7 @@ import Assistant from "@/components/Assistant.jsx";
 import { db, User, Wardrobe, eq } from "astro:db";
 import { getCategoriesByWardrobe } from "./api/getCategoriesByWardrobe";
 import { getClothesByWardrobe } from "./api/getClothesByWardrobe";
+const apiKey = import.meta.env.PRIVATE_OPEN_AI_API_KEY;
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
@@ -51,7 +52,9 @@ if (sessionUser) {
     dbUser && dbWardrobe && (
       <main class="py-1 px-4">
         <header class="w-full flex items-center">
-          <h1 transition:name="pageTitle" class="text-2xl">M Y * W A R D R O B E</h1>
+          <h1 transition:name="pageTitle" class="text-2xl">
+            M Y * W A R D R O B E
+          </h1>
         </header>
         <WardrobeComp
           client:load
@@ -59,7 +62,7 @@ if (sessionUser) {
           categories={categoriesByWardrobe}
           clothes={clothesByWardrobe}
         />
-        <Assistant client:visible />
+        <Assistant client:visible apiKey={apiKey} />
       </main>
     )
   }
