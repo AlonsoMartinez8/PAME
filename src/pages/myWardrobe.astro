@@ -6,7 +6,6 @@ import Assistant from "@/components/Assistant.jsx";
 import { db, User, Wardrobe, eq } from "astro:db";
 import { getCategoriesByWardrobe } from "./api/getCategoriesByWardrobe";
 import { getClothesByWardrobe } from "./api/getClothesByWardrobe";
-const apiKey = import.meta.env.PRIVATE_OPEN_AI_API_KEY;
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
@@ -62,7 +61,7 @@ if (sessionUser) {
           categories={categoriesByWardrobe}
           clothes={clothesByWardrobe}
         />
-        <Assistant client:visible apiKey={apiKey} />
+        <Assistant client:visible />
       </main>
     )
   }

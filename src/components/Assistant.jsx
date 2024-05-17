@@ -1,67 +1,71 @@
 import React, { useState } from "react";
 
-export default function Assistant({ apiKey }) {
-  const [assistantRes, setAssistantRes] = useState("");
+export default function Assistant() {
+  const [prompt, setPrompt] = useState("");
+  const [response, setResponse] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [error, setError] = useState(null);
 
-  async function processMessageToChatGPT(event) {
-    event.preventDefault();
-    const message = [
-      {
-        role: "user",
-        content: document.getElementById("userPrompt").value,
-      },
-    ];
-    const systemPrompt = {
-      role: "system",
-      content:
-        "Speak like you are a proffesional clothe designer trying to help to find the best clothes",
-    };
-    const apiRequestBody = {
-      model: "gpt-3.5-turbo",
-      messages: [systemPrompt, ...message],
-    };
-    await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + apiKey,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(apiRequestBody),
-    })
-      .then((data) => {
-        return data.json();
-      })
-      .then((data) => setAssistantRes(data.choices[0].message.content));
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        setError(errorData.error || "An error occurred");
+        return;
+      }
+
+      const data = await res.json();
+      setResponse(data.choices[0]?.text || "No response from the assistant");
+    } catch (err) {
+      setError("Failed to fetch the response. Please try again.");
+    }
+  };
 
   return (
     <>
       <nav className="w-full max-w-[600px] mx-auto gap-2 border-2 rounded-xl overflow-hidden mt-2">
         <form
           className="w-full flex items-center justify-end"
-          onSubmit={processMessageToChatGPT}
+          onSubmit={handleSubmit}
         >
           <input
             className="w-full px-4 py-1 bg-transparent border-0 outline-none"
             type="text"
-            name="userPrompt"
-            id="userPrompt"
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
             placeholder="Hi, how can I help you?"
             required
           />
-          <button className="flex flex-nowrap items-center justify-center px-4 py-1 text-indigo-800 bg-white">
+          <button
+            type="submit"
+            className="flex flex-nowrap items-center justify-center px-4 py-1 text-indigo-800 bg-white"
+          >
             <i className="text-2xl ri-bard-line"></i> Send
           </button>
         </form>
       </nav>
-      {assistantRes !== "" && (
+      {error && (
+        <div className="w-full max-w-[600px] mx-auto p-2 mb-2 text-red-500 border-b-[.5px]">
+          <p>{error}</p>
+        </div>
+      )}
+      {response && (
         <div
           className={`w-full flex items-start justify-between max-w-[600px] mx-auto p-2 mb-2 text-pretty ${
             isOpen ? "h-full" : "max-h-10"
           } overflow-hidden border-b-[.5px]`}
         >
-          <p>{assistantRes}</p>
+          <p>{response}</p>
           <button onClick={() => setIsOpen(!isOpen)}>
             <i
               className={`text-2xl ri-arrow-${isOpen ? "up" : "down"}-s-line`}
