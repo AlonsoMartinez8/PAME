@@ -4,9 +4,7 @@ import Layout from "@l/Layout.astro";
 import ProfileSearcher from "@c/ProfileSearcher.jsx";
 import LastClothes from "@c/LastClothes.jsx";
 import TopClothes from "@c/TopClothes.jsx";
-import { eq } from "astro:db";
-import { User } from "astro:db";
-import { db } from "astro:db";
+import { User, db, eq } from "astro:db";
 
 const headerLinks = [
   { href: "/myWardrobe", content: "My Wardrobe" },
@@ -43,16 +41,16 @@ if (sessionUser) {
             P A M * S H A R E
           </h1>
         </header>
-        <main class="layout grid gap-4 py-1 px-4">
-          <nav class="px-4 py-2">
+        <main class="layout flex flex-col md:grid gap-4 py-1 px-4">
+          <nav class="w-full px-4 py-2">
             <ProfileSearcher client:visible />
           </nav>
-          <main class="px-4 py-2">
-            <LastClothes client:visible />
-          </main>
-          <aside class="px-4 py-2">
+          <aside class="w-full px-4 py-2 border-[1px] border-slate-50/50">
             <TopClothes client:visible />
           </aside>
+          <main class="w-full px-4 py-2 border-[1px] border-slate-50/50">
+            <LastClothes client:visible />
+          </main>
         </main>
       </>
     )

@@ -38,7 +38,7 @@ export default function Assistant({user}) {
 
   return (
     <>
-      <nav className="w-full max-w-[600px] mx-auto gap-2 border-2 rounded-xl overflow-hidden mt-2">
+      <nav className="w-full max-w-[600px] mx-auto gap-2 border-2 rounded-full overflow-hidden mt-2">
         <form
           className="w-full flex items-center justify-end"
           onSubmit={handleSubmit}
