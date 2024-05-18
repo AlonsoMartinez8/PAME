@@ -1,6 +1,9 @@
 ---
 import Header from "@/components/Header.jsx";
 import Layout from "@l/Layout.astro";
+import ProfileSearcher from "@c/ProfileSearcher.jsx";
+import LastClothes from "@c/LastClothes.jsx";
+import TopClothes from "@c/TopClothes.jsx";
 import { eq } from "astro:db";
 import { User } from "astro:db";
 import { db } from "astro:db";
@@ -36,13 +39,20 @@ if (sessionUser) {
     dbUser && (
       <>
         <header class="py-1 px-4 w-full flex items-center">
-          <h1 class="text-2xl" transition:name="pageTitle">P A M * S H A R E</h1>
+          <h1 class="text-2xl" transition:name="pageTitle">
+            P A M * S H A R E
+          </h1>
         </header>
-        <main class="layout grid gap-4 min-h-[500px] py-1 px-4">
-          <aside />
-          <nav />
-          <main />
-          <section />
+        <main class="layout grid gap-4 py-1 px-4">
+          <nav class="px-4 py-2">
+            <ProfileSearcher client:visible />
+          </nav>
+          <main class="px-4 py-2">
+            <LastClothes client:visible />
+          </main>
+          <aside class="px-4 py-2">
+            <TopClothes client:visible />
+          </aside>
         </main>
       </>
     )
@@ -52,31 +62,21 @@ if (sessionUser) {
 <style>
   .layout {
     grid-template-columns: 1fr 3fr 1fr;
-    grid-template-rows: 100px 1fr;
-  }
-
-  .layout > * {
-    background-color: #ddf2;
-    border-radius: 1em;
+    grid-template-rows: auto;
   }
 
   .layout aside {
-    grid-column: 1;
+    grid-column: 3;
     grid-row: 2;
   }
 
   .layout nav {
-    grid-column: 1 / -1; 
+    grid-column: 1 / -1;
     grid-row: 1;
   }
 
   .layout main {
-    grid-column: 2;
-    grid-row: 2;
-  }
-
-  .layout section {
-    grid-column: 3;
+    grid-column: 1 / -2;
     grid-row: 2;
   }
 </style>

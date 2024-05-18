@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function Assistant() {
+export default function Assistant({user}) {
   const [prompt, setPrompt] = useState("");
   const [response, setResponse] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -9,13 +9,18 @@ export default function Assistant() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    const body = {
+      prompt: prompt,
+      user: user.name,
+      description: user.description
+    }
     try {
       const res = await fetch("api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify(body),
       });
 
       if (!res.ok) {

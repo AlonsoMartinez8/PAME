@@ -2,7 +2,7 @@ import type { APIContext } from "astro";
 
 export async function POST(context: APIContext) {
   // Extrae el contenido del cuerpo de la solicitud
-  const { prompt } = await context.request.json();
+  const { prompt, name, description } = await context.request.json();
 
   // Verifica si el prompt está presente en el cuerpo de la solicitud
   if (!prompt) {
@@ -33,8 +33,15 @@ export async function POST(context: APIContext) {
   // Define el prompt del sistema para el asistente
   const systemPrompt = {
     role: "system",
-    content:
-      "Speak like you are a professional clothes designer trying to help find the best clothes.",
+    content:`You are a designer and fashion expert.
+You will speak as such, but it is not necessary that you use very specific and professional language typical of your field since you will speak as an intermediate level user in terms of fashion.
+You should answer in the shortest and most concise way possible.
+You have to try to help and advise the user
+This user is called ${name} and this is his description: "${description}".
+Furthermore, at the end of your answer you should give approximately three words that summarize your answer in the form of a hastag.
+Here is an example:
+If the answer is, "I would advise you to use light clothes in pastel tones and considering that it is summer, I would recommend soft fabrics and short clothes" return also "#light #pastel #soft".
+    `,
   };
 
   // Estructura el cuerpo de la solicitud para la API de OpenAI

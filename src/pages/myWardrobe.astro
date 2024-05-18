@@ -61,7 +61,7 @@ if (sessionUser) {
           categories={categoriesByWardrobe}
           clothes={clothesByWardrobe}
         />
-        <Assistant client:visible />
+        <Assistant client:visible user={dbUser}/>
       </main>
     )
   }
