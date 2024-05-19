@@ -1,0 +1,61 @@
+---
+import Header from "@/components/Header";
+import {getUserById} from "@/pages/api/getUserById.ts"
+import Layout from "@/layouts/Layout.astro";
+import { eq } from "astro:db";
+import { User } from "astro:db";
+import { db } from "astro:db";
+import UserProfileInfo from "@/components/UserProfileInfo";
+import UserProfileImage from "@/components/UserProfileImage";
+
+const headerLinks = [
+  { href: "/myWardrobe", content: "My Wardrobe" },
+  { href: "/profile", content: "My Profile" },
+  { href: "/#about", content: "About Us" },
+];
+
+const sessionUser = Astro.locals.user;
+
+let dbUser = null;
+let id = null;
+
+if (sessionUser) {
+  dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(
+    0
+  );
+  if (dbUser) {
+    const url = Astro.request.url;
+    const startIndex = url.indexOf("/profile/") + "/profile/".length;
+    const endIndex = url.length;
+    id = url.substring(startIndex, endIndex);
+
+    if (id === dbUser.id) return Astro.redirect("/profile");
+  }
+} else {
+  return Astro.redirect("/logIn");
+}
+let user = null;
+if (id) {
+  user = await getUserById(id);
+}
+if(!user) return Astro.redirect("/pamShare")
+---
+
+<Layout
+  title={`PAME - Profile`}
+  desc=""
+>
+  <Header client:load headerLinks={headerLinks} user={sessionUser} show={false} />
+  <main class="max-w-[900px] mx-auto py-5 px-10">
+    <div class="flex flex-col md:grid md:grid-cols-6 gap-4">
+      <aside class="col-span-2 flex flex-col items-center justify-center gap-2">
+        <UserProfileImage client:visible dbUser={user} width={180} editable={false}/>
+      </aside>
+      <section
+        class="col-span-4 flex flex-col gap-4 items-center md:items-end py-4"
+      >
+        <UserProfileInfo client:visible dbUser={user} editable={false}/>
+      </section>
+    </div>
+  </main>
+</Layout>

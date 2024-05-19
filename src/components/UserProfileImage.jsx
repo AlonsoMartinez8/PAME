@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { uploadFile, getURL } from "@/firebase/config";
 
-export default function UserProfileImage({ dbUser, width }) {
+export default function UserProfileImage({ dbUser, width, editable }) {
   const [imageUrl, setImageUrl] = useState(dbUser.imageUrl);
   const formRef = useRef(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleImageClick = () => {
-    document.getElementById("fileInput").click();
+    editable && document.getElementById("fileInput").click();
   };
 
   const handleFileInputChange = async (event) => {
@@ -31,22 +31,24 @@ export default function UserProfileImage({ dbUser, width }) {
       className={`mx-auto bg-slate-100/20 aspect-square rounded-full m-5 cursor-pointer overflow-hidden flex items-center justify-center`}
     >
       <img width={width} src={dbUser.imageUrl} onClick={handleImageClick} />
-      <form
-        className="hidden"
-        action="api/updateProfileImage"
-        method="POST"
-        ref={formRef}
-      >
-        <input type="hidden" name="imageUrl" value={imageUrl} />
-        <input type="hidden" name="userId" value={dbUser.id} />
-        <input
+      {editable && (
+        <form
           className="hidden"
-          type="file"
-          name="file"
-          id="fileInput"
-          onChange={handleFileInputChange}
-        />
-      </form>
+          action="api/updateProfileImage"
+          method="POST"
+          ref={formRef}
+        >
+          <input type="hidden" name="imageUrl" value={imageUrl} />
+          <input type="hidden" name="userId" value={dbUser.id} />
+          <input
+            className="hidden"
+            type="file"
+            name="file"
+            id="fileInput"
+            onChange={handleFileInputChange}
+          />
+        </form>
+      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function UserProfileInfo({ dbUser }) {
+export default function UserProfileInfo({ dbUser, editable }) {
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingLink, setIsEditingLink] = useState(false);
   const [isEditingLocation, setIsEditingLocation] = useState(false);
@@ -17,156 +17,182 @@ export default function UserProfileInfo({ dbUser }) {
       </article>
 
       <article className="w-full">
-        <div className="w-full">
-          {dbUser && description && !isEditingDesc ? (
-            <div className="flex items-center justify-between gap-2">
-              <p>{description}</p>
-              <button onClick={() => setIsEditingDesc(!isEditingDesc)}>
-                <i className="text-2xl ri-pencil-fill" />
-              </button>
-            </div>
-          ) : (
-            <form
-              action="api/updateDescription"
-              method="post"
-              className="w-full flex items-center gap-2"
-            >
-              <input type="hidden" name="userId" value={id} />
-              <textarea
-                rows="1"
-                name="description"
-                className="w-full bg-transparent"
-                placeholder={
-                  description ? description : "Describe yourself and your style"
-                }
-              />
-              <button type="submit" className="text-center">
-                <i className="text-2xl ri-add-line" />
-              </button>
-              {isEditingDesc && (
+        {editable ? (
+          <div className="w-full">
+            {dbUser && description && !isEditingDesc ? (
+              <div className="flex items-center justify-between gap-2">
+                <p>{description}</p>
                 <button onClick={() => setIsEditingDesc(!isEditingDesc)}>
-                  <i className="text-2xl ri-close-line" />
+                  <i className="text-2xl ri-pencil-fill" />
                 </button>
-              )}
-            </form>
-          )}
-        </div>
-      </article>
-
-      <article className="w-full">
-        {dbUser && link && !isEditingLink ? (
-          <div className="flex items-center justify-between gap-2">
-            <a
-              href={link}
-              className="text-blue-300 hover:text-green-500 overflow-hidden"
-              target="_blank"
-            >
-              {link}
-            </a>
-            <button onClick={() => setIsEditingLink(!isEditingLink)}>
-              <i className="text-2xl ri-pencil-fill" />
-            </button>
+              </div>
+            ) : (
+              <form
+                action="api/updateDescription"
+                method="post"
+                className="w-full flex items-center gap-2"
+              >
+                <input type="hidden" name="userId" value={id} />
+                <textarea
+                  rows="1"
+                  name="description"
+                  className="w-full bg-transparent"
+                  placeholder={
+                    description
+                      ? description
+                      : "Describe yourself and your style"
+                  }
+                />
+                <button type="submit" className="text-center">
+                  <i className="text-2xl ri-add-line" />
+                </button>
+                {isEditingDesc && (
+                  <button onClick={() => setIsEditingDesc(!isEditingDesc)}>
+                    <i className="text-2xl ri-close-line" />
+                  </button>
+                )}
+              </form>
+            )}
           </div>
         ) : (
-          <form
-            action="api/updateLink"
-            method="post"
-            className="w-full flex items-center gap-2"
-          >
-            <input type="hidden" name="userId" value={id} />
-            <input
-              name="link"
-              type="url"
-              className="w-full bg-transparent"
-              placeholder={link ? link : "Add the link of your site"}
-            />
-            <button type="submit" className="text-center">
-              <i className="text-2xl ri-add-line" />
-            </button>
-            {isEditingLink && (
-              <button onClick={() => setIsEditingLink(!isEditingLink)}>
-                <i className="text-2xl ri-close-line" />
-              </button>
-            )}
-          </form>
+          <p>{description}</p>
         )}
       </article>
 
-      <article className="w-full">
-        <div className="w-full">
-          {dbUser && location && !isEditingLocation ? (
+      {editable ? (
+        <article className="w-full">
+          {dbUser && link && !isEditingLink ? (
             <div className="flex items-center justify-between gap-2">
-              <p className="w-full opacity-65">{location}</p>
-              <button onClick={() => setIsEditingLocation(!isEditingLocation)}>
+              <a
+                href={link}
+                className="text-blue-300 hover:text-green-500 overflow-hidden"
+                target="_blank"
+              >
+                {link}
+              </a>
+              <button onClick={() => setIsEditingLink(!isEditingLink)}>
                 <i className="text-2xl ri-pencil-fill" />
               </button>
             </div>
           ) : (
             <form
-              action="api/updateLocation"
+              action="api/updateLink"
               method="post"
               className="w-full flex items-center gap-2"
             >
               <input type="hidden" name="userId" value={id} />
               <input
-                name="location"
-                type="text"
+                name="link"
+                type="url"
                 className="w-full bg-transparent"
-                placeholder={location ? location : "Add a location"}
+                placeholder={link ? link : "Add the link of your site"}
               />
               <button type="submit" className="text-center">
                 <i className="text-2xl ri-add-line" />
               </button>
-              {isEditingLocation && (
+              {isEditingLink && (
+                <button onClick={() => setIsEditingLink(!isEditingLink)}>
+                  <i className="text-2xl ri-close-line" />
+                </button>
+              )}
+            </form>
+          )}
+        </article>
+      ) : (
+        <a
+          href={link}
+          className="text-blue-300 hover:text-green-500 overflow-hidden"
+          target="_blank"
+        >
+          {link}
+        </a>
+      )}
+
+      {editable ? (
+        <article className="w-full">
+          <div className="w-full">
+            {dbUser && location && !isEditingLocation ? (
+              <div className="flex items-center justify-between gap-2">
+                <p className="w-full opacity-65">{location}</p>
                 <button
                   onClick={() => setIsEditingLocation(!isEditingLocation)}
                 >
-                  <i className="text-2xl ri-close-line" />
+                  <i className="text-2xl ri-pencil-fill" />
                 </button>
-              )}
-            </form>
-          )}
-        </div>
-      </article>
-
-      <article className="w-full">
-        <div className="w-full">
-          {dbUser && birthdate && !isEditingBirthdate ? (
-            <div className="flex items-center justify-between gap-2">
-              <p className="w-full opacity-65">{birthdate}</p>
-              <button
-                onClick={() => setIsEditingBirthdate(!isEditingBirthdate)}
+              </div>
+            ) : (
+              <form
+                action="api/updateLocation"
+                method="post"
+                className="w-full flex items-center gap-2"
               >
-                <i className="text-2xl ri-pencil-fill" />
-              </button>
-            </div>
-          ) : (
-            <form
-              action="api/updateBirthdate"
-              method="post"
-              className="w-full flex items-center gap-2"
-            >
-              <input type="hidden" name="userId" value={id} />
-              <input
-                name="birthdate"
-                type="date"
-                className="w-full bg-transparent"
-                placeholder={birthdate ? birthdate : "Add your birthdate"}
-              />
-              <button type="submit" className="text-center">
-                <i className="text-2xl ri-add-line" />
-              </button>
-              {isEditingBirthdate && (
+                <input type="hidden" name="userId" value={id} />
+                <input
+                  name="location"
+                  type="text"
+                  className="w-full bg-transparent"
+                  placeholder={location ? location : "Add a location"}
+                />
+                <button type="submit" className="text-center">
+                  <i className="text-2xl ri-add-line" />
+                </button>
+                {isEditingLocation && (
+                  <button
+                    onClick={() => setIsEditingLocation(!isEditingLocation)}
+                  >
+                    <i className="text-2xl ri-close-line" />
+                  </button>
+                )}
+              </form>
+            )}
+          </div>
+        </article>
+      ) : (
+        <p className="w-full opacity-65">{location}</p>
+      )}
+
+      {editable ? (
+        <article className="w-full">
+          <div className="w-full">
+            {dbUser && birthdate && !isEditingBirthdate ? (
+              <div className="flex items-center justify-between gap-2">
+                <p className="w-full opacity-65">{birthdate}</p>
                 <button
                   onClick={() => setIsEditingBirthdate(!isEditingBirthdate)}
                 >
-                  <i className="text-2xl ri-close-line" />
+                  <i className="text-2xl ri-pencil-fill" />
                 </button>
-              )}
-            </form>
-          )}
-        </div>
-      </article>
+              </div>
+            ) : (
+              <form
+                action="api/updateBirthdate"
+                method="post"
+                className="w-full flex items-center gap-2"
+              >
+                <input type="hidden" name="userId" value={id} />
+                <input
+                  name="birthdate"
+                  type="date"
+                  className="w-full bg-transparent"
+                  placeholder={birthdate ? birthdate : "Add your birthdate"}
+                />
+                <button type="submit" className="text-center">
+                  <i className="text-2xl ri-add-line" />
+                </button>
+                {isEditingBirthdate && (
+                  <button
+                    onClick={() => setIsEditingBirthdate(!isEditingBirthdate)}
+                  >
+                    <i className="text-2xl ri-close-line" />
+                  </button>
+                )}
+              </form>
+            )}
+          </div>
+        </article>
+      ) : (
+        <p className="w-full opacity-65">{birthdate}</p>
+      )}
     </>
   );
 }
