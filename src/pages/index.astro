@@ -3,22 +3,53 @@ import Header from "@c/Header.jsx";
 import Layout from "@l/Layout.astro";
 import Hero from "@c/Hero.astro";
 
+const posts = await Astro.glob("./posts/*.md");
+
 const headerLinks = [
   { href: "/myWardrobe", content: "My Wardrobe" },
   { href: "/pamShare", content: "Pam Share" },
   { href: "/#about", content: "About Us" },
 ];
 
-const sessionUser = Astro.locals.user
+const sessionUser = Astro.locals.user;
 ---
 
 <Layout
   title="PAME - Your Wardrobe Online"
   desc="PAME is a Wardrobe Online where you will be able to Manage your Outfits and Share them with your Friends."
 >
-  <Header client:load headerLinks={headerLinks} user={sessionUser} show={true}/>
+  <Header
+    client:load
+    headerLinks={headerLinks}
+    user={sessionUser}
+    show={true}
+  />
   <Hero />
-  <section id="about" class="px-4 py-20 min-h-[100vh]">
-    <h1 class="text-2xl">About</h1>
+  <section id="about" class="px-4 py-20">
+    <h1 class="text-2xl text-center">A B O U T * U S</h1>
+    <ul class="flex flex-wrap gap-2 items-center justify-center px-4 py-2 mb-4 w-fit max-w-full mx-auto">
+      {posts.map((p) => <li class="px-4 py-1 bg-slate-500/30 rounded-full"><a href={`/#${p.url}`} class="text-nowrap">{p.frontmatter.title}</a></li>)}
+    </ul>
+    {
+      posts.map((p) => (
+        <article id={p.url} class="max-w-[800px] mx-auto mb-10">
+          <h2 class="text-4xl text-transparent font-semibold bg-gradient-to-r from-indigo-500 to-green-500 w-fit bg-clip-text">
+            {p.frontmatter.title}
+          </h2>
+          <p>
+            <em class="text-slate-300 text-xs">{p.frontmatter.description}</em>
+          </p>
+          {p.frontmatter.p1 && <p class="py-2">{p.frontmatter.p1}</p>}
+          {p.frontmatter.p2 && <p class="py-2">{p.frontmatter.p2}</p>}
+          {p.frontmatter.p3 && <p class="py-2">{p.frontmatter.p3}</p>}
+          {p.frontmatter.p4 && <p class="py-2">{p.frontmatter.p4}</p>}
+          {p.frontmatter.p5 && <p class="py-2">{p.frontmatter.p5}</p>}
+          <footer class="flex items-center justify-between gap-4 border-t-[1px] pt-2">
+            <p>{p.frontmatter.author}</p>
+            <p>{p.frontmatter.date}</p>
+          </footer>
+        </article>
+      ))
+    }
   </section>
 </Layout>
