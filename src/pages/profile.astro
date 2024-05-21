@@ -5,6 +5,9 @@ import { User, db, eq } from "astro:db";
 import UserProfileInfo from "@/components/UserProfileInfo.jsx";
 import UserProfileImage from "@/components/UserProfileImage.jsx";
 import { Follow } from "astro:db";
+import WardrobeComponent from "@/components/Wardrobe";
+import { Clothe } from "astro:db";
+import { Wardrobe } from "astro:db";
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
@@ -15,6 +18,9 @@ const headerLinks = [
 const sessionUser = Astro.locals.user;
 let dbUser = null;
 let followers = null;
+let wardrobe = null;
+let clothes = null;
+
 if (sessionUser) {
   dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(
     0
@@ -24,6 +30,17 @@ if (sessionUser) {
       .select()
       .from(Follow)
       .where(eq(Follow.userTo, dbUser.id));
+    wardrobe = (
+      await db.select().from(Wardrobe).where(eq(Wardrobe.id, dbUser.wardrobeId))
+    ).at(0);
+    if (!wardrobe) {
+      return Astro.redirect("/logIn");
+    } else {
+      clothes = await db
+        .select()
+        .from(Clothe)
+        .where(eq(Clothe.wardrobeId, wardrobe.id));
+    }
   }
 } else {
   return Astro.redirect("/logIn");
@@ -62,6 +79,15 @@ if (sessionUser) {
           followActive={null}
         />
       </section>
+    </div>
+    <div id="wardrobe">
+      <WardrobeComponent
+        client:visible
+        categories={null}
+        clothes={clothes}
+        wardrobeId={wardrobe}
+        simplified={true}
+      />
     </div>
   </main>
 </Layout>

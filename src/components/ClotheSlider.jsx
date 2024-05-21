@@ -11,9 +11,12 @@ const getImageURL = async (file, folder, id) => {
   return getURL(folder, id).then((url) => url);
 };
 
-export default function ClotheSlider(
-  { wardrobeId, categories, clothes }
-) {
+export default function ClotheSlider({
+  wardrobeId,
+  categories,
+  clothes,
+  simplified,
+}) {
   // Slider ref hook
   const sliderRef = useRef(null);
   // Form ref hook
@@ -96,14 +99,16 @@ export default function ClotheSlider(
             <i className="text-2xl ri-carousel-view"></i>
           </button>
           {/** ADD CLOTHE */}
-          <button
-            className="rounded-md"
-            onClick={() =>
-              setNewClotheModalVisibility(!newClotheModalVisibility)
-            }
-          >
-            <i className="text-2xl ri-add-line"></i>
-          </button>
+          {!simplified && (
+            <button
+              className="rounded-md"
+              onClick={() =>
+                setNewClotheModalVisibility(!newClotheModalVisibility)
+              }
+            >
+              <i className="text-2xl ri-add-line"></i>
+            </button>
+          )}
         </aside>
 
         {/** SLIDER */}
@@ -121,7 +126,7 @@ export default function ClotheSlider(
             >
               {clothes && clothes.length > 0 ? (
                 clothes.map((c) => (
-                  <ClotheCard key={c.id} clothe={c} config={false} />
+                  <ClotheCard key={c.id} clothe={c} config={!simplified} />
                 ))
               ) : (
                 <p className="text-nowrap text-center">

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import CategorySlider from "./CategorySlider";
 import ClotheSlider from "./ClotheSlider";
 
-export default function Wardrobe({ wardrobeId, categories, clothes }) {
+export default function Wardrobe({ wardrobeId, categories, clothes, simplified }) {
   // Category selected on category slider hook
   const [selectedCategory, setSelectedCategory] = useState("all");
 
@@ -33,18 +33,21 @@ export default function Wardrobe({ wardrobeId, categories, clothes }) {
 
   return (
     <main className="w-full my-2">
-      <CategorySlider
+      {!simplified&&(
+        <CategorySlider
         wardrobeId={wardrobeId}
         categories={categories}
         showConfig={true}
         showAll={true}
         onCategorySelect={handleCategorySelect}
       />
+      )}
       <ClotheSlider
         wardrobeId={wardrobeId}
         categories={categories}
         selectedCategory={selectedCategory}
         clothes={clothesByCategorySelected}
+        simplified={simplified}
       />
     </main>
   );
