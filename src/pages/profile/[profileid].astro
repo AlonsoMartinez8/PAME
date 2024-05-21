@@ -1,6 +1,6 @@
 ---
 import Header from "@/components/Header";
-import {getUserById} from "@/pages/api/getUserById.ts"
+import { getUserById } from "@/pages/api/getUserById.ts";
 import Layout from "@/layouts/Layout.astro";
 import { eq } from "astro:db";
 import { User } from "astro:db";
@@ -19,7 +19,7 @@ const sessionUser = Astro.locals.user;
 
 let dbUser = null;
 let id = null;
-let followers = null
+let followers = null;
 
 if (sessionUser) {
   dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(
@@ -33,7 +33,12 @@ if (sessionUser) {
 
     if (id === dbUser.id) return Astro.redirect("/profile");
 
-    followers = await db.select().from(Follow).where(eq(Follow.userTo, dbUser.id))
+    followers = await db
+      .select()
+      .from(Follow)
+      .where(eq(Follow.userTo, dbUser.id));
+  } else {
+    return Astro.redirect("/logIn");
   }
 } else {
   return Astro.redirect("/logIn");
@@ -42,23 +47,46 @@ let user = null;
 if (id) {
   user = await getUserById(id);
 }
-if(!user) return Astro.redirect("/pamShare")
+if (!user) return Astro.redirect("/pamShare");
+
+let followActive = null;
+if (followers) {
+  followActive = followers
+    .filter((f) => f.userFrom === dbUser.id)
+    .at(0)?.active;
+} else {
+  return Astro.redirect("/pamShare");
+}
 ---
 
-<Layout
-  title={`PAME - Profile`}
-  desc=""
->
-  <Header client:load headerLinks={headerLinks} user={sessionUser} show={false} />
+<Layout title={`PAME - Profile`} desc="">
+  <Header
+    client:load
+    headerLinks={headerLinks}
+    user={sessionUser}
+    show={false}
+  />
   <main class="max-w-[900px] mx-auto py-5 px-10">
     <div class="flex flex-col md:grid md:grid-cols-6 gap-4">
       <aside class="col-span-2 flex flex-col items-center justify-center gap-2">
-        <UserProfileImage client:visible dbUser={user} width={180} editable={false} followers={followers}/>
+        <UserProfileImage
+          client:visible
+          dbUser={user}
+          width={180}
+          editable={false}
+          followers={followers}
+        />
       </aside>
       <section
         class="col-span-4 flex flex-col gap-4 items-center md:items-end py-4"
       >
-        <UserProfileInfo client:visible dbUser={user} editable={false}/>
+        <UserProfileInfo
+          client:visible
+          dbUser={user}
+          editable={false}
+          userTo={id}
+          followActive={followActive}
+        />
       </section>
     </div>
   </main>

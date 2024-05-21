@@ -7,9 +7,7 @@ import Header from "@/components/Header";
 import { db } from "astro:db";
 import { User } from "astro:db";
 import { eq } from "astro:db";
-import { dbUrl } from "astro:db";
 import { getCategoriesByWardrobe } from "../api/getCategoriesByWardrobe";
-import { getCategoryById } from "../api/getCategoryById";
 
 const headerLinks = [
   { href: "/myWardrobe", content: "My Wardrobe" },
