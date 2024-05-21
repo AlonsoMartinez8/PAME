@@ -10,13 +10,14 @@ export default function UserProfileInfo({ dbUser, editable }) {
 
   return (
     <>
-      <article className="w-full py-2 border-b-2 flex items-end justify-end gap-4">
+      <article className="w-full py-2 border-b-2 flex flex-wrap items-end justify-between gap-4">
+        
         <h1 className="text-3xl text-end text-transparent py-1 font-semibold bg-gradient-to-r from-indigo-300 via-green-300 to-slate-300 w-fit bg-clip-text">
           {dbUser ? username : "No User Found"}
-        </h1>
+        </h1><button className="px-4 py-1 border-2 rounded-full">Follow</button>
       </article>
 
-      <article className="w-full">
+      <article className="w-full text-end">
         {editable ? (
           <div className="w-full">
             {dbUser && description && !isEditingDesc ? (
@@ -55,14 +56,14 @@ export default function UserProfileInfo({ dbUser, editable }) {
             )}
           </div>
         ) : (
-          <p>{description}</p>
+          <p className="text-end">{description}</p>
         )}
       </article>
 
       {editable ? (
-        <article className="w-full">
+        <article className="w-full text-end">
           {dbUser && link && !isEditingLink ? (
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center justify-between gap-2 w-full">
               <a
                 href={link}
                 className="text-blue-300 hover:text-green-500 overflow-hidden"
@@ -109,7 +110,7 @@ export default function UserProfileInfo({ dbUser, editable }) {
       )}
 
       {editable ? (
-        <article className="w-full">
+        <article className="w-full text-end">
           <div className="w-full">
             {dbUser && location && !isEditingLocation ? (
               <div className="flex items-center justify-between gap-2">
@@ -148,11 +149,11 @@ export default function UserProfileInfo({ dbUser, editable }) {
           </div>
         </article>
       ) : (
-        <p className="w-full opacity-65">{location}</p>
+        <p className="w-full opacity-65 text-end">{location}</p>
       )}
 
       {editable ? (
-        <article className="w-full">
+        <article className="w-full text-end">
           <div className="w-full">
             {dbUser && birthdate && !isEditingBirthdate ? (
               <div className="flex items-center justify-between gap-2">
@@ -191,7 +192,7 @@ export default function UserProfileInfo({ dbUser, editable }) {
           </div>
         </article>
       ) : (
-        <p className="w-full opacity-65">{birthdate}</p>
+        <p className="w-full opacity-65 text-end">{birthdate}</p>
       )}
     </>
   );

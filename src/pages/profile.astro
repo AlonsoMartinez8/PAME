@@ -4,6 +4,7 @@ import Layout from "@l/Layout.astro";
 import { User, db, eq } from "astro:db";
 import UserProfileInfo from "@/components/UserProfileInfo.jsx"
 import UserProfileImage from "@/components/UserProfileImage.jsx"
+import { Follow } from "astro:db";
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
@@ -13,8 +14,12 @@ const headerLinks = [
 
 const sessionUser = Astro.locals.user;
 let dbUser = null;
+let followers = null
 if (sessionUser) {
   dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(0);
+  if(dbUser){
+    followers = await db.select().from(Follow).where(eq(Follow.userTo, dbUser.id))
+  }
 } else {
   return Astro.redirect("/logIn");
 }
@@ -28,7 +33,7 @@ if (sessionUser) {
   <main class="max-w-[900px] mx-auto py-5 px-10">
     <div class="flex flex-col md:grid md:grid-cols-6 gap-4">
       <aside class="col-span-2 flex flex-col items-center justify-center gap-2">
-        <UserProfileImage client:visible dbUser={dbUser} width={180} editable={true}/>
+        <UserProfileImage client:visible dbUser={dbUser} width={180} editable={true} followers={followers}/>
       </aside>
       <section
         class="col-span-4 flex flex-col gap-4 items-center md:items-end py-4"
