@@ -42,18 +42,6 @@ if (sessionUser) {
       .select()
       .from(Follow)
       .where(eq(Follow.userTo, dbUser.id));
-
-    wardrobe = (
-      await db.select().from(Wardrobe).where(eq(Wardrobe.id, dbUser.wardrobeId))
-    ).at(0);
-    if (!wardrobe) {
-      return Astro.redirect("/logIn");
-    } else {
-      clothes = await db
-        .select()
-        .from(Clothe)
-        .where(eq(Clothe.wardrobeId, wardrobe.id));
-    }
   } else {
     return Astro.redirect("/logIn");
   }
@@ -64,7 +52,21 @@ let user = null;
 if (id) {
   user = await getUserById(id);
 }
-if (!user) return Astro.redirect("/pamShare");
+if (user) {
+  wardrobe = (
+    await db.select().from(Wardrobe).where(eq(Wardrobe.id, user.wardrobeId))
+  ).at(0);
+  if (!wardrobe) {
+    return Astro.redirect("/logIn");
+  } else {
+    clothes = await db
+      .select()
+      .from(Clothe)
+      .where(eq(Clothe.wardrobeId, wardrobe.id));
+  }
+} else {
+  return Astro.redirect("/pamShare");
+}
 
 let followActive = null;
 if (followers) {
