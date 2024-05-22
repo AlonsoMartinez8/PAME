@@ -4,39 +4,32 @@ import { generateId } from "lucia";
 
 export async function POST(context: APIContext): Promise<Response> {
   const formData = await context.request.formData();
-  const userFrom = formData.get("idUserFrom");
-  const userTo = formData.get("idUserTo");
-  const alreadyFollowing = formData.get("alreadyFollowing");
+  const userFrom = formData.get("userFrom");
+  const userTo = formData.get("userTo");
+  const alreadyFollowing = Boolean(formData.get("alreadyFollowing"));
+  const followActiveId = formData.get("followActiveId");
 
   if (
     !userFrom ||
     !userTo ||
+    !userTo ||
+    !alreadyFollowing ||
+    !followActiveId ||
     typeof userFrom != "string" ||
-    typeof userTo != "string"
+    typeof userTo != "string" ||
+    typeof alreadyFollowing != "boolean" ||
+    typeof followActiveId != "string"
   ) {
-    return new Response("Invalid form data", { status: 401 });
+    return new Response(
+      `Invalid form data
+    from\t${userFrom} ${typeof userFrom} ${userFrom!=null}
+    to\t\t${userTo} ${typeof userTo} ${userFrom!=null}
+    aF\t\t${alreadyFollowing} ${typeof alreadyFollowing} ${userFrom!=null}
+    fA\t\t${followActiveId} ${typeof followActiveId} ${userFrom!=null}
+    `,
+      { status: 401 }
+    );
   }
 
-  const followId = generateId(15);
-
-  if (alreadyFollowing) {
-    const followActiveId = formData.get("followActiveId");
-    if (!followActiveId || typeof followActiveId != "string")
-      return new Response("Invalid form data", { status: 401 });
-    await db
-      .update(Follow)
-      .set({
-        active: false,
-      })
-      .where(eq(Follow.id, followActiveId));
-  } else if (!alreadyFollowing) {
-    await db.insert(Follow).values({
-      id: followId,
-      userFrom: userFrom,
-      userTo: userTo,
-      active: true,
-    });
-  }
-
-  return context.redirect(context.url.toString());
+  return context.redirect("/profile/" + userTo);
 }

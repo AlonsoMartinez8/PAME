@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function UserProfileInfo({
   dbUser,
   editable,
-  userTo,
+  userFrom,
   followActive,
 }) {
   const [isEditingDesc, setIsEditingDesc] = useState(false);
@@ -21,16 +21,14 @@ export default function UserProfileInfo({
         </h1>
         {!editable && (followActive == false || followActive == null) && (
           <form action="../api/follow" method="POST">
-            <input type="hidden" name="idUserFrom" value={dbUser.id} />
-            <input type="hidden" name="idUserTo" value={userTo} />
+            <input type="hidden" name="userFrom" value={userFrom} />
+            <input type="hidden" name="userTo" value={dbUser.id} />
             <input type="hidden" name="alreadyFollowing" value={followActive} />
-            {followActive != null && (
-              <input
-                type="hidden"
-                name="followActiveId"
-                value={followActive.id}
-              />
-            )}
+            <input
+              type="hidden"
+              name="followActiveId"
+              value={followActive?.id}
+            />
             <button
               type="submit"
               className="px-4 py-1 border-2 rounded-full hover:bg-slate-100/50"

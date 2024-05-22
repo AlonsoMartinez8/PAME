@@ -13,5 +13,5 @@ export async function POST(context: APIContext): Promise<Response> {
   await db.update(Follow).set({
     active: false,
   }).where(eq(Follow.id, followId))
-  return context.redirect(context.url.toString());
+  return context.redirect("/profile");
 }
