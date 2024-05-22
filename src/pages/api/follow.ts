@@ -12,7 +12,6 @@ export async function POST(context: APIContext): Promise<Response> {
   if (
     !userFrom ||
     !userTo ||
-    !userTo ||
     !alreadyFollowing ||
     !followActiveId ||
     typeof userFrom != "string" ||
@@ -30,6 +29,8 @@ export async function POST(context: APIContext): Promise<Response> {
       { status: 401 }
     );
   }
+
+  // logic
 
   return context.redirect("/profile/" + userTo);
 }
