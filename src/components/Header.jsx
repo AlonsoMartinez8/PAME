@@ -27,10 +27,10 @@ export default function Header({ headerLinks, user, show }) {
         id="sidebar"
         className={`${
           sidebarOpen ? "flex" : "hidden"
-        } absolute top-0 right-0 h-screen flex-col justify-start w-[60%] md:relative md:h-auto md:w-auto col-span-6 md:grid grid-cols-6 md:items-center bg-slate-800 md:bg-transparent`}
+        } absolute top-0 right-0 h-screen flex-col justify-start w-full md:relative md:h-auto md:w-auto col-span-6 md:grid grid-cols-6 md:items-center bg-slate-800 md:bg-transparent`}
       >
         <header className="p-4 flex items-center justify-between md:hidden">
-          <h2>Menu</h2>
+          <a href="/" className="text-2xl font-semibold">P A M E</a>
           <aside>
             <button onClick={handleClick}>
               <i className="text-2xl ri-xrp-line"></i>
