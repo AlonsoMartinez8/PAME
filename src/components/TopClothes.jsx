@@ -10,7 +10,7 @@ export default function TopClothes({ topClothes }) {
         T O P * C L O T H E S
       </h1>
       <div
-        className="col-span-full w-fit md:w-full h-full md:h-fit max-w-full md:max-h-[500px] px-0 relative"
+        className="overflow-hidden col-span-full w-fit md:w-full h-full md:h-fit max-w-full md:max-h-[500px] px-0 relative"
         ref={sliderRef}
       >
         <motion.ul
