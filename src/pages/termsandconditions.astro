@@ -1,0 +1,46 @@
+---
+import Header from "@/components/Header.jsx";
+import Layout from "@/layouts/Layout.astro";
+
+const sessionUser = Astro.locals.user;
+
+const headerLinks = [
+  { href: "/myWardrobe", content: "My Wardrobe" },
+  { href: "/pamShare", content: "Pam Share" },
+  { href: "/#about", content: "About Us" },
+];
+---
+
+<Layout title="Terms and conditions" desc="PAME's app Terms & Conditions">
+  <Header headerLinks={headerLinks} show={true} user={sessionUser} />
+  <main class="w-full max-w-[600px] mx-auto mt-10 mb-10 px-4">
+    <h1 class="text-2xl font-semibold mb-5">P A M E - TERMS & CONDITIONS</h1>
+    <article class="py-5">
+      <h2 class="text-2xl w-full border-b-2">Usiuasiu</h2>
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illum culpa
+        voluptas eius, voluptatem odit doloremque mollitia laudantium corporis
+        incidunt recusandae sapiente dolorum voluptatibus eum cupiditate
+        delectus repudiandae est! Sed, soluta.
+      </p>
+    </article>
+    <article class="py-5">
+      <h2 class="text-2xl w-full border-b-2">Usiuasiu</h2>
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illum culpa
+        voluptas eius, voluptatem odit doloremque mollitia laudantium corporis
+        incidunt recusandae sapiente dolorum voluptatibus eum cupiditate
+        delectus repudiandae est! Sed, soluta.
+      </p>
+    </article>
+    <article class="py-5">
+      <h2 class="text-2xl w-full border-b-2">Usiuasiu</h2>
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illum culpa
+        voluptas eius, voluptatem odit doloremque mollitia laudantium corporis
+        incidunt recusandae sapiente dolorum voluptatibus eum cupiditate
+        delectus repudiandae est! Sed, soluta.
+      </p>
+    </article>
+  </main>
+</Layout>
