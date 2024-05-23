@@ -6,6 +6,7 @@ import Assistant from "@/components/Assistant.jsx";
 import { db, User, Wardrobe, eq } from "astro:db";
 import { getCategoriesByWardrobe } from "./api/getCategoriesByWardrobe";
 import { getClothesByWardrobe } from "./api/getClothesByWardrobe";
+import MyOutfit from "@/components/MyOutfit";
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
@@ -63,6 +64,7 @@ if (sessionUser) {
           simplified={false}
         />
         <Assistant client:visible user={dbUser}/>
+        <MyOutfit />
       </main>
     )
   }

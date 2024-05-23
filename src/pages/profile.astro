@@ -8,6 +8,7 @@ import { Follow } from "astro:db";
 import WardrobeComponent from "@/components/Wardrobe";
 import { Clothe } from "astro:db";
 import { Wardrobe } from "astro:db";
+import MyOutfit from "@/components/MyOutfit";
 
 const headerLinks = [
   { href: "/pamShare", content: "Pam Share" },
@@ -89,5 +90,6 @@ if (sessionUser) {
         simplified={true}
       />
     </div>
+    <MyOutfit />
   </main>
 </Layout>

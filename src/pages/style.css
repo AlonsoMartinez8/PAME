@@ -1,0 +1,16 @@
+.implementing::before {
+    content: "I M P L E M E N T I N G";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-20deg);
+    width: fit-content;
+    height: fit-content;
+    padding: 2rem;
+    z-index: 300;
+    background: rgba(250, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+}

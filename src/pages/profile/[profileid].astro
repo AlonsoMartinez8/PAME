@@ -11,6 +11,7 @@ import { Follow } from "astro:db";
 import WardrobeComponent from "@/components/Wardrobe";
 import { Wardrobe } from "astro:db";
 import { Clothe } from "astro:db";
+import MyOutfit from "@/components/MyOutfit";
 
 const headerLinks = [
   { href: "/myWardrobe", content: "My Wardrobe" },
@@ -117,5 +118,6 @@ if (followers) {
         simplified={true}
       />
     </div>
+    <MyOutfit />
   </main>
 </Layout>
