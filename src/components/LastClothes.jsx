@@ -10,7 +10,7 @@ export default function LastClothes({ lastClothes }) {
         L A S T * C L O T H E S
       </h1>
       <div
-        className="col-span-full w-fit h-full max-w-full px-0 relative"
+        className="overflow-hidden col-span-full w-fit h-full max-w-full px-0 relative"
         ref={sliderRef}
       >
         <motion.ul
