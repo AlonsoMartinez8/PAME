@@ -1,7 +1,35 @@
-import React from 'react'
+import React, { useRef } from "react";
+import { motion } from "framer-motion";
+import ClotheCard from "./ClotheCard";
 
-export default function LastClothes() {
+export default function LastClothes({ lastClothes }) {
+  const sliderRef = useRef(null);
   return (
-    <div>LastClothes</div>
-  )
+    <>
+      <h1 className="text-lg text-center py-2 px-4">
+        L A S T * C L O T H E S
+      </h1>
+      <div
+        className="overflow-hidden col-span-full w-fit h-full max-w-full px-0 relative"
+        ref={sliderRef}
+      >
+        <motion.ul
+          drag="x"
+          dragConstraints={sliderRef}
+          className="flex flex-col items-center justify-center gap-2 w-fit flex-nowrap"
+        >
+          {lastClothes && lastClothes.length > 0 ? (
+            lastClothes.map((c) => (
+              <ClotheCard key={c.id} clothe={c} config={false} />
+            ))
+          ) : (
+            <p className="text-nowrap text-center">
+              There are no clothes with likes yet
+            </p>
+          )}
+        </motion.ul>
+      </div>
+    </>
+  );
 }
+

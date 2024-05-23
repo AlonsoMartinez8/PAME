@@ -7,7 +7,7 @@
     width: fit-content;
     height: fit-content;
     padding: 2rem;
-    z-index: 300;
+    z-index: 10;
     background: rgba(250, 0, 0, 0.8);
     display: flex;
     justify-content: center;

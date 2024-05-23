@@ -12,7 +12,7 @@ export default function CategoryConfig({ categories }) {
         <i className="text-2xl ri-settings-2-line"></i>
       </button>
       <dialog
-        className={`w-screen h-screen top-0 left-0 ${
+        className={`w-screen h-screen fixed top-0 left-0 ${
           isOpen ? "flex" : "hidden"
         } items-center z-50 backdrop-blur-md bg-slate-800/50`}
       >

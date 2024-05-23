@@ -1,11 +1,12 @@
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
+import ClotheCard from "./ClotheCard";
 
 export default function TopClothes({ topClothes }) {
   const sliderRef = useRef(null);
   return (
     <>
-      <h1 className="text-xl text-center py-2 px-4">
+      <h1 className="text-lg text-center py-2 px-4">
         T O P * C L O T H E S
       </h1>
       <div

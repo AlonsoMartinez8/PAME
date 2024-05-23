@@ -6,6 +6,7 @@ import LastClothes from "@c/LastClothes.jsx";
 import TopClothes from "@c/TopClothes.jsx";
 import { User, db, eq } from "astro:db";
 import { getTopClothes } from "./api/getTopClothes";
+import { Clothe } from "astro:db";
 
 const headerLinks = [
   { href: "/myWardrobe", content: "My Wardrobe" },
@@ -15,17 +16,18 @@ const headerLinks = [
 
 const sessionUser = Astro.locals.user;
 let dbUser = null;
-let profiles = null
+let profiles = null;
 if (sessionUser) {
   dbUser = (await db.select().from(User).where(eq(User.id, sessionUser.id))).at(
     0
   );
-  profiles = await db.select().from(User)
+  profiles = await db.select().from(User);
 } else {
   return Astro.redirect("/logIn");
 }
 
-const topClothes = await getTopClothes()
+const topClothes = await getTopClothes();
+const lastClothes = (await db.select().from(Clothe)).reverse()
 ---
 
 <Layout
@@ -48,13 +50,13 @@ const topClothes = await getTopClothes()
         </header>
         <main class="layout flex flex-col md:grid gap-4 py-1 px-4">
           <nav class="w-full px-4 py-2">
-            <ProfileSearcher client:visible profiles={profiles}/>
+            <ProfileSearcher client:visible profiles={profiles} />
           </nav>
-          <aside class="w-full px-4 py-2 ">
-            <TopClothes client:visible topClothes={topClothes}/>
+          <aside class="w-full px-4 py-8">
+            <TopClothes client:visible topClothes={topClothes} />
           </aside>
-          <main class="w-full px-4 py-2">
-            <LastClothes client:visible />
+          <main class="w-full px-4 py-8">
+            <LastClothes client:visible lastClothes={lastClothes}/>
           </main>
         </main>
       </>
