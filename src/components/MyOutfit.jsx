@@ -3,9 +3,9 @@ import avatar from "../../public/img/avatar.png"
 
 export default function MyOutfit() {
   return (
-    <section className="relative flex flex-col py-1 px-4 mt-10">
+    <section className="relative flex flex-col py-1 px-2 mt-10">
       <header class="w-full flex items-center">
-        <h1 transition:name="pageTitle" class="text-2xl">
+        <h1 class="text-2xl">
           M Y * O U T F I T
         </h1>
       </header>

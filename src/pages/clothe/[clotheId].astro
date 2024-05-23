@@ -8,6 +8,7 @@ import { db } from "astro:db";
 import { User } from "astro:db";
 import { eq } from "astro:db";
 import { getCategoriesByWardrobe } from "../api/getCategoriesByWardrobe";
+import MyOutfit from "@/components/MyOutfit";
 
 const headerLinks = [
   { href: "/myWardrobe", content: "My Wardrobe" },
@@ -61,5 +62,6 @@ const clothe = await getClotheById(id);
         />
       </section>
     </div>
+    <MyOutfit />
   </main>
 </Layout>
