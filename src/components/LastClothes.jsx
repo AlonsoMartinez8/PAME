@@ -14,7 +14,7 @@ export default function LastClothes({ lastClothes }) {
         ref={sliderRef}
       >
         <motion.ul
-          drag={true}
+          drag="x"
           dragConstraints={sliderRef}
           className="flex items-center justify-center gap-2 w-fit flex-nowrap"
         >

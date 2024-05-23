@@ -48,7 +48,7 @@ const lastClothes = (await db.select().from(Clothe)).reverse()
             P A M * S H A R E
           </h1>
         </header>
-        <main class="layout flex flex-col md:grid gap-4 py-1 px-4">
+        <main class="flex flex-col gap-4 py-1 px-4">
           <nav class="w-full px-4 py-2">
             <ProfileSearcher client:visible profiles={profiles} />
           </nav>
@@ -63,25 +63,3 @@ const lastClothes = (await db.select().from(Clothe)).reverse()
     )
   }
 </Layout>
-
-<style>
-  .layout {
-    grid-template-columns: 1fr 3fr 1fr;
-    grid-template-rows: auto;
-  }
-
-  .layout aside {
-    grid-column: 3;
-    grid-row: 2;
-  }
-
-  .layout nav {
-    grid-column: 1 / -1;
-    grid-row: 1;
-  }
-
-  .layout main {
-    grid-column: 1 / -2;
-    grid-row: 2;
-  }
-</style>

@@ -10,13 +10,13 @@ export default function TopClothes({ topClothes }) {
         T O P * C L O T H E S
       </h1>
       <div
-        className="overflow-hidden col-span-full w-fit md:w-full h-full md:h-fit max-w-full md:max-h-[500px] px-0 relative"
+        className="overflow-hidden col-span-full w-fit h-full max-w-full px-0 relative"
         ref={sliderRef}
       >
         <motion.ul
-          drag={true}
+          drag="x"
           dragConstraints={sliderRef}
-          className="flex md:flex-col items-center justify-center gap-2 w-fit md:w-full h-full md:h-fit  flex-nowrap"
+          className="flex items-center justify-center gap-2 w-fit flex-nowrap"
         >
           {topClothes && topClothes.length > 0 ? (
             topClothes.map((c) => (
