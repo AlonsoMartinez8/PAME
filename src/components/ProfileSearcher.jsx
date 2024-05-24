@@ -9,7 +9,7 @@ export default function ProfileSearcher({ profiles }) {
 
   useEffect(() => {
     if (searched != "") {
-      setFounded(profiles.filter((p) => p.username.includes(searched)));
+      setFounded(profiles.filter((p) => p.username.toLowerCase().includes(searched.toLowerCase())));
     } else {
       setFounded([]);
     }
