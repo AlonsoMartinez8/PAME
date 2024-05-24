@@ -30,7 +30,7 @@ export default function ClotheCard({ clothe, config, user }) {
           alt={clothe.name}
           className="h-64 md:h-72 w-full pointer-events-none object-cover mx-auto"
         />
-        <footer className="w-full text-center"><a href={`/clothe/${clothe.id}`}><i class="text-3xl hover:text-blue-300 transition-colors ri-edit-circle-fill"></i></a></footer>
+        <footer className="absolute top-0 right-0 text-center p-2"><a href={`/clothe/${clothe.id}`}><i class="text-3xl text-white/50 hover:text-blue-300 transition-colors ri-edit-circle-fill"></i></a></footer>
       </div>
     </li>
   );
