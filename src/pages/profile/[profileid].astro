@@ -12,6 +12,7 @@ import WardrobeComponent from "@/components/Wardrobe";
 import { Wardrobe } from "astro:db";
 import { Clothe } from "astro:db";
 import MyOutfit from "@/components/MyOutfit";
+import { and } from "astro:db";
 
 const headerLinks = [
   { href: "/myWardrobe", content: "My Wardrobe" },
@@ -71,12 +72,17 @@ if (user) {
 
 let followActive = null;
 if (followers) {
-  followActive = followers
-    .filter((f) => f.userFrom === dbUser.id)
-    .at(0)?.active;
-} else {
-  return Astro.redirect("/pamShare");
+  let follow = (
+    await db
+      .select()
+      .from(Follow)
+      .where(and(eq(Follow.userFrom, dbUser.id), eq(Follow.userTo, id)))
+  ).at(0);
+  if (follow) {
+    followActive = follow.active;
+  }
 }
+console.log(followActive)
 ---
 
 <Layout title={`PAME - Profile`} desc="">
@@ -88,7 +94,7 @@ if (followers) {
   />
   <main class="max-w-[900px] mx-auto py-4 px-4">
     <div class="flex flex-col md:grid md:grid-cols-6 gap-4">
-      <aside class="col-span-2 flex flex-col items-center justify-center gap-2">
+      <aside class="col-span-2 flex flex-col items-center justify-start gap-2">
         <UserProfileImage
           client:visible
           dbUser={user}
@@ -99,7 +105,7 @@ if (followers) {
         />
       </aside>
       <section
-        class="col-span-4 flex flex-col gap-4 items-center md:items-end py-4"
+        class="col-span-4 flex flex-col gap-4 items-center justify-start md:items-end py-4"
       >
         <UserProfileInfo
           client:visible

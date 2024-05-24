@@ -24,11 +24,6 @@ export default function UserProfileInfo({
             <input type="hidden" name="userFrom" value={userFrom} />
             <input type="hidden" name="userTo" value={dbUser.id} />
             <input type="hidden" name="alreadyFollowing" value={followActive} />
-            <input
-              type="hidden"
-              name="followActiveId"
-              value={followActive?.id}
-            />
             <button
               type="submit"
               className="px-4 py-1 border-2 rounded-full hover:bg-slate-100/50"

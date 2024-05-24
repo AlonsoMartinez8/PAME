@@ -1,36 +1,39 @@
 import type { APIContext } from "astro";
-import { Follow, db, eq } from "astro:db";
+import { Follow, db, eq, and } from "astro:db";
 import { generateId } from "lucia";
 
 export async function POST(context: APIContext): Promise<Response> {
   const formData = await context.request.formData();
-  const userFrom = formData.get("userFrom");
   const userTo = formData.get("userTo");
-  const alreadyFollowing = Boolean(formData.get("alreadyFollowing"));
-  const followActiveId = formData.get("followActiveId");
+  const userFrom = formData.get("userFrom");
+  const alreadyFollowing = formData.get("alreadyFollowing") === "true";
+  const newId = generateId(15);
 
-  if (
-    !userFrom ||
-    !userTo ||
-    !alreadyFollowing ||
-    !followActiveId ||
-    typeof userFrom != "string" ||
-    typeof userTo != "string" ||
-    typeof alreadyFollowing != "boolean" ||
-    typeof followActiveId != "string"
-  ) {
-    return new Response(
-      `Invalid form data
-    from\t${userFrom} ${typeof userFrom} ${userFrom!=null}
-    to\t\t${userTo} ${typeof userTo} ${userFrom!=null}
-    aF\t\t${alreadyFollowing} ${typeof alreadyFollowing} ${userFrom!=null}
-    fA\t\t${followActiveId} ${typeof followActiveId} ${userFrom!=null}
-    `,
-      { status: 401 }
-    );
+  if (!userFrom || !userTo) {
+    return new Response("Invalid form data", { status: 401 });
   }
 
-  // logic
+  if (alreadyFollowing == null) {
+    // Create follow
+    await db.insert(Follow).values({
+      userFrom: userFrom.toString(),
+      userTo: userTo.toString(),
+      active: true,
+      id: newId,
+    });
+  } else if (alreadyFollowing === false) {
+    // Update active=true
+    await db
+      .update(Follow)
+      .set({ active: true })
+      .where(and(eq(Follow.userFrom, userFrom.toString()), eq(Follow.userTo, userTo.toString())));
+  } else if (alreadyFollowing === true) {
+    // Unfollow, update active=false
+    await db
+      .update(Follow)
+      .set({ active: false })
+      .where(and(eq(Follow.userFrom, userFrom.toString()), eq(Follow.userTo, userTo.toString())));
+  }
 
   return context.redirect("/profile/" + userTo);
 }
