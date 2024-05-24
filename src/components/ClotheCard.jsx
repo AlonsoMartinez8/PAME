@@ -20,19 +20,18 @@ export default function ClotheCard({ clothe, config, user }) {
           </form>
         </section>
       )}
-      <a
-        href={`${config ? `/clothe/${clothe.id}` : "#wardrobe"}`}
+      <div
+        
         key={clothe.id}
-        className={`${
-          !config && "pointer-events-none"
-        } relative w-36 md:w-44 rounded-xl overflow-hidden cursor-pointer bg-slate-50/50 z-10`}
+        className="relative w-36 md:w-44 rounded-xl overflow-hidden bg-slate-50/50 z-10"
       >
         <img
           src={clothe.imageUrl}
           alt={clothe.name}
           className="h-64 md:h-72 w-full pointer-events-none object-cover mx-auto"
         />
-      </a>
+        <footer className="w-full text-center"><a href={`/clothe/${clothe.id}`}><i class="text-3xl hover:text-blue-300 transition-colors ri-edit-circle-fill"></i></a></footer>
+      </div>
     </li>
   );
 }
