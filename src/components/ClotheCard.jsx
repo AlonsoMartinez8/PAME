@@ -7,7 +7,7 @@ export default function ClotheCard({ clothe, config, user }) {
         <section className="w-full px-2 flex items-center justify-between gap-4 z-20 border-t-2 rounded-xl">
           <a
             href={`/profile/${user.id}`}
-            className="w-5 h-5 rounded-full object-fill bg-slate-50/30"
+            className="w-5 h-5 rounded-full overflow-hidden object-fill bg-slate-50/30"
           >
             <img src={user.imageUrl} />
           </a>
