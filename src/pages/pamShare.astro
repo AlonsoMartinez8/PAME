@@ -6,7 +6,7 @@ import LastClothes from "@c/LastClothes.jsx";
 import TopClothes from "@c/TopClothes.jsx";
 import { User, db, eq } from "astro:db";
 import { getTopClothes } from "./api/getTopClothes";
-import { Clothe } from "astro:db";
+import { getLastClothes } from "./api/getLastClothes";
 
 const headerLinks = [
   { href: "/myWardrobe", content: "My Wardrobe" },
@@ -27,7 +27,7 @@ if (sessionUser) {
 }
 
 const topClothes = await getTopClothes();
-const lastClothes = (await db.select().from(Clothe)).reverse()
+const lastClothes = await getLastClothes()
 ---
 
 <Layout

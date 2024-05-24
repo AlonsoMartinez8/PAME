@@ -20,7 +20,7 @@ export default function LastClothes({ lastClothes }) {
         >
           {lastClothes && lastClothes.length > 0 ? (
             lastClothes.map((c) => (
-              <ClotheCard key={c.id} clothe={c} config={false} user={c.user}/>
+              <ClotheCard key={c.clothe.id} clothe={c.clothe} config={false} user={c.user}/>
             ))
           ) : (
             <p className="text-nowrap text-center">

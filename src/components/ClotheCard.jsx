@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export default function ClotheCard({ clothe, config, user }) {
   return (
     <li className="flex flex-col">
