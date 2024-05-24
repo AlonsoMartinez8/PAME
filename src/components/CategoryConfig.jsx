@@ -26,7 +26,7 @@ export default function CategoryConfig({ categories }) {
           <main className="max-h-[300px] flex flex-col gap-4 overflow-y-scroll overflow-x-hidden">
             {categories && categories.length > 0
               ? categories.map((c) => (
-                  <div className="border-[1px] rounded-xl">
+                  <div key={c.id} className="border-[1px] rounded-xl">
                     {isEditingName ? (
                       <div key={c.id} className="flex items-center justify-between px-4">
                         <form
@@ -92,7 +92,7 @@ export default function CategoryConfig({ categories }) {
                       </div>
                     ) : (
                       <div className="flex items-center justify-between px-4 py-2">
-                        <textarea rows={1} className="text-white/80 w-full bg-transparent border-0 overflow-y-hidden">{c.description || "Description"}</textarea>
+                        <textarea rows={1} className="text-white/80 w-full bg-transparent border-0 overflow-y-hidden" defaultValue={c.description || "Description"} />
                         <button onClick={() => setIsEditingDesc(true)}>
                           <i className="text-2xl ri-pencil-fill" />
                         </button>
