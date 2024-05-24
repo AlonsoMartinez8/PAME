@@ -1,31 +1,16 @@
-import React, { useEffect, useState } from "react";
-
-export default function ClotheCard({
-  clothe,
-  config,
-  endPointPrefix,
-  userClickerId,
-}) {
-  const [likes, setLikes] = useState(0);
-
-  // const usersClothe = getUserFromClothe()
-
-  useEffect(() => {
-    let dbLikes = 0; //getLikesByClothe(clothe.id);
-    setLikes(dbLikes);
-  }, []);
-
+export default function ClotheCard({ clothe, config, user }) {
   return (
     <li className="flex flex-col">
       {!config && (
         <section className="w-full px-2 flex items-center justify-between gap-4 z-20 border-t-2 rounded-xl">
-          <a href="" className="w-5 h-5 rounded-full object-fill bg-slate-50/30">
-            <img src="" />
+          <a
+            href={`/profile/${user.id}`}
+            className="w-5 h-5 rounded-full object-fill bg-slate-50/30"
+          >
+            <img src={user.imageUrl} />
           </a>
-          <span className="text-xl text-center">{likes}</span>
-          <form action={`${endPointPrefix}api/like`}>
-            <input type="hidden" name="clotheId" value={clothe.id} />
-            <input type="hidden" name="userClickerId" value={userClickerId} />
+          <span className="text-xl text-center">0</span>
+          <form action="api/like">
             <button type="submit">
               <i className="text-xl ri-heart-3-line hover:text-red-400"></i>
             </button>

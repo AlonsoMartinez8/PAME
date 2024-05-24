@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import CategorySlider from "./CategorySlider";
 import ClotheSlider from "./ClotheSlider";
 
-export default function Wardrobe({ wardrobeId, categories, clothes, simplified }) {
+export default function Wardrobe({ wardrobeId, categories, clothes, simplified, user }) {
   // Category selected on category slider hook
   const [selectedCategory, setSelectedCategory] = useState("all");
 
@@ -48,6 +48,7 @@ export default function Wardrobe({ wardrobeId, categories, clothes, simplified }
         selectedCategory={selectedCategory}
         clothes={clothesByCategorySelected}
         simplified={simplified}
+        user={user}
       />
     </main>
   );

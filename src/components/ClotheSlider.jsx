@@ -16,6 +16,7 @@ export default function ClotheSlider({
   categories,
   clothes,
   simplified,
+  user
 }) {
   // Slider ref hook
   const sliderRef = useRef(null);
@@ -126,7 +127,7 @@ export default function ClotheSlider({
             >
               {clothes && clothes.length > 0 ? (
                 clothes.map((c) => (
-                  <ClotheCard key={c.id} clothe={c} config={!simplified} />
+                  <ClotheCard key={c.id} clothe={c} config={!simplified} user={user}/>
                 ))
               ) : (
                 <p className="text-nowrap text-center">
@@ -139,7 +140,7 @@ export default function ClotheSlider({
           <ul className="flex items-center justify-center flex-wrap gap-2 col-span-full">
             {clothes && clothes.length > 0 ? (
               clothes.map((c) => (
-                <ClotheCard key={c.id} clothe={c} config={false} />
+                <ClotheCard key={c.id} clothe={c} config={false} user={user}/>
               ))
             ) : (
               <p className="text-nowrap w-full text-center">

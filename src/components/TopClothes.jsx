@@ -20,7 +20,7 @@ export default function TopClothes({ topClothes }) {
         >
           {topClothes && topClothes.length > 0 ? (
             topClothes.map((c) => (
-              <ClotheCard key={c.id} clothe={c} config={false} />
+              <ClotheCard key={c.id} clothe={c} config={false} user={c.user}/>
             ))
           ) : (
             <p className="text-nowrap text-center">

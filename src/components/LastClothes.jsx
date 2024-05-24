@@ -20,11 +20,11 @@ export default function LastClothes({ lastClothes }) {
         >
           {lastClothes && lastClothes.length > 0 ? (
             lastClothes.map((c) => (
-              <ClotheCard key={c.id} clothe={c} config={false} />
+              <ClotheCard key={c.id} clothe={c} config={false} user={c.user}/>
             ))
           ) : (
             <p className="text-nowrap text-center">
-              There are no clothes with likes yet
+              There are no clothes yet
             </p>
           )}
         </motion.ul>
