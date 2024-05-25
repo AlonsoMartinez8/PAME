@@ -1,6 +1,28 @@
-import { Like, User, db, eq } from "astro:db";
+import type { APIContext } from "astro";
+import { Like, and, db, eq } from "astro:db";
 
-export async function getLikesByClothe(id: string): Promise<number> {
-  const likes = await db.select().from(Like).where(eq(Like.clotheTo, id))
-  return likes!=null?likes.length:0
+export async function GET(context: APIContext): Promise<Response> {
+  try {
+    const url = new URL(context.request.url);
+    const id = url.searchParams.get("id");
+
+    if (!id) {
+      return new Response(JSON.stringify({ error: "Clothe ID is required" }), {
+        status: 400,
+      });
+    }
+
+    const likes = await db
+      .select()
+      .from(Like)
+      .where(and(eq(Like.clotheTo, id), eq(Like.active, true)));
+
+    return new Response(JSON.stringify({ likes: likes ? likes.length : 0 }), {
+      status: 200,
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+    });
+  }
 }
