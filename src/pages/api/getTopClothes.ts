@@ -1,4 +1,4 @@
-import { Clothe, Like, User, db, eq } from "astro:db";
+import { Clothe, Like, User, and, db, eq } from "astro:db";
 
 export async function getTopClothes(): Promise<
   {
@@ -56,7 +56,10 @@ export async function getTopClothes(): Promise<
 
   // Recorrer todas las prendas para obtener la cantidad de likes de cada una y su usuario
   for (const c of clothes) {
-    const likes = await db.select().from(Like).where(eq(Like.clotheTo, c.id));
+    const likes = await db
+      .select()
+      .from(Like)
+      .where(and(eq(Like.clotheTo, c.id), eq(Like.active, true)));
     const user = (
       await db.select().from(User).where(eq(User.wardrobeId, c.wardrobeId))
     ).at(0);
