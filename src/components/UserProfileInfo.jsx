@@ -1,15 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function UserProfileInfo({
-  dbUser,
-  editable,
-  userFrom,
-  followActive,
-}) {
+export default function UserProfileInfo({ dbUser, editable }) {
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingLink, setIsEditingLink] = useState(false);
   const [isEditingLocation, setIsEditingLocation] = useState(false);
   const [isEditingBirthdate, setIsEditingBirthdate] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  useEffect(() => {
+    async function fetchIsFollowing() {
+      try {
+        const response = await fetch(`/api/isFollowing?userId=${dbUser.id}`);
+        const data = await response.json();
+        if (response.ok) {
+          setIsFollowing(data.isFollowing);
+        } else {
+          console.error(data.error);
+        }
+      } catch (error) {
+        console.error("Error fetching isLiked:", error);
+      }
+    }
+
+    fetchIsFollowing();
+  }, []);
 
   const { id, username, description, link, location, birthdate } = dbUser;
 
@@ -19,27 +33,14 @@ export default function UserProfileInfo({
         <h1 className="text-3xl text-end text-transparent py-1 font-semibold bg-gradient-to-r from-indigo-300 via-green-300 to-slate-300 w-fit bg-clip-text">
           {dbUser ? username : "No User Found"}
         </h1>
-        {!editable && (followActive == false || followActive == null) && (
-          <form action="../api/follow" method="POST">
-            <input type="hidden" name="userFrom" value={userFrom} />
+        {!editable && (
+          <form action="api/follow" method="POST">
             <input type="hidden" name="userTo" value={dbUser.id} />
-            <input type="hidden" name="alreadyFollowing" value={followActive} />
             <button
               type="submit"
-              className="px-4 py-1 border-2 rounded-full hover:bg-slate-100/50"
+              className={`px-4 py-1 border-2 rounded-full hover:bg-slate-100/50 ${isFollowing&&("bg-slate-100 text-slate-950")}`}
             >
-              Follow
-            </button>
-          </form>
-        )}
-        {!editable && followActive == true && (
-          <form action="../api/unfollow" method="POST">
-            <input type="hidden" name="followId" value={followActive.id} />
-            <button
-              type="submit"
-              className="px-4 py-1 border-2 border-red-300 text-red-300 rounded-full hover:bg-red-100/50"
-            >
-              Unfollow
+              {isFollowing?("Unfollow"):("Follow")}
             </button>
           </form>
         )}

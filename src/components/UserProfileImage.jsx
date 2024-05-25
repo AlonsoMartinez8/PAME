@@ -1,18 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { uploadFile, getURL } from "@/firebase/config";
 
-export default function UserProfileImage({
-  dbUser,
-  width,
-  editable,
-  followers,
-  following,
-}) {
+export default function UserProfileImage({ dbUser, width, editable }) {
   const [imageUrl, setImageUrl] = useState(dbUser.imageUrl);
   const [modalFollowersOpen, setModalFollowersOpen] = useState(false);
   const [modalFollowingOpen, setModalFollowingOpen] = useState(false);
   const formRef = useRef(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
 
   const handleImageClick = () => {
     editable && document.getElementById("fileInput").click();
@@ -33,6 +29,43 @@ export default function UserProfileImage({
       formRef.current.submit();
     }
   }, [formSubmitted]);
+
+  useEffect(() => {
+    async function fetchFollowers() {
+      try {
+        const response = await fetch(
+          `/api/getFollowersByUser?userId=${dbUser.id}`
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setFollowers(data.followers);
+        } else {
+          console.error(data.error);
+        }
+      } catch (error) {
+        console.error("Error fetching isLiked:", error);
+      }
+    }
+
+    async function fetchFollowing() {
+      try {
+        const response = await fetch(
+          `/api/getFollowingByUser?userId=${dbUser.id}`
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setFollowing(data.following);
+        } else {
+          console.error(data.error);
+        }
+      } catch (error) {
+        console.error("Error fetching isLiked:", error);
+      }
+    }
+
+    fetchFollowers();
+    fetchFollowing();
+  }, []);
 
   return (
     <>
@@ -95,7 +128,8 @@ export default function UserProfileImage({
             </header>
             <main className="px-4 py-2">
               <ul className="flex flex-col gap-4">
-                {followers.map(f=>(
+                {followers.length < 1 && <p>No followers yet</p>}
+                {followers.map((f) => (
                   <li>{f.userFrom}</li>
                 ))}
               </ul>
@@ -120,8 +154,9 @@ export default function UserProfileImage({
             </header>
             <main className="px-4 py-2">
               <ul className="flex flex-col gap-4">
-                {following.map(f=>(
-                  <li>{f.userTo}</li>
+              {following.length < 1 && <p>No following yet</p>}
+                {following.map((f) => (
+                  <li>{f.userFrom}</li>
                 ))}
               </ul>
             </main>

@@ -18,8 +18,6 @@ const headerLinks = [
 
 const sessionUser = Astro.locals.user;
 let dbUser = null;
-let followers = null;
-let following = null;
 let wardrobe = null;
 let clothes = null;
 
@@ -28,14 +26,6 @@ if (sessionUser) {
     0
   );
   if (dbUser) {
-    followers = await db
-      .select()
-      .from(Follow)
-      .where(eq(Follow.userTo, dbUser.id));
-    following = await db
-      .select()
-      .from(Follow)
-      .where(eq(Follow.userFrom, dbUser.id));
     wardrobe = (
       await db.select().from(Wardrobe).where(eq(Wardrobe.id, dbUser.wardrobeId))
     ).at(0);
@@ -71,8 +61,6 @@ if (sessionUser) {
           dbUser={dbUser}
           width={180}
           editable={true}
-          followers={followers}
-          following={following}
         />
       </aside>
       <section
@@ -82,8 +70,6 @@ if (sessionUser) {
           client:visible
           dbUser={dbUser}
           editable={true}
-          userFrom={null}
-          followActive={null}
         />
       </section>
     </div>

@@ -24,7 +24,6 @@ const sessionUser = Astro.locals.user;
 
 let dbUser = null;
 let id = null;
-let followers = null;
 let wardrobe = null;
 let clothes = null;
 
@@ -39,11 +38,6 @@ if (sessionUser) {
     id = url.substring(startIndex, endIndex);
 
     if (id === dbUser.id) return Astro.redirect("/profile");
-
-    followers = await db
-      .select()
-      .from(Follow)
-      .where(eq(Follow.userTo, dbUser.id));
   } else {
     return Astro.redirect("/logIn");
   }
@@ -69,20 +63,6 @@ if (user) {
 } else {
   return Astro.redirect("/pamShare");
 }
-
-let followActive = null;
-if (followers) {
-  let follow = (
-    await db
-      .select()
-      .from(Follow)
-      .where(and(eq(Follow.userFrom, dbUser.id), eq(Follow.userTo, id)))
-  ).at(0);
-  if (follow) {
-    followActive = follow.active;
-  }
-}
-console.log(followActive)
 ---
 
 <Layout title={`PAME - Profile`} desc="">
@@ -100,8 +80,6 @@ console.log(followActive)
           dbUser={user}
           width={180}
           editable={false}
-          followers={followers}
-          following={null}
         />
       </aside>
       <section
@@ -111,8 +89,6 @@ console.log(followActive)
           client:visible
           dbUser={user}
           editable={false}
-          userFrom={dbUser.id}
-          followActive={followActive}
         />
       </section>
     </div>
