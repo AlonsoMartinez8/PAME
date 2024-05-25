@@ -130,7 +130,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
               <ul className="flex flex-col gap-4">
                 {followers.length < 1 && <p>No followers yet</p>}
                 {followers.map((f) => (
-                  <li>{f.userFrom}</li>
+                  <li key={f.id}>{f.username}</li>
                 ))}
               </ul>
             </main>
@@ -156,7 +156,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
               <ul className="flex flex-col gap-4">
               {following.length < 1 && <p>No following yet</p>}
                 {following.map((f) => (
-                  <li>{f.userFrom}</li>
+                  <li key={f.id}>{f.username}</li>
                 ))}
               </ul>
             </main>

@@ -22,7 +22,9 @@ export default function UserProfileInfo({ dbUser, editable }) {
       }
     }
 
-    fetchIsFollowing();
+    if(!editable){
+      fetchIsFollowing();
+    }
   }, []);
 
   const { id, username, description, link, location, birthdate } = dbUser;
@@ -40,7 +42,7 @@ export default function UserProfileInfo({ dbUser, editable }) {
               type="submit"
               className={`px-4 py-1 border-2 rounded-full hover:bg-slate-100/50 ${isFollowing&&("bg-slate-100 text-slate-950")}`}
             >
-              {isFollowing?("Unfollow"):("Follow")}
+              {isFollowing?("Following"):("Follow")}
             </button>
           </form>
         )}
