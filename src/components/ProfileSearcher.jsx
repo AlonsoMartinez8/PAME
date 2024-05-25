@@ -27,7 +27,7 @@ export default function ProfileSearcher({ profiles }) {
         />
       </form>
       <div
-          className="w-fit max-w-full"
+          className="w-fit max-w-full overflow-hidden"
           ref={sliderRef}
         >
       <motion.ul
