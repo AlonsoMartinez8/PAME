@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function ClotheCard({ clothe, config, user }) {
   const [likes, setLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
     async function fetchLikes() {
@@ -18,8 +19,23 @@ export default function ClotheCard({ clothe, config, user }) {
       }
     }
 
+    async function fetchIsLiked() {
+      try {
+        const response = await fetch(`/api/isLiked?id=${clothe.id}`);
+        const data = await response.json();
+        if (response.ok) {
+          setIsLiked(data.isLiked);
+        } else {
+          console.error(data.error);
+        }
+      } catch (error) {
+        console.error("Error fetching isLiked:", error);
+      }
+    }
+
     if (clothe.id) {
       fetchLikes();
+      fetchIsLiked();
     }
   }, [clothe.id]);
 
@@ -37,10 +53,15 @@ export default function ClotheCard({ clothe, config, user }) {
           <form action="/api/like" method="POST">
             <input type="hidden" name="userTo" value={user.id} />
             <input type="hidden" name="clotheTo" value={clothe.id} />
-            <button type="submit">
-              <i className="text-xl ri-heart-3-line hover:text-red-400"></i>
-            </button>
-            {/**<button type="submit"><i className="text-xl text-red-400 ri-heart-3-fill"></i></button> */}
+            {isLiked ? (
+              <button type="submit">
+                <i className="text-xl text-red-400 ri-heart-3-fill"></i>
+              </button>
+            ) : (
+              <button type="submit">
+                <i className="text-xl ri-heart-3-line hover:text-red-400"></i>
+              </button>
+            )}
           </form>
         </section>
       )}
