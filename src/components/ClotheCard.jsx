@@ -12,7 +12,9 @@ export default function ClotheCard({ clothe, config, user }) {
             <img src={user.imageUrl} />
           </a>
           <span className="text-xl text-center">0</span>
-          <form action="api/like">
+          <form action="api/like" method="POST">
+            <input type="hidden" name="userTo" value={user.id}/>
+            <input type="hidden" name="clotheTo" value={clothe.id}/>
             <button type="submit">
               <i className="text-xl ri-heart-3-line hover:text-red-400"></i>
             </button>
