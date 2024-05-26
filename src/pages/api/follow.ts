@@ -3,43 +3,51 @@ import { Follow, and, db, eq } from "astro:db";
 import { generateId } from "lucia";
 
 export async function POST(context: APIContext): Promise<Response> {
-  const formData = await context.request.formData();
-  const userFrom = context.locals.user?.id;
-  const userTo = formData.get("userTo");
-  if (
-    !userFrom ||
-    !userTo ||
-    !(typeof userFrom === "string") ||
-    !(typeof userTo === "string")
-  ) {
-    return new Response("Invalid form data", { status: 401 });
-  }
-  const exist = (
-    await db
-      .select()
-      .from(Follow)
-      .where(and(eq(Follow.userFrom, userFrom), eq(Follow.userTo, userTo)))
-  ).at(0);
-  if (!exist) {
-    const newFollowId = generateId(15);
-    await db.insert(Follow).values({
-      id: newFollowId,
-      userFrom: userFrom,
-      userTo: userTo,
-      active: true,
-    });
-  } else {
-    if (exist.active) {
-      await db
-        .update(Follow)
-        .set({ active: false })
-        .where(and(eq(Follow.userFrom, userFrom), eq(Follow.userTo, userTo)));
-    } else {
-      await db
-        .update(Follow)
-        .set({ active: true })
-        .where(and(eq(Follow.userFrom, userFrom), eq(Follow.userTo, userTo)));
+  try {
+    const body = await context.request.json();
+
+    const { userTo } = body;
+    const userFrom = context.locals.user?.id;
+    if (!userTo || !userFrom) {
+      return new Response(JSON.stringify({ error: "Invalid input" }), {
+        status: 400,
+      });
     }
+
+    const exist = (
+      await db
+        .select()
+        .from(Follow)
+        .where(and(eq(Follow.userFrom, userFrom), eq(Follow.userTo, userTo)))
+    ).at(0);
+    if (!exist) {
+      const newFollowId = generateId(15);
+      await db.insert(Follow).values({
+        id: newFollowId,
+        userFrom: userFrom,
+        userTo: userTo,
+        active: true,
+      });
+    } else {
+      if (exist.active) {
+        await db
+          .update(Follow)
+          .set({ active: false })
+          .where(and(eq(Follow.userFrom, userFrom), eq(Follow.userTo, userTo)));
+      } else {
+        await db
+          .update(Follow)
+          .set({ active: true })
+          .where(and(eq(Follow.userFrom, userFrom), eq(Follow.userTo, userTo)));
+      }
+    }
+    return new Response(JSON.stringify({ message: "Follow successfully" }), {
+      status: 200,
+    });
+  } catch (error) {
+    console.error(error);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+    });
   }
-  return context.redirect("/pamShare");
 }

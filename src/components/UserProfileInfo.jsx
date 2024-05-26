@@ -7,6 +7,28 @@ export default function UserProfileInfo({ dbUser, editable }) {
   const [isEditingBirthdate, setIsEditingBirthdate] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
 
+  const handleFollowClick = async () => {
+    try {
+      const response = await fetch(`api/follow`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userTo: dbUser.id,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        console.log(data.error);
+      } else {
+        setIsFollowing((prevIsFollowing) => !prevIsFollowing);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     async function fetchIsFollowing() {
       try {
@@ -22,7 +44,7 @@ export default function UserProfileInfo({ dbUser, editable }) {
       }
     }
 
-    if(!editable){
+    if (!editable) {
       fetchIsFollowing();
     }
   }, []);
@@ -32,19 +54,18 @@ export default function UserProfileInfo({ dbUser, editable }) {
   return (
     <>
       <article className="w-full py-2 border-b-2 flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-3xl text-end text-transparent py-1 font-semibold bg-gradient-to-r from-indigo-300 via-green-300 to-slate-300 w-fit bg-clip-text">
+        <h1 className="text-2xl text-end text-transparent py-1 font-semibold bg-gradient-to-r from-indigo-300 via-green-300 to-slate-300 w-fit bg-clip-text">
           {dbUser ? username : "No User Found"}
         </h1>
         {!editable && (
-          <form action="api/follow" method="POST">
-            <input type="hidden" name="userTo" value={dbUser.id} />
-            <button
-              type="submit"
-              className={`px-4 py-1 border-2 rounded-full hover:bg-slate-100/50 ${isFollowing&&("bg-slate-100 text-slate-950")}`}
-            >
-              {isFollowing?("Following"):("Follow")}
-            </button>
-          </form>
+          <button
+            onClick={handleFollowClick}
+            className={`px-2 border-2 rounded-full hover:bg-slate-100/50 ${
+              isFollowing && "bg-slate-100 text-slate-950"
+            }`}
+          >
+            {isFollowing ? "Following" : "Follow"}
+          </button>
         )}
       </article>
 
