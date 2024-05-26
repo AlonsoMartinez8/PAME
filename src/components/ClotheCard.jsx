@@ -4,6 +4,31 @@ export default function ClotheCard({ clothe, config, user }) {
   const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
 
+  const handleLikeClick = async () => {
+    try {
+      const response = await fetch(`api/like`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          clotheTo: clothe.id,
+          userTo: user.id,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        console.log(data.error);
+      } else {
+        // Update the likes and isLiked state to trigger a rerender
+        setLikes(prevLikes => isLiked ? prevLikes - 1 : prevLikes + 1);
+        setIsLiked(prevIsLiked => !prevIsLiked);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     async function fetchLikes() {
       try {
@@ -50,19 +75,15 @@ export default function ClotheCard({ clothe, config, user }) {
             <img src={user.imageUrl} alt={user.name} />
           </a>
           <span className="text-xl text-center">{likes}</span>
-          <form action="/api/like" method="POST">
-            <input type="hidden" name="userTo" value={user.id} />
-            <input type="hidden" name="clotheTo" value={clothe.id} />
-            {isLiked ? (
-              <button type="submit">
-                <i className="text-xl text-red-400 ri-heart-3-fill"></i>
-              </button>
-            ) : (
-              <button type="submit">
-                <i className="text-xl ri-heart-3-line hover:text-red-400"></i>
-              </button>
-            )}
-          </form>
+          {isLiked ? (
+            <button onClick={handleLikeClick}>
+              <i className="text-xl text-red-400 ri-heart-3-fill"></i>
+            </button>
+          ) : (
+            <button onClick={handleLikeClick}>
+              <i className="text-xl ri-heart-3-line hover:text-red-400"></i>
+            </button>
+          )}
         </section>
       )}
       <div
