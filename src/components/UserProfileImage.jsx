@@ -46,7 +46,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
       if (!response.ok) {
         console.log(data.error);
       } else {
-        setFollowsChange((prevFollowsChange) => !prevFollowsChange);
+        setFollowsChange(true);
       }
     } catch (error) {
       console.error(error);
@@ -54,24 +54,24 @@ export default function UserProfileImage({ dbUser, width, editable }) {
   };
 
   useEffect(() => {
-    async function fetchFollowers() {
-      try {
-        const response = await fetch(
-          `/api/getFollowersByUser?userId=${dbUser.id}`
-        );
-        const data = await response.json();
-        if (response.ok) {
-          setFollowers(data.followers);
-        } else {
-          console.error(data.error);
+    if (followsChange) {
+      async function fetchFollowers() {
+        try {
+          const response = await fetch(
+            `/api/getFollowersByUser?userId=${dbUser.id}`
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setFollowers(data.followers);
+          } else {
+            console.error(data.error);
+          }
+        } catch (error) {
+          console.error("Error fetching isLiked:", error);
         }
-      } catch (error) {
-        console.error("Error fetching isLiked:", error);
       }
-    }
 
-    async function fetchFollowing() {
-      if (followsChange) {
+      async function fetchFollowing() {
         try {
           const response = await fetch(
             `/api/getFollowingByUser?userId=${dbUser.id}`
@@ -87,8 +87,8 @@ export default function UserProfileImage({ dbUser, width, editable }) {
         }
       }
 
-      fetchFollowers();
       fetchFollowing();
+      fetchFollowers();
       setFollowsChange(false);
     }
   }, [followsChange]);
