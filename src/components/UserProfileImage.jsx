@@ -30,6 +30,28 @@ export default function UserProfileImage({ dbUser, width, editable }) {
     }
   }, [formSubmitted]);
 
+  const handleUnfollowClick = async () => {
+    try {
+      const response = await fetch(`api/follow`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userTo: dbUser.id,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        console.log(data.error);
+      } else {
+        setFollowing([]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     async function fetchFollowers() {
       try {
@@ -139,7 +161,9 @@ export default function UserProfileImage({ dbUser, width, editable }) {
                         <img src={f.imageUrl} />
                       </a>
                     </div>
-                    <p className="text-center overflow-x-hidden">{f.username}</p>
+                    <p className="text-center overflow-x-hidden">
+                      {f.username}
+                    </p>
                   </li>
                 ))}
               </ul>
@@ -175,13 +199,12 @@ export default function UserProfileImage({ dbUser, width, editable }) {
                         <img src={f.imageUrl} />
                       </a>
                     </div>
-                    <p className="text-center overflow-x-hidden">{f.username}</p>
-                    <form action="api/follow" method="post">
-                      <input type="hidden" name="userTo" value={f.id} />
-                      <button>
-                        <i className="ri-delete-bin-line text-2xl text-red-300"></i>
-                      </button>
-                    </form>
+                    <p className="text-center overflow-x-hidden">
+                      {f.username}
+                    </p>
+                    <button onClick={handleUnfollowClick}>
+                      <i className="ri-delete-bin-line text-2xl text-red-300"></i>
+                    </button>
                   </li>
                 ))}
               </ul>

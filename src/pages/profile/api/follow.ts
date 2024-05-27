@@ -29,17 +29,10 @@ export async function POST(context: APIContext): Promise<Response> {
         active: true,
       });
     } else {
-      if (exist.active) {
-        await db
-          .update(Follow)
-          .set({ active: false })
-          .where(and(eq(Follow.userFrom, userFrom), eq(Follow.userTo, userTo)));
-      } else {
-        await db
-          .update(Follow)
-          .set({ active: true })
-          .where(and(eq(Follow.userFrom, userFrom), eq(Follow.userTo, userTo)));
-      }
+      await db
+        .update(Follow)
+        .set({ active: !exist.active })
+        .where(and(eq(Follow.userFrom, userFrom), eq(Follow.userTo, userTo)));
     }
     return new Response(JSON.stringify({ message: "Follow successfully" }), {
       status: 200,
