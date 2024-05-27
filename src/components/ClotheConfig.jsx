@@ -148,7 +148,7 @@ export default function ClotheConfig({ clothe, categories }) {
       <dialog
         className={`${
           deleteAlert ? "flex" : "hidden"
-        } w-screen h-screen top-0 left-0 items-center z-50 backdrop-blur-md bg-slate-800/50`}
+        } w-screen h-screen fixed top-0 left-0 items-center z-50 backdrop-blur-md bg-slate-800/50`}
       >
         <div className="m-auto w-[90%] md:max-w-[500px] bg-gradient-to-r from-slate-900 to-indigo-900 back p-4 rounded-xl">
           {/** HEADER */}
