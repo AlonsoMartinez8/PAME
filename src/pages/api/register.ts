@@ -16,8 +16,8 @@ export async function POST(context: APIContext): Promise<Response> {
   }
   if (
     typeof username !== "string" ||
-    username.length < 5 ||
-    username.length > 15
+    username.length <= 5 ||
+    username.length >= 15
   ) {
     return new Response(
       "Non valid username. Must be between 5 and 15 characters long",

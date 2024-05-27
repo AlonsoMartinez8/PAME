@@ -1,7 +1,6 @@
 ---
 import Layout from "@l/Layout.astro";
-import BtnLog from "@/components/BtnLog";
-import img from "../../public/img/3dWardrobeIllustration.png";
+import RegisterComp from "@c/Register.jsx"
 ---
 
 <Layout
@@ -13,47 +12,5 @@ import img from "../../public/img/3dWardrobeIllustration.png";
       <h1 class="text-2xl font-semibold">P A M E</h1>
     </a>
   </header>
-  <main class="h-full w-full flex flex-col items-center justify-between pb-4">
-    <form
-      class="w-full min-w-[300px] max-w-[500px] mx-auto flex flex-col gap-4 p-4"
-      method="POST"
-      action="api/register"
-    >
-      <h1 class="text-center text-xl">Register A New Account</h1>
-      <label for="username"
-        ><p>User Name</p><input
-          class="w-full bg-transparent border-2 mt-2 py-1 px-2 rounded-xl"
-          type="text"
-          name="username"
-          placeholder="User name"
-        /></label
-      >
-      <label
-        ><p>Password</p>
-        <div class="flex gap-2">
-          <input
-            class="w-1/2 bg-transparent border-2 mt-2 py-1 px-2 rounded-xl"
-            type="password"
-            name="password"
-            placeholder="Password"
-          /><input
-            class="w-1/2 bg-transparent border-2 mt-2 py-1 px-2 rounded-xl"
-            type="password"
-            name="repeatpassword"
-            placeholder="Repeat Password"
-          />
-        </div>
-        <span class="text-xs opacity-80 text-yellow-400">Must contain at least one symbol, one number and be 5-20 characters long.</span>
-      </label>
-      <button
-        class="bg-white/20 mt-2 py-1 rounded-xl hover:shadow-md hover:shadow-white/10"
-        >Register</button
-      >
-    </form>
-    <img src={img.src} alt="Image of a wardrobe" />
-    <footer class="text-center">
-      <p class="opacity-80 mb-2">Already have an account?</p>
-      <BtnLog href="/logIn" content="Log Into You Account" log={true}/>
-    </footer>
-  </main>
+  <RegisterComp client:visible/>
 </Layout>
