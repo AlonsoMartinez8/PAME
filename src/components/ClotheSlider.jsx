@@ -16,7 +16,7 @@ export default function ClotheSlider({
   categories,
   clothes,
   simplified,
-  user
+  user,
 }) {
   // Slider ref hook
   const sliderRef = useRef(null);
@@ -38,6 +38,8 @@ export default function ClotheSlider({
   const [imageURL, setImageURL] = useState("");
   // Display mode for slider
   const [carouselMode, setCarouselMode] = useState(true);
+  // Warning
+  const [warning, setWarning] = useState({ warn: false, msg: "" });
 
   // Function that handles the selection of a category for the new clothe
   const handleNewClotheCategorySelect = (categoryId) => {
@@ -64,6 +66,13 @@ export default function ClotheSlider({
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
+    if (newClotheCategorySelected == "" || newClotheCategorySelected == null) {
+      setWarning({ warn: true, msg: "Must select a category" });
+      return;
+    } else {
+      setWarning({ warn: false, msg: "" });
+    }
+
     const prepareStates = async () => {
       const id = generateId(15);
       setNewClotheId(id);
@@ -75,6 +84,16 @@ export default function ClotheSlider({
     };
 
     await prepareStates();
+
+    if (imageURL == "" || imageURL == null) {
+      setWarning({
+        warn: true,
+        msg: "Image missing or failed to load. Try again please!",
+      });
+      return
+    } else {
+      setWarning({ warn: false, msg: "" });
+    }
 
     setTimeout(() => {
       formRef.current.submit();
@@ -127,7 +146,12 @@ export default function ClotheSlider({
             >
               {clothes && clothes.length > 0 ? (
                 clothes.map((c) => (
-                  <ClotheCard key={c.id} clothe={c} config={!simplified} user={user}/>
+                  <ClotheCard
+                    key={c.id}
+                    clothe={c}
+                    config={!simplified}
+                    user={user}
+                  />
                 ))
               ) : (
                 <p className="text-nowrap text-center">
@@ -140,7 +164,12 @@ export default function ClotheSlider({
           <ul className="flex items-center justify-center flex-wrap gap-2 col-span-full">
             {clothes && clothes.length > 0 ? (
               clothes.map((c) => (
-                <ClotheCard key={c.id} clothe={c} config={!simplified} user={user}/>
+                <ClotheCard
+                  key={c.id}
+                  clothe={c}
+                  config={!simplified}
+                  user={user}
+                />
               ))
             ) : (
               <p className="text-nowrap w-full text-center">
@@ -178,6 +207,9 @@ export default function ClotheSlider({
               ref={formRef}
               onSubmit={handleFormSubmit}
             >
+              {warning.warn == true && (
+                <p className="text-xs text-red-400">{warning.msg}</p>
+              )}
               {/** CLOTHE ID */}
               <input type="hidden" name="id" value={newClotheId} />
               {/** WARDROBE */}
