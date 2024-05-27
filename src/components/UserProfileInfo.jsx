@@ -6,6 +6,14 @@ export default function UserProfileInfo({ dbUser, editable }) {
   const [isEditingLocation, setIsEditingLocation] = useState(false);
   const [isEditingBirthdate, setIsEditingBirthdate] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [descriptionValue, setDescriptionValue] = useState("");
+  const [descriptionWarn, setDescriptionWarn] = useState(false);
+  const [linkValue, setLinkValue] = useState("");
+  const [linkWarn, setLinkWarn] = useState(false);
+  const [locationValue, setLocationValue] = useState("");
+  const [locationWarn, setLocationWarn] = useState(false);
+  const [birthdateValue, setBirthdateValue] = useState("");
+  const [birthdateWarn, setBirthdateWarn] = useState(false);
 
   const handleFollowClick = async () => {
     try {
@@ -73,7 +81,7 @@ export default function UserProfileInfo({ dbUser, editable }) {
         {editable ? (
           <div className="w-full">
             {dbUser && description && !isEditingDesc ? (
-              <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center text-start justify-between gap-2">
                 <p>{description}</p>
                 <button onClick={() => setIsEditingDesc(!isEditingDesc)}>
                   <i className="text-2xl ri-pencil-fill" />
@@ -84,6 +92,15 @@ export default function UserProfileInfo({ dbUser, editable }) {
                 action="api/updateDescription"
                 method="post"
                 className="w-full flex items-center gap-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (descriptionValue == "" || descriptionValue == null) {
+                    setDescriptionWarn(true);
+                  } else {
+                    setDescriptionWarn(false);
+                    e.currentTarget.submit();
+                  }
+                }}
               >
                 <input type="hidden" name="userId" value={id} />
                 <textarea
@@ -95,6 +112,9 @@ export default function UserProfileInfo({ dbUser, editable }) {
                       ? description
                       : "Describe yourself and your style"
                   }
+                  onChange={(e) => {
+                    setDescriptionValue(e.target.value);
+                  }}
                 />
                 <button type="submit" className="text-center">
                   <i className="text-2xl ri-add-line" />
@@ -106,9 +126,14 @@ export default function UserProfileInfo({ dbUser, editable }) {
                 )}
               </form>
             )}
+            {descriptionWarn && (
+              <p className="w-full text-start text-xs text-red-400">
+                Description field can not be empty
+              </p>
+            )}
           </div>
         ) : (
-          <p className="text-end">{description}</p>
+          <p className="text-start text-pretty">{description}</p>
         )}
       </article>
 
@@ -118,7 +143,7 @@ export default function UserProfileInfo({ dbUser, editable }) {
             <div className="flex items-center justify-between gap-2 w-full">
               <a
                 href={link}
-                className="text-blue-300 hover:text-green-500 overflow-hidden"
+                className="text-blue-300 text-start hover:text-green-500 overflow-hidden"
                 target="_blank"
               >
                 {link}
@@ -132,6 +157,15 @@ export default function UserProfileInfo({ dbUser, editable }) {
               action="api/updateLink"
               method="post"
               className="w-full flex items-center gap-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (linkValue == "" || linkValue == null) {
+                  setLinkWarn(true);
+                } else {
+                  setLinkWarn(false);
+                  e.currentTarget.submit();
+                }
+              }}
             >
               <input type="hidden" name="userId" value={id} />
               <input
@@ -139,6 +173,7 @@ export default function UserProfileInfo({ dbUser, editable }) {
                 type="url"
                 className="w-full bg-transparent"
                 placeholder={link ? link : "Add the link of your site"}
+                onChange={(e) => setLinkValue(e.target.value)}
               />
               <button type="submit" className="text-center">
                 <i className="text-2xl ri-add-line" />
@@ -150,11 +185,16 @@ export default function UserProfileInfo({ dbUser, editable }) {
               )}
             </form>
           )}
+          {linkWarn && (
+            <p className="w-full text-start text-xs text-red-400">
+              Link field can not be empty
+            </p>
+          )}
         </article>
       ) : (
         <a
           href={link}
-          className="text-blue-300 hover:text-green-500 overflow-hidden"
+          className="text-blue-300 text-start hover:text-green-500 overflow-hidden"
           target="_blank"
         >
           {link}
@@ -166,7 +206,7 @@ export default function UserProfileInfo({ dbUser, editable }) {
           <div className="w-full">
             {dbUser && location && !isEditingLocation ? (
               <div className="flex items-center justify-between gap-2">
-                <p className="w-full opacity-65">{location}</p>
+                <p className="w-full text-start opacity-65">{location}</p>
                 <button
                   onClick={() => setIsEditingLocation(!isEditingLocation)}
                 >
@@ -178,6 +218,15 @@ export default function UserProfileInfo({ dbUser, editable }) {
                 action="api/updateLocation"
                 method="post"
                 className="w-full flex items-center gap-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (locationValue == "" || locationValue == null) {
+                    setLocationWarn(true);
+                  } else {
+                    setLocationWarn(false);
+                    e.currentTarget.submit();
+                  }
+                }}
               >
                 <input type="hidden" name="userId" value={id} />
                 <input
@@ -185,6 +234,7 @@ export default function UserProfileInfo({ dbUser, editable }) {
                   type="text"
                   className="w-full bg-transparent"
                   placeholder={location ? location : "Add a location"}
+                  onChange={(e) => setLocationValue(e.target.value)}
                 />
                 <button type="submit" className="text-center">
                   <i className="text-2xl ri-add-line" />
@@ -198,10 +248,15 @@ export default function UserProfileInfo({ dbUser, editable }) {
                 )}
               </form>
             )}
+            {locationWarn && (
+              <p className="w-full text-start text-xs text-red-400">
+                Location field can not be empty
+              </p>
+            )}
           </div>
         </article>
       ) : (
-        <p className="w-full opacity-65 text-end">{location}</p>
+        <p className="w-full opacity-65 text-start">{location}</p>
       )}
 
       {editable ? (
@@ -209,7 +264,10 @@ export default function UserProfileInfo({ dbUser, editable }) {
           <div className="w-full">
             {dbUser && birthdate && !isEditingBirthdate ? (
               <div className="flex items-center justify-between gap-2">
-                <p className="w-full opacity-65">{birthdate}</p>
+                <p className="w-full text-start opacity-65">
+                  <em>Birthdate: </em>
+                  {birthdate}
+                </p>
                 <button
                   onClick={() => setIsEditingBirthdate(!isEditingBirthdate)}
                 >
@@ -221,13 +279,24 @@ export default function UserProfileInfo({ dbUser, editable }) {
                 action="api/updateBirthdate"
                 method="post"
                 className="w-full flex items-center gap-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (birthdateValue == "" || birthdateValue == null) {
+                    setBirthdateWarn(true);
+                  } else {
+                    setBirthdateWarn(false);
+                    e.currentTarget.submit();
+                  }
+                }}
               >
                 <input type="hidden" name="userId" value={id} />
+                <em>Birthdate: </em>
                 <input
                   name="birthdate"
                   type="date"
                   className="w-full bg-transparent"
                   placeholder={birthdate ? birthdate : "Add your birthdate"}
+                  onChange={(e) => setBirthdateValue(e.target.value)}
                 />
                 <button type="submit" className="text-center">
                   <i className="text-2xl ri-add-line" />
@@ -241,10 +310,13 @@ export default function UserProfileInfo({ dbUser, editable }) {
                 )}
               </form>
             )}
+            {birthdateWarn&&(<p className="w-full text-start text-xs text-red-400">Birthdate field can not be empty</p>)}
           </div>
         </article>
       ) : (
-        <p className="w-full opacity-65 text-end">{birthdate}</p>
+        <p className="w-full opacity-65 text-start">
+          <em>Birthdate: </em> {birthdate}
+        </p>
       )}
     </>
   );
