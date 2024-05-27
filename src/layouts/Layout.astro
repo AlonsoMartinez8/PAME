@@ -3,7 +3,8 @@ import 'remixicon/fonts/remixicon.css'
 import '@/pages/style.css'
 import ViewTransitions from 'astro/components/ViewTransitions.astro';
 import Footer from '@/components/Footer.astro';
-import  SpeedInsights  from "@vercel/speed-insights/astro"
+import  SpeedInsights from "@vercel/speed-insights/astro"
+import favicon from "@/pameIcon.ico"
 
 interface Props {
   title: string;
@@ -21,7 +22,7 @@ const { title, desc } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={desc} />
-    <link rel="icon" type="image/x-icon" href="/src/assets/img/pameIcon.ico"/>
+    <link rel="icon" type="image/x-icon" href={favicon}/>
     <ViewTransitions/>
     <title>{title}</title>
   </head>
