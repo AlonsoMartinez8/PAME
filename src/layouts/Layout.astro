@@ -3,6 +3,7 @@ import 'remixicon/fonts/remixicon.css'
 import '@/pages/style.css'
 import ViewTransitions from 'astro/components/ViewTransitions.astro';
 import Footer from '@/components/Footer.astro';
+import  SpeedInsights  from "@vercel/speed-insights/astro"
 
 interface Props {
   title: string;
@@ -27,6 +28,7 @@ const { title, desc } = Astro.props;
   <body class="min-h-screen bg-gradient-to-r from-slate-900 to-indigo-900 overflow-x-hidden">
     <slot />
     <Footer />
+    <SpeedInsights />
   </body>
 </html>
 <style is:global>
