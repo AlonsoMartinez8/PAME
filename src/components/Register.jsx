@@ -3,14 +3,9 @@ import BtnLog from "./BtnLog";
 
 export default function Register() {
   const [usernameValue, setUsernameValue] = useState("");
-  const [usernameWarn, setUsernameWarn] = useState({
-    warn: false,
-    msg: "Valid username",
-  });
   const [passwordValue, setPasswordValue] = useState("");
-  const [passwordWarn, setPasswordWarn] = useState(false);
   const [repeatedPasswordValue, setRepeatedPasswordValue] = useState("");
-  const [repeatedPasswordWarn, setRepeatedPasswordWarn] = useState(false);
+  const [warning, setWarning] = useState({warn: false, msg: ""})
 
   const validUsername = async () => {
     try {
@@ -43,7 +38,7 @@ export default function Register() {
     e.preventDefault();
 
     if (!usernameValue) {
-      setUsernameWarn({
+      setWarning({
         warn: true,
         msg: "User name field can not be empty",
       });
@@ -51,16 +46,16 @@ export default function Register() {
     }
 
     if (!validateUsername(usernameValue)) {
-      setUsernameWarn({
+      setWarning({
         warn: true,
-        msg: "User name must be between 5 and 15 characters",
+        msg: "Invalid username",
       });
       return;
     }
 
     const isUsernameAvailable = await validUsername();
     if (!isUsernameAvailable) {
-      setUsernameWarn({
+      setWarning({
         warn: true,
         msg: "User name is not available",
       });
@@ -68,23 +63,21 @@ export default function Register() {
     }
 
     if (!passwordValue) {
-      setPasswordWarn(true);
+      setWarning({warn: true, msg: "Password field can not be empty"});
       return;
     }
 
     if (!validatePassword(passwordValue)) {
-      setPasswordWarn(true);
+      setWarning({warn: true, msg: "Invalid password"});
       return;
     }
 
     if (passwordValue !== repeatedPasswordValue) {
-      setRepeatedPasswordWarn(true);
+      setWarning({warn: true, msg: "Passwords do not coincide"});
       return;
     }
 
-    setUsernameWarn({ warn: false, msg: "Valid username" });
-    setPasswordWarn(false);
-    setRepeatedPasswordWarn(false);
+    setWarning({warn: false, msg: ""})
 
     e.target.submit();
   };
@@ -137,15 +130,7 @@ export default function Register() {
             long.
           </span>
         </label>
-        {usernameWarn.warn && (
-          <p className="text-xs text-red-400">{usernameWarn.msg}</p>
-        )}
-        {passwordWarn && (
-          <p className="text-xs text-red-400">Password is not valid</p>
-        )}
-        {repeatedPasswordWarn && (
-          <p className="text-xs text-red-400">Passwords do not coincide</p>
-        )}
+        {warning.warn==true&&(<p className="text-xs text-red-400">{warning.msg}</p>)}
         <button className="bg-white/20 mt-2 py-1 rounded-xl hover:shadow-md hover:shadow-white/10">
           Register
         </button>
