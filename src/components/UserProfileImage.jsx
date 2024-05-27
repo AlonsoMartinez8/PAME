@@ -9,7 +9,6 @@ export default function UserProfileImage({ dbUser, width, editable }) {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
-  const [followsChange, setFollowsChange] = useState(true);
 
   const handleImageClick = () => {
     editable && document.getElementById("fileInput").click();
@@ -31,30 +30,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
     }
   }, [formSubmitted]);
 
-  const handleUnfollowClick = async () => {
-    try {
-      const response = await fetch(`api/follow`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userTo: dbUser.id,
-        }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        console.log(data.error);
-      } else {
-        setFollowsChange(true);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    if (followsChange) {
       async function fetchFollowers() {
         try {
           const response = await fetch(
@@ -89,9 +65,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
 
       fetchFollowing();
       fetchFollowers();
-      setFollowsChange(false);
-    }
-  }, [followsChange]);
+  }, []);
 
   return (
     <>
@@ -206,9 +180,6 @@ export default function UserProfileImage({ dbUser, width, editable }) {
                     <p className="text-center overflow-x-hidden">
                       {f.username}
                     </p>
-                    <button onClick={handleUnfollowClick}>
-                      <i className="ri-delete-bin-line text-2xl text-red-300"></i>
-                    </button>
                   </li>
                 ))}
               </ul>
