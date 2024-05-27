@@ -85,9 +85,8 @@ export default function ClotheSlider({
       if (imageURL == "" || imageURL == null) {
         setWarning({
           warn: true,
-          msg: "Loading image. If it takes more than 10 seconds, try again please!",
+          msg: "You did not add any image",
         });
-        return;
       } else {
         setWarning({ warn: false, msg: "" });
       }
@@ -96,7 +95,12 @@ export default function ClotheSlider({
     await prepareStates();
 
     setTimeout(() => {
-      formRef.current.submit();
+      if (imageURL != "" && imageURL != null && file!==null) {
+        formRef.current.submit();
+      } else {
+        setImageURL("")
+        setFile(null)
+      }
     }, 1000);
   };
 
