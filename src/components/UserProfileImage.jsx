@@ -9,7 +9,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
-  const [followsChange, setFollowsChange] = useState(false);
+  const [followsChange, setFollowsChange] = useState(true);
 
   const handleImageClick = () => {
     editable && document.getElementById("fileInput").click();
