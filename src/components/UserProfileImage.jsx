@@ -119,7 +119,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
             modalFollowersOpen ? "flex" : "hidden"
           } items-center z-50 backdrop-blur-md bg-slate-800/50`}
         >
-          <div className="m-auto w-[90%] md:max-w-[500px] max-h-[400px] bg-gradient-to-r from-slate-900 to-indigo-900 back p-4 rounded-xl">
+          <div className="m-auto w-[90%] md:max-w-[500px] max-h-[400px] overflow-hidden bg-gradient-to-r from-slate-900 to-indigo-900 back p-4 rounded-xl">
             <header className="flex items-center justify-between gap-4 pb-4">
               <h1 className="text-2xl">Followers</h1>
               <button onClick={() => setModalFollowersOpen(false)}>
@@ -127,7 +127,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
               </button>
             </header>
             <main className="px-4 py-2">
-              <ul className="flex flex-col gap-4 overflow-y-scroll">
+              <ul className="flex flex-col gap-4 overflow-y-scroll max-h-full">
                 {followers.length < 1 && <p>No followers yet</p>}
                 {followers.map((f) => (
                   <li
@@ -155,7 +155,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
             modalFollowingOpen ? "flex" : "hidden"
           } items-center z-50 backdrop-blur-md bg-slate-800/50`}
         >
-          <div className="m-auto w-[90%] md:max-w-[500px] max-h-[400px] bg-gradient-to-r from-slate-900 to-indigo-900 back p-4 rounded-xl">
+          <div className="m-auto w-[90%] md:max-w-[500px] max-h-[400px] overflow-hidden bg-gradient-to-r from-slate-900 to-indigo-900 back p-4 rounded-xl">
             <header className="flex items-center justify-between gap-4 pb-4">
               <h1 className="text-2xl">Following</h1>
               <button onClick={() => setModalFollowingOpen(false)}>
@@ -163,7 +163,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
               </button>
             </header>
             <main className="px-4 py-2">
-              <ul className="flex flex-col gap-4 overflow-y-scroll">
+              <ul className="flex flex-col gap-4 overflow-y-scroll max-h-full">
                 {following.length < 1 && <p>No following yet</p>}
                 {following.map((f) => (
                   <li
