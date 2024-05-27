@@ -127,7 +127,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
               </button>
             </header>
             <main className="px-4 py-2">
-              <ul className="flex flex-col gap-4 overflow-y-scroll h-full max-h-[400px]">
+              <ul className="flex flex-col gap-4 overflow-y-scroll max-h-[400px]">
                 {followers.length < 1 && <p>No followers yet</p>}
                 {followers.map((f) => (
                   <li
@@ -163,7 +163,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
               </button>
             </header>
             <main className="px-4 py-2">
-              <ul className="flex flex-col gap-4 overflow-y-scroll h-full max-h-[400px]">
+              <ul className="flex flex-col gap-4 overflow-y-scroll max-h-[400px]">
                 {following.length < 1 && <p>No following yet</p>}
                 {following.map((f) => (
                   <li
