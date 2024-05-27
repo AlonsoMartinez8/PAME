@@ -133,12 +133,12 @@ export default function UserProfileInfo({ dbUser, editable }) {
             )}
           </div>
         ) : (
-          <p className="text-start text-pretty">{description}</p>
+          <p className="text-start text-pretty">{description==""||description==null?"Doesn't have description":description}</p>
         )}
       </article>
 
       {editable ? (
-        <article className="w-full text-end">
+        <article className="w-full text-start">
           {dbUser && link && !isEditingLink ? (
             <div className="flex items-center justify-between gap-2 w-full">
               <a
@@ -197,7 +197,7 @@ export default function UserProfileInfo({ dbUser, editable }) {
           className="text-blue-300 text-start hover:text-green-500 overflow-hidden"
           target="_blank"
         >
-          {link}
+          {link==""||link==null?"Doesn't have link":link}
         </a>
       )}
 
@@ -256,7 +256,7 @@ export default function UserProfileInfo({ dbUser, editable }) {
           </div>
         </article>
       ) : (
-        <p className="w-full opacity-65 text-start">{location}</p>
+        <p className="w-full opacity-65 text-start">{location==""||location==null?"Doesn't have location":location}</p>
       )}
 
       {editable ? (
@@ -315,7 +315,7 @@ export default function UserProfileInfo({ dbUser, editable }) {
         </article>
       ) : (
         <p className="w-full opacity-65 text-start">
-          <em>Birthdate: </em> {birthdate}
+          <em>Birthdate: </em> {birthdate==""||birthdate==null?"Doesn't have birthdate":birthdate}
         </p>
       )}
     </>

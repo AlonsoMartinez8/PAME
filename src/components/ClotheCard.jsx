@@ -98,7 +98,7 @@ export default function ClotheCard({ clothe, config, user }) {
         {config && (
           <footer className="absolute top-0 right-0 text-center p-2">
             <a href={`/clothe/${clothe.id}`}>
-              <i className="text-3xl text-white/50 hover:text-blue-300 transition-colors ri-edit-circle-fill"></i>
+              <i className="text-3xl text-white/50 hover:text-white transition-colors ri-edit-circle-fill"></i>
             </a>
           </footer>
         )}

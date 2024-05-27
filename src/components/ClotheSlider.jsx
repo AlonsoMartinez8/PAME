@@ -81,19 +81,19 @@ export default function ClotheSlider({
       setImageURL(imageUrl);
 
       formRef.current.action = "api/newClothe";
+
+      if (imageURL == "" || imageURL == null) {
+        setWarning({
+          warn: true,
+          msg: "Loading image. If it takes more than 10 seconds, try again please!",
+        });
+        return;
+      } else {
+        setWarning({ warn: false, msg: "" });
+      }
     };
 
     await prepareStates();
-
-    if (imageURL == "" || imageURL == null) {
-      setWarning({
-        warn: true,
-        msg: "Image missing or failed to load. Try again please!",
-      });
-      return
-    } else {
-      setWarning({ warn: false, msg: "" });
-    }
 
     setTimeout(() => {
       formRef.current.submit();

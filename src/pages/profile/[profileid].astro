@@ -16,6 +16,7 @@ import { and } from "astro:db";
 
 const headerLinks = [
   { href: "/myWardrobe", content: "My Wardrobe" },
+  { href: "/pamShare", content: "Pam Share" },
   { href: "/profile", content: "My Profile" },
   { href: "/#about", content: "About Us" },
 ];
@@ -70,7 +71,7 @@ if (user) {
     client:load
     headerLinks={headerLinks}
     user={sessionUser}
-    show={false}
+    show={true}
   />
   <main class="max-w-[900px] mx-auto py-4 px-4">
     <div class="flex flex-col md:grid md:grid-cols-6 gap-4">
