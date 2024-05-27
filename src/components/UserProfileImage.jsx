@@ -9,6 +9,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
+  const [followsChange, setFollowsChange] = useState(false);
 
   const handleImageClick = () => {
     editable && document.getElementById("fileInput").click();
@@ -45,7 +46,7 @@ export default function UserProfileImage({ dbUser, width, editable }) {
       if (!response.ok) {
         console.log(data.error);
       } else {
-        setFollowing([]);
+        setFollowsChange((prevFollowsChange) => !prevFollowsChange);
       }
     } catch (error) {
       console.error(error);
@@ -70,24 +71,27 @@ export default function UserProfileImage({ dbUser, width, editable }) {
     }
 
     async function fetchFollowing() {
-      try {
-        const response = await fetch(
-          `/api/getFollowingByUser?userId=${dbUser.id}`
-        );
-        const data = await response.json();
-        if (response.ok) {
-          setFollowing(data.following);
-        } else {
-          console.error(data.error);
+      if (followsChange) {
+        try {
+          const response = await fetch(
+            `/api/getFollowingByUser?userId=${dbUser.id}`
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setFollowing(data.following);
+          } else {
+            console.error(data.error);
+          }
+        } catch (error) {
+          console.error("Error fetching isLiked:", error);
         }
-      } catch (error) {
-        console.error("Error fetching isLiked:", error);
       }
-    }
 
-    fetchFollowers();
-    fetchFollowing();
-  }, []);
+      fetchFollowers();
+      fetchFollowing();
+      setFollowsChange(false);
+    }
+  }, [followsChange]);
 
   return (
     <>
