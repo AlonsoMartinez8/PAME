@@ -81,26 +81,12 @@ export default function ClotheSlider({
       setImageURL(imageUrl);
 
       formRef.current.action = "api/newClothe";
-
-      if (imageURL == "" || imageURL == null) {
-        setWarning({
-          warn: true,
-          msg: "You did not add any image",
-        });
-      } else {
-        setWarning({ warn: false, msg: "" });
-      }
     };
 
     await prepareStates();
 
     setTimeout(() => {
-      if (imageURL != "" && imageURL != null && file!==null) {
-        formRef.current.submit();
-      } else {
-        setImageURL("")
-        setFile(null)
-      }
+      formRef.current.submit();
     }, 1000);
   };
 
