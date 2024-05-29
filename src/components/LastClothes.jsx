@@ -37,7 +37,7 @@ export default function LastClothes() {
         className="overflow-hidden col-span-full w-fit h-full max-w-full px-0 relative"
         ref={sliderRef}
       >
-        <ul className="flex items-center justify-between gap-2 w-fit flex-wrap">
+        <ul className="flex items-center justify-start gap-2 w-fit flex-wrap">
           {lastClothes && lastClothes.length > 0 ? (
             lastClothes.map((c) => (
               <ClotheCard
