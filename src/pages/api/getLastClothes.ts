@@ -1,35 +1,16 @@
-import { Clothe, Like, User, db, eq } from "astro:db";
+import type { APIContext } from "astro";
+import { Clothe, User, db, eq } from "astro:db";
 
-interface LastClothe {
-  user: {
-    id: string;
-    wardrobeId: string;
-    outfitId: string;
-    username: string;
-    password: string;
-    imageUrl: string | null;
-    description: string | null;
-    link: string | null;
-    location: string | null;
-    birthdate: string | null;
-  };
-  clothe: {
-    id: string;
-    wardrobeId: string;
-    categoryId: string;
-    name: string | null;
-    description: string | null;
-    public: boolean;
-    imageUrl: string;
-    link: string | null;
-  };
-}
+export async function GET(context: APIContext): Promise<Response> {
+  const { searchParams } = new URL(context.request.url);
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const limit = parseInt(searchParams.get("limit") || "10", 10);
+  const offset = (page - 1) * limit;
 
-export async function getLastClothes(): Promise<LastClothe[]> {
-  // Obtener todas las prendas
-  const clothes = await db.select().from(Clothe);
+  // Obtener todas las prendas con límite y desplazamiento
+  const clothes = await db.select().from(Clothe).limit(limit).offset(offset);
 
-  let lastClothes: LastClothe[] = [];
+  let lastClothes = [];
 
   // Recorrer todas las prendas para obtener su usuario
   for (const c of clothes) {
@@ -47,5 +28,21 @@ export async function getLastClothes(): Promise<LastClothe[]> {
   // Ordenar las prendas por orden descendente
   lastClothes.reverse();
 
-  return lastClothes;
+  // Obtener el número total de prendas
+  const totalClothesCount = (await db.select().from(Clothe)).length;
+
+  const totalPages = Math.ceil(totalClothesCount / limit);
+
+  return new Response(
+    JSON.stringify({
+      clothes: lastClothes,
+      totalPages,
+      currentPage: page,
+    }),
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 }

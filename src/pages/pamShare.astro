@@ -25,9 +25,6 @@ if (sessionUser) {
 } else {
   return Astro.redirect("/logIn");
 }
-
-const topClothes = await getTopClothes();
-const lastClothes = await getLastClothes()
 ---
 
 <Layout
@@ -53,10 +50,10 @@ const lastClothes = await getLastClothes()
             <ProfileSearcher client:load profiles={profiles} />
           </nav>
           <aside class="w-full px-4 py-8">
-            <TopClothes client:load topClothes={topClothes} />
+            <TopClothes client:load />
           </aside>
           <main class="w-full px-4 py-8">
-            <LastClothes client:load lastClothes={lastClothes}/>
+            <LastClothes client:load />
           </main>
         </main>
       </>
