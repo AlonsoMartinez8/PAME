@@ -57,7 +57,7 @@ if (sessionUser) {
     <div class="flex flex-col md:grid md:grid-cols-6 gap-4">
       <aside class="col-span-2 flex flex-col items-center justify-start gap-2">
         <UserProfileImage
-          client:visible
+          client:load
           dbUser={dbUser}
           width={180}
           editable={true}
@@ -67,7 +67,7 @@ if (sessionUser) {
         class="col-span-4 flex flex-col gap-4 items-center justify-start md:items-end py-4"
       >
         <UserProfileInfo
-          client:visible
+          client:load
           dbUser={dbUser}
           editable={true}
         />
@@ -75,7 +75,7 @@ if (sessionUser) {
     </div>
     <div id="wardrobe">
       <WardrobeComponent
-        client:visible
+        client:load
         categories={null}
         clothes={clothes}
         wardrobeId={wardrobe}

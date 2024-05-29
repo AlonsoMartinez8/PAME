@@ -50,13 +50,13 @@ const lastClothes = await getLastClothes()
         </header>
         <main class="flex flex-col gap-4 py-1 px-4">
           <nav class="w-full px-4 py-2">
-            <ProfileSearcher client:visible profiles={profiles} />
+            <ProfileSearcher client:load profiles={profiles} />
           </nav>
           <aside class="w-full px-4 py-8">
-            <TopClothes client:visible topClothes={topClothes} />
+            <TopClothes client:load topClothes={topClothes} />
           </aside>
           <main class="w-full px-4 py-8">
-            <LastClothes client:visible lastClothes={lastClothes}/>
+            <LastClothes client:load lastClothes={lastClothes}/>
           </main>
         </main>
       </>

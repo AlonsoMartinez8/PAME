@@ -12,7 +12,7 @@ const headerLinks = [
 ---
 
 <Layout title="Privacy and policy" desc="PAME's app Privacy & Policy">
-  <Header client:visible headerLinks={headerLinks} show={true} user={sessionUser} />
+  <Header client:load headerLinks={headerLinks} show={true} user={sessionUser} />
   <main class="w-full max-w-[600px] mx-auto mt-10 mb-10 px-4">
     <h1 class="text-2xl font-semibold mb-5">P A M E - PRIVACY & POLICY</h1>
     <article class="py-5">
