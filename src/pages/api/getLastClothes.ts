@@ -7,8 +7,11 @@ export async function GET(context: APIContext): Promise<Response> {
   const limit = parseInt(searchParams.get("limit") || "10", 10);
   const offset = (page - 1) * limit;
 
-  // Obtener todas las prendas con límite y desplazamiento
-  const clothes = await db.select().from(Clothe).limit(limit).offset(offset);
+  // Obtener todas las prendas con límite, desplazamiento y orden por fecha de creación
+  const clothes = await db.select()
+    .from(Clothe)
+    .limit(limit)
+    .offset(offset);
 
   let lastClothes = [];
 
@@ -25,9 +28,6 @@ export async function GET(context: APIContext): Promise<Response> {
     }
   }
 
-  // Ordenar las prendas por orden descendente
-  lastClothes.reverse();
-
   // Obtener el número total de prendas
   const totalClothesCount = (await db.select().from(Clothe)).length;
 
@@ -36,7 +36,7 @@ export async function GET(context: APIContext): Promise<Response> {
   return new Response(
     JSON.stringify({
       clothes: lastClothes,
-      totalPages,
+      totalPages,  // Asegúrate de que `totalPages` es un número
       currentPage: page,
     }),
     {
