@@ -5,13 +5,12 @@ export async function GET(context: APIContext): Promise<Response> {
   const { searchParams } = new URL(context.request.url);
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = parseInt(searchParams.get("limit") || "10", 10);
-  const offset = (page - 1) * limit;
 
   // Obtener todas las prendas
   const allClothes = await db.select().from(Clothe);
 
   // Obtener las últimas 10 prendas del array
-  const lastClothes = allClothes.slice(-offset);
+  const lastClothes = allClothes.slice(-page*limit);
 
   let lastClothesWithUsers = [];
 
