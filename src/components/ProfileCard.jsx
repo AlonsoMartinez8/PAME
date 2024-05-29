@@ -15,7 +15,7 @@ export default function ProfileCard({ profile }) {
           />
         </div>
       </a>
-      <p className="w-full text-center">{profile.username}</p>
+      <p className="w-full text-center text-sm">{profile.username}</p>
     </>
   );
 }

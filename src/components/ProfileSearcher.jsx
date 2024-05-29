@@ -33,7 +33,7 @@ export default function ProfileSearcher({ profiles }) {
       <motion.ul
         drag="x"
         dragConstraints={sliderRef}
-        className="w-fit flex items-center justify-start mt-4 gap-8"
+        className="w-fit flex items-center justify-start mt-2 gap-10"
       >
         {profiles &&
           founded.length > 0 &&
