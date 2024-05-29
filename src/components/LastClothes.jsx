@@ -41,7 +41,7 @@ export default function LastClothes() {
       >
         <ul className="flex items-center justify-start md:justify-center gap-2 w-fit flex-wrap">
           {lastClothes && lastClothes.length > 0 ? (
-            lastClothes.reverse.map((c) => (
+            lastClothes.reverse().map((c) => (
               <ClotheCard
                 key={c.clothe.id}
                 clothe={c.clothe}
