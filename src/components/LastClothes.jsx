@@ -52,7 +52,7 @@ export default function LastClothes() {
         <motion.ul
           drag="x"
           dragConstraints={sliderRef}
-          className="flex items-center justify-start md:justify-center gap-2 w-fit flex-wrap"
+          className="flex items-center justify-start md:justify-center gap-2 w-fit flex-nowrap"
         >
           {lastClothes && lastClothes.length > 0 ? (
             lastClothes
