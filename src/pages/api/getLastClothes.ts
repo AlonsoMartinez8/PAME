@@ -21,12 +21,9 @@ export async function GET(context: APIContext): Promise<Response> {
 
     // Asegurarse de que se encontró al menos un usuario
     if (users.length > 0) {
-      lastClothes.push({ clothe: c, user: users[0] });
+      lastClothes.push({ clothe: c, user: users[0] })
     }
   }
-
-  // Ordenar las prendas por orden descendente
-  lastClothes.reverse();
 
   // Obtener el número total de prendas
   const totalClothesCount = (await db.select().from(Clothe)).length;
