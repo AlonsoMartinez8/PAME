@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ClotheCard from "./ClotheCard";
+import { motion } from "framer-motion";
 
 export default function TopClothes() {
   const sliderRef = useRef(null);
@@ -41,7 +42,9 @@ export default function TopClothes() {
         className="overflow-hidden col-span-full w-fit h-full max-w-full px-0 relative"
         ref={sliderRef}
       >
-        <ul
+        <motion.ul
+          drag="x"
+          dragConstraints={sliderRef}
           className="flex items-center justify-center gap-2 w-fit flex-wrap"
         >
           {topClothes && topClothes.length > 0 ? (
@@ -53,7 +56,7 @@ export default function TopClothes() {
               There are no clothes with likes yet
             </p>
           )}
-        </ul>
+        </motion.ul>
       </div>
     </>
   );
