@@ -34,9 +34,9 @@ export default function LastClothes() {
 
   return (
     <>
-      <h1 className="text-lg text-center py-2 px-4">L A S T * C L O T H E S</h1>
+      <h1 className="text-lg text-center pt-2 px-4">L A S T * C L O T H E S</h1>
       {page < totalPages && (
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center my-2">
           <button
             onClick={handleNextPage}
             disabled={page === totalPages} // Asegúrate de que `totalPages` se usa correctamente
