@@ -21,8 +21,8 @@ export async function GET(context: APIContext): Promise<Response> {
     ).at(0);
 
     if (!like) {
-      return new Response(JSON.stringify({ error: "Missing data" }), {
-        status: 400,
+      return new Response(JSON.stringify({ isLiked: false }), {
+        status: 200,
       });
     }
 
