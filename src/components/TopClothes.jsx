@@ -28,7 +28,16 @@ export default function TopClothes() {
   }, []);
 
   if (loading) {
-    return <p className="text-center h-64 md:h-72">Loading...</p>;
+    return (
+      <>
+        <h1 className="text-lg text-center py-2 px-4">T O P * C L O T H E S</h1>
+        <div
+          className="overflow-hidden col-span-full w-fit h-full max-w-full px-0 relative"
+        >
+          <p className="text-center h-64 md:h-72">Loading...</p>
+        </div>
+      </>
+    );
   }
 
   if (error) {
