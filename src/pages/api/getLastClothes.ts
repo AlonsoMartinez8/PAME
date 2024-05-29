@@ -5,13 +5,9 @@ export async function GET(context: APIContext): Promise<Response> {
   const { searchParams } = new URL(context.request.url);
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = parseInt(searchParams.get("limit") || "10", 10);
-  const offset = (page - 1) * limit;
 
   // Obtener todas las prendas con límite, desplazamiento y orden por fecha de creación
-  const clothes = await db.select()
-    .from(Clothe)
-    .limit(limit)
-    .offset(offset);
+  const clothes = await db.select().from(Clothe).limit(limit);
 
   let lastClothes = [];
 
@@ -36,7 +32,7 @@ export async function GET(context: APIContext): Promise<Response> {
   return new Response(
     JSON.stringify({
       clothes: lastClothes,
-      totalPages,  // Asegúrate de que `totalPages` es un número
+      totalPages, // Asegúrate de que `totalPages` es un número
       currentPage: page,
     }),
     {
