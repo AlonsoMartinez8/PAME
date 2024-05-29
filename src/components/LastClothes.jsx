@@ -39,7 +39,7 @@ export default function LastClothes() {
         className="overflow-hidden col-span-full w-fit h-full max-w-full px-0 relative"
         ref={sliderRef}
       >
-        <ul className="flex items-center justify-between gap-2 w-fit flex-wrap">
+        <ul className="flex items-center justify-start gap-2 w-fit flex-wrap">
           {lastClothes && lastClothes.length > 0 ? (
             lastClothes.map((c) => (
               <ClotheCard
@@ -54,15 +54,17 @@ export default function LastClothes() {
           )}
         </ul>
       </div>
-      <div className="flex justify-center mt-4">
-        <button
-          onClick={handleNextPage}
-          disabled={page === totalPages} // Asegúrate de que `totalPages` se usa correctamente
-          className="cursor-pointer w-full border-[1px] rounded-full"
-        >
-          <i className="text-2xl ri-add-line"></i>
-        </button>
-      </div>
+      {page < totalPages && (
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={handleNextPage}
+            disabled={page === totalPages} // Asegúrate de que `totalPages` se usa correctamente
+            className="cursor-pointer w-full border-[1px] rounded-full"
+          >
+            <i className="text-2xl ri-add-line"></i>
+          </button>
+        </div>
+      )}
     </>
   );
 }
