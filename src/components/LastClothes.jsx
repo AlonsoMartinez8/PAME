@@ -6,12 +6,14 @@ export default function LastClothes() {
   const [lastClothes, setLastClothes] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1); // Inicializa con 1 para evitar problemas
+  const [loading, setLoading] = useState(false)
 
   const sliderRef = useRef(null);
 
   useEffect(() => {
     const getClothes = async () => {
       try {
+        setLoading(true)
         const response = await fetch(
           `/api/getLastClothes?page=${page}&limit=10`
         );
@@ -20,6 +22,8 @@ export default function LastClothes() {
         setTotalPages(data.totalPages); // Asegúrate de que `totalPages` se establece correctamente
       } catch (err) {
         console.error(err);
+      }finally{
+        setLoading(false)
       }
     };
 
@@ -64,6 +68,9 @@ export default function LastClothes() {
                   <i className="text-2xl ri-add-line"></i>
                 </button>
               )}
+              {
+                loading&&(<p>Loading...</p>)
+              }
             </>
           ) : (
             <p className="text-nowrap text-center h-64 md:h-72">Loading...</p>
