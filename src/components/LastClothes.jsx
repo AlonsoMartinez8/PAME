@@ -16,7 +16,7 @@ export default function LastClothes() {
           `/api/getLastClothes?page=${page}&limit=10`
         );
         const data = await response.json();
-        setLastClothes((prevClothes) => [...prevClothes, ...data.clothes]);
+        setLastClothes(data.clothes);
         setTotalPages(data.totalPages); // Asegúrate de que `totalPages` se establece correctamente
       } catch (err) {
         console.error(err);
