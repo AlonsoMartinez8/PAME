@@ -50,7 +50,7 @@ export default function LastClothes() {
               />
             ))
           ) : (
-            <p className="text-nowrap text-center">There are no clothes yet</p>
+            <p className="text-nowrap text-center h-64 md:h-72">Loading...</p>
           )}
         </ul>
       </div>
