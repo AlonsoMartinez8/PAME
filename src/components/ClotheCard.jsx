@@ -51,7 +51,7 @@ export default function ClotheCard({ clothe, config, user }) {
         if (response.ok) {
           setIsLiked(data.isLiked);
         } else {
-          console.error(data.error);
+          setIsLiked(false);
         }
       } catch (error) {
         console.error("Error fetching isLiked:", error);
