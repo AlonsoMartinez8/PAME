@@ -10,7 +10,7 @@ export async function GET(context: APIContext): Promise<Response> {
   const allClothes = await db.select().from(Clothe);
 
   // Obtener las últimas 10 prendas del array
-  const lastClothes = allClothes.slice(-page*limit);
+  const lastClothes = allClothes.slice(-page*limit, -page*limit+10);
 
   let lastClothesWithUsers = [];
 
