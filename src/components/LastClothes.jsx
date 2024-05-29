@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ClotheCard from "./ClotheCard";
+import { motion } from "framer-motion";
 
 export default function LastClothes() {
   const [lastClothes, setLastClothes] = useState([]);
@@ -48,7 +49,11 @@ export default function LastClothes() {
         className="overflow-hidden col-span-full w-fit h-full max-w-full px-0 relative"
         ref={sliderRef}
       >
-        <ul className="flex items-center justify-start md:justify-center gap-2 w-fit flex-wrap">
+        <motion.ul
+          drag="x"
+          dragConstraints={sliderRef}
+          className="flex items-center justify-start md:justify-center gap-2 w-fit flex-wrap"
+        >
           {lastClothes && lastClothes.length > 0 ? (
             lastClothes
               .reverse()
@@ -63,7 +68,7 @@ export default function LastClothes() {
           ) : (
             <p className="text-nowrap text-center h-64 md:h-72">Loading...</p>
           )}
-        </ul>
+        </motion.ul>
       </div>
     </>
   );
