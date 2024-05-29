@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import ClotheCard from "./ClotheCard";
 
 export default function LastClothes() {
@@ -15,7 +14,7 @@ export default function LastClothes() {
           `/api/getLastClothes?page=${page}&limit=10`
         );
         const data = await response.json();
-        setLastClothes(data.clothes);
+        setLastClothes((prevClothes) => [...prevClothes, ...data.clothes]);
         setTotalPages(data.totalPages);
       } catch (err) {
         console.error(err);
@@ -31,12 +30,6 @@ export default function LastClothes() {
     }
   };
 
-  const handlePrevPage = () => {
-    if (page > 1) {
-      setPage(page - 1);
-    }
-  };
-
   return (
     <>
       <h1 className="text-lg text-center py-2 px-4">L A S T * C L O T H E S</h1>
@@ -44,11 +37,7 @@ export default function LastClothes() {
         className="overflow-hidden col-span-full w-fit h-full max-w-full px-0 relative"
         ref={sliderRef}
       >
-        <motion.ul
-          drag="x"
-          dragConstraints={sliderRef}
-          className="flex items-center justify-center gap-2 w-fit flex-nowrap"
-        >
+        <ul className="flex items-center justify-between gap-2 w-fit flex-wrap">
           {lastClothes && lastClothes.length > 0 ? (
             lastClothes.map((c) => (
               <ClotheCard
@@ -61,22 +50,15 @@ export default function LastClothes() {
           ) : (
             <p className="text-nowrap text-center">There are no clothes yet</p>
           )}
-        </motion.ul>
+        </ul>
       </div>
       <div className="flex justify-center mt-4">
         <button
-          onClick={handlePrevPage}
-          disabled={page === 1}
-          className="px-4 py-2 bg-gray-300 rounded-l"
-        >
-          Previous
-        </button>
-        <button
           onClick={handleNextPage}
           disabled={page === totalPages}
-          className="px-4 py-2 bg-gray-300 rounded-r"
+          className="cursor-pointer w-full border-[1px] rounded-full"
         >
-          Next
+          <i className="text-2xl ri-add-line"></i>
         </button>
       </div>
     </>

@@ -28,11 +28,11 @@ export default function TopClothes() {
   }, []);
 
   if (loading) {
-    return <p className="text-center">Loading...</p>;
+    return <p className="text-center h-64 md:h-72">Loading...</p>;
   }
 
   if (error) {
-    return <p className="text-center">Error: {error}</p>;
+    return <p className="text-center h-64 md:h-72">Error: {error}</p>;
   }
 
   return (
@@ -45,7 +45,7 @@ export default function TopClothes() {
         <motion.ul
           drag="x"
           dragConstraints={sliderRef}
-          className="flex items-center justify-center gap-2 w-fit flex-wrap"
+          className="flex items-center justify-center gap-2 w-fit flex-nowrap"
         >
           {topClothes && topClothes.length > 0 ? (
             topClothes.map((c) => (
