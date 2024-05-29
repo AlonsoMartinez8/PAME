@@ -21,8 +21,8 @@ export async function GET(context: APIContext): Promise<Response> {
       status: 200,
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
-      status: 500,
+    return new Response(JSON.stringify({ likes: 0 }), {
+      status: 200,
     });
   }
 }
