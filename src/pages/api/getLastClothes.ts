@@ -7,16 +7,16 @@ export async function GET(context: APIContext): Promise<Response> {
   const limit = parseInt(searchParams.get("limit") || "10", 10);
   const offset = (page - 1) * limit;
 
-  // Obtener todas las prendas con límite, desplazamiento y orden por fecha de creación
-  const clothes = await db.select()
-    .from(Clothe)
-    .limit(limit)
-    .offset(offset);
+  // Obtener todas las prendas
+  const allClothes = await db.select().from(Clothe);
 
-  let lastClothes = [];
+  // Obtener las últimas 10 prendas del array
+  const lastClothes = allClothes.slice(-10);
 
-  // Recorrer todas las prendas para obtener su usuario
-  for (const c of clothes) {
+  let lastClothesWithUsers = [];
+
+  // Recorrer las últimas prendas para obtener su usuario
+  for (const c of lastClothes) {
     const users = await db
       .select()
       .from(User)
@@ -24,19 +24,19 @@ export async function GET(context: APIContext): Promise<Response> {
 
     // Asegurarse de que se encontró al menos un usuario
     if (users.length > 0) {
-      lastClothes.push({ clothe: c, user: users[0] });
+      lastClothesWithUsers.push({ clothe: c, user: users[0] });
     }
   }
 
   // Obtener el número total de prendas
-  const totalClothesCount = (await db.select().from(Clothe)).length;
+  const totalClothesCount = allClothes.length;
 
   const totalPages = Math.ceil(totalClothesCount / limit);
 
   return new Response(
     JSON.stringify({
-      clothes: lastClothes,
-      totalPages,  // Asegúrate de que `totalPages` es un número
+      clothes: lastClothesWithUsers,
+      totalPages,
       currentPage: page,
     }),
     {
