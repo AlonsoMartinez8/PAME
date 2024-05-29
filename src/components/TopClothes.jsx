@@ -1,28 +1,39 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import ClotheCard from "./ClotheCard";
-import { getTopClothes } from "@/pages/api/getTopClothes";
 
-export default function TopClothes({}) {
+export default function TopClothes() {
   const sliderRef = useRef(null);
   const [topClothes, setTopClothes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     const getClothes = async () => {
       try {
-        const response = await fetch("api/getTopClothes");
-        const data = await response.json();
-        if (response.ok) {
-          setTopClothes(data.data);
-        } else {
-          console.error(data.error);
+        const response = await fetch("/api/getTopClothes");
+        if (!response.ok) {
+          throw new Error("Failed to fetch top clothes");
         }
+        const data = await response.json();
+        setTopClothes(data.data);
       } catch (err) {
-        console.error(err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
     };
 
-    getClothes()
+    getClothes();
   }, []);
+
+  if (loading) {
+    return <p className="text-center">Loading...</p>;
+  }
+
+  if (error) {
+    return <p className="text-center">Error: {error}</p>;
+  }
+
   return (
     <>
       <h1 className="text-lg text-center py-2 px-4">T O P * C L O T H E S</h1>
@@ -31,8 +42,6 @@ export default function TopClothes({}) {
         ref={sliderRef}
       >
         <ul
-          drag="x"
-          dragConstraints={sliderRef}
           className="flex items-center justify-center gap-2 w-fit flex-wrap"
         >
           {topClothes && topClothes.length > 0 ? (
