@@ -36,15 +36,6 @@ export default function LastClothes() {
   return (
     <>
       <h1 className="text-lg text-center py-2 px-4">L A S T * C L O T H E S</h1>
-      {page < totalPages && (
-        <button
-          onClick={handleNextPage}
-          disabled={page === totalPages} // Asegúrate de que `totalPages` se usa correctamente
-          className="cursor-pointer mx-auto px-4 mt-2 mb-4 flex items-center justify-between hover:bg-slate-50/50 border-[1px] rounded-full"
-        >
-          Load More <i className="text-2xl ri-add-line"></i>
-        </button>
-      )}
       <div
         className="overflow-hidden col-span-full w-fit h-full max-w-full px-0 relative"
         ref={sliderRef}
@@ -55,16 +46,25 @@ export default function LastClothes() {
           className="flex items-center justify-start md:justify-center gap-2 w-fit flex-nowrap"
         >
           {lastClothes && lastClothes.length > 0 ? (
-            lastClothes
-              .reverse()
-              .map((c) => (
+            <>
+              {lastClothes.reverse().map((c) => (
                 <ClotheCard
                   key={c.clothe.id}
                   clothe={c.clothe}
                   config={false}
                   user={c.user}
                 />
-              ))
+              ))}
+              {page < totalPages && (
+                <button
+                  onClick={handleNextPage}
+                  disabled={page === totalPages} // Asegúrate de que `totalPages` se usa correctamente
+                  className="cursor-pointer mx-auto w-8 flex items-center justify-center hover:bg-slate-50/50 border-[1px] rounded-full"
+                >
+                  <i className="text-2xl ri-add-line"></i>
+                </button>
+              )}
+            </>
           ) : (
             <p className="text-nowrap text-center h-64 md:h-72">Loading...</p>
           )}
