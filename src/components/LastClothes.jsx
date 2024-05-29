@@ -52,15 +52,18 @@ export default function LastClothes() {
           )}
         </ul>
       </div>
-      <div className="flex justify-center mt-4">
-        <button
-          onClick={handleNextPage}
-          disabled={page === totalPages}
-          className="cursor-pointer w-full border-[1px] rounded-full"
-        >
-          <i className="text-2xl ri-add-line"></i>
-        </button>
-      </div>
+      {page !=
+        totalPages(
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={handleNextPage}
+              disabled={page === totalPages}
+              className="cursor-pointer w-full border-[1px] rounded-full"
+            >
+              <i className="text-2xl ri-add-line"></i>
+            </button>
+          </div>
+        )}
     </>
   );
 }
