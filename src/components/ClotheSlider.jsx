@@ -261,7 +261,7 @@ export default function ClotheSlider({
 
               {/** SUBMIT */}
               <button
-                className="px-4 py-2 rounded-xl border-2 mx-auto"
+                className="px-4 py-2 rounded-xl border-2 mx-auto z-50"
                 type="submit"
               >
                 Add clothe

@@ -160,7 +160,7 @@ export default function ClotheConfig({ clothe, categories }) {
           </header>
           <main>
             <form
-              action="../api/deleteClothe"
+              action="api/deleteClothe"
               className="flex flex-col items-center justify-center gap-4"
               method="POST"
             >
